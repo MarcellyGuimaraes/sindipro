@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Tokens de cor do CLAUDE.md (seção 4) também como CSS vars,
+ * para uso pontual fora do Tailwind (SVG, gradiente-livre = nunca).
+ */
+:root {
+  --bg: #f4f4f4;
+  --surface: #ffffff;
+  --navy-900: #1c4464;
+  --navy-700: #0e518c;
+  --blue-400: #74a4c4;
+  --blue-350: #7d9cb9;
+  --blue-300: #97b8d1;
+  --blue-200: #b5ccdd;
+  --blue-100: #c3dcec;
+  --gold-600: #ab8221;
+  --gold-200: #dcc99e;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--navy-900);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), Georgia, serif;
+    color: var(--navy-900);
+    font-weight: 600;
+  }
+
+  /* Foco visível no teclado (seção 10) — nunca remover outline sem troca. */
+  :focus-visible {
+    outline: 2px solid var(--navy-700);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Respeita prefers-reduced-motion (seção 7). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

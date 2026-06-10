@@ -1,0 +1,52 @@
+# Dependências
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Build / saída do Next.js
+/.next/
+/out/
+/build
+/dist
+next-env.d.ts
+
+# Cache de ferramentas
+.eslintcache
+*.tsbuildinfo
+
+# Variáveis de ambiente (segredos)
+.env
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Cobertura de testes
+/coverage
+
+# Vercel
+.vercel
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Sessões locais do Claude Code (não versionar)
+.claude/

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500" role="img" aria-label="Foto a confirmar">
+  <rect width="400" height="500" fill="#1c4464"/>
+  <rect width="400" height="500" fill="#0e518c" opacity="0.25"/>
+  <g fill="#74a4c4" opacity="0.55">
+    <circle cx="200" cy="195" r="62"/>
+    <path d="M96 500C96 400 140 338 200 338C260 338 304 400 304 500Z"/>
+  </g>
+  <path d="M330 70C300 84 276 108 262 140C256 154 253 166 255 174C275 166 294 154 308 134C322 114 329 92 330 70Z" fill="none" stroke="#ab8221" stroke-width="2" stroke-linejoin="round" opacity="0.5"/>
+</svg>
