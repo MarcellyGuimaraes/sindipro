@@ -1,79 +1,82 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Section } from "@/components/Section";
-import { SectionHeading } from "@/components/SectionHeading";
-import { NewsCard, type NewsCardProps } from "@/components/NewsCard";
+import { getAllNoticias } from "@/lib/noticias";
 
 /**
- * Seção "Últimas notícias" da Home (CLAUDE.md §9).
- * Layout EDITORIAL ASSIMÉTRICO: 1 destaque maior + 2 menores empilhados.
- * Nunca 3 cards idênticos. Puxará de /noticias quando houver backend.
+ * "Últimas notícias" — novo visual (referência Lovable "Pixel Perfect Page"):
+ * eyebrow + headline central em azul brand, 3 cards de imagem com gradiente
+ * de leitura e CTA em pílula. Puxa as 3 mais recentes de lib/noticias.
  *
- * TODO: substituir os dados mockados abaixo pelas notícias reais
- * (provavelmente vindas do CMS/painel da diretoria — §6, funcionalidade futura).
+ * TODO: as fotos (wind/solar/tree) vieram do template Lovable como
+ * placeholder — trocar pelas imagens reais de cada notícia.
  */
 
-// TODO: dados reais — datas, títulos, resumos e imagens das notícias.
-const noticias: NewsCardProps[] = [
-  {
-    href: "/noticias/nova-cct-2026",
-    date: "10 jun 2026",
-    title: "Sindipro fecha nova CCT para os provedores de Sergipe",
-    summary:
-      "A convenção coletiva de 2026 traz reajuste salarial, novas faixas de função e cláusulas de capacitação técnica para o setor de internet do estado.",
-    image: "/placeholder-news.svg",
-    imageAlt: "TODO: imagem real — reunião de negociação da CCT", // TODO
-    feature: true,
-  },
-  {
-    href: "/noticias/audiencia-fibra-interior",
-    date: "28 mai 2026",
-    title: "Audiência discute expansão de fibra no interior sergipano",
-    summary:
-      "Representantes do sindicato participaram de audiência pública sobre infraestrutura de rede nos municípios do interior.",
-    image: "/placeholder-news.svg",
-    imageAlt: "TODO: imagem real — audiência pública", // TODO
-  },
-  {
-    href: "/noticias/curso-boas-praticas-regulatorias",
-    date: "14 mai 2026",
-    title: "Curso de boas práticas regulatórias abre inscrições",
-    summary:
-      "Capacitação gratuita orienta os provedores associados sobre as obrigações junto à Anatel e aos órgãos de defesa do consumidor.",
-    image: "/placeholder-news.svg",
-    imageAlt: "TODO: imagem real — capacitação de associados", // TODO
-  },
-];
+const CARD_IMAGES = ["/img/wind.jpg", "/img/solar-farm.jpg", "/img/tree-sky.jpg"];
 
 export function LatestNews() {
-  const [destaque, ...menores] = noticias;
+  const noticias = getAllNoticias().slice(0, 3);
 
   return (
-    <Section tone="bg">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <SectionHeading eyebrow="Notícias" title="Últimas do setor" />
-        <Link
-          href="/noticias"
-          className="group inline-flex items-center gap-1.5 text-small font-medium text-navy-700 transition-colors hover:text-navy-900"
-        >
-          Ver todas as notícias
-          <ArrowRight
-            className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-            aria-hidden="true"
-          />
-        </Link>
+    <section id="noticias" className="mx-auto max-w-6xl px-2 py-20 md:py-28">
+      <p className="text-center font-inter text-sm font-medium text-black/60">
+        Últimas notícias
+      </p>
+      <h2 className="mx-auto mt-3 max-w-3xl text-center font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-6xl">
+        Notícias que impactam os
+        <br /> provedores de Sergipe.
+      </h2>
+
+      <div className="mt-12 grid gap-5 md:grid-cols-3">
+        {noticias.map((item, i) => (
+          <article
+            key={item.slug}
+            className="group relative flex h-[440px] flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-6 font-inter text-white"
+          >
+            <Image
+              src={CARD_IMAGES[i] ?? CARD_IMAGES[0]}
+              alt="" // decorativa; o conteúdo está no texto do card. TODO: foto real da notícia.
+              fill
+              sizes="(min-width: 768px) 33vw, 100vw"
+              className="object-cover transition duration-500 group-hover:scale-105"
+            />
+            {/* Filtro de leitura */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/20" />
+            <div className="absolute inset-0 bg-black/15" />
+
+            <div className="relative">
+              <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-white backdrop-blur">
+                {item.date}
+              </span>
+              {/* font/cor explícitos: o base layer de h1–h4 (visual antigo) vence a herança */}
+              <h3 className="mt-4 font-inter text-xl font-bold leading-snug text-white">
+                {item.title}
+              </h3>
+              <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-white/80">
+                {item.summary}
+              </p>
+              <Link
+                href={`/noticias/${item.slug}`}
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-white py-1 pl-4 pr-1 text-xs font-semibold text-black transition hover:bg-white/90 focus-visible:outline-bg"
+              >
+                Ler notícia
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-brand text-white">
+                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </span>
+              </Link>
+            </div>
+          </article>
+        ))}
       </div>
 
-      <div className="mt-12 grid items-start gap-6 lg:grid-cols-12">
-        <div className="lg:col-span-7">
-          <NewsCard {...destaque} feature />
-        </div>
-        <div className="flex flex-col gap-6 lg:col-span-5">
-          {menores.map((n) => (
-            <NewsCard key={n.href} {...n} feature={false} />
-          ))}
-        </div>
+      <div className="mt-10 text-center">
+        <Link
+          href="/noticias"
+          className="font-inter text-sm font-medium text-black/60 underline-offset-4 transition hover:text-brand hover:underline"
+        >
+          Ver todas as notícias
+        </Link>
       </div>
-    </Section>
+    </section>
   );
 }

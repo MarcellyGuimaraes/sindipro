@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Section } from "@/components/Section";
-import { SectionHeading } from "@/components/SectionHeading";
-import { Eyebrow } from "@/components/Eyebrow";
+import { PageHeader } from "@/components/PageHeader";
+import { PillLink } from "@/components/Pill";
 import { DirectorCard, type DirectorCardProps } from "@/components/DirectorCard";
 
 export const metadata: Metadata = {
@@ -39,74 +36,67 @@ const conselhoFiscal: DirectorCardProps[] = [
 
 export default function DiretoriaPage() {
   return (
-    <main>
-      {/* Cabeçalho */}
-      <Section tone="bg">
-        <SectionHeading
+    <main className="min-h-screen bg-cream px-4 md:px-8">
+      <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
+        <PageHeader
           eyebrow="Sobre o sindicato"
-          title="Quadro de diretoria"
-          as="h1"
+          title={
+            <>
+              Quadro de
+              <br /> diretoria.
+            </>
+          }
+          lead="A diretoria conduz a representação institucional do Sindipro SE e a negociação coletiva do setor. Conheça quem responde pela entidade."
         />
-        <p className="mt-6 max-w-2xl text-body text-navy-900/85">
-          A diretoria conduz a representação institucional do Sindipro SE e a
-          negociação coletiva do setor. Conheça quem responde pela entidade.
-        </p>
-        <p className="mt-4 max-w-2xl text-small text-navy-900/80">
+        <p className="mt-4 text-center font-inter text-xs text-black/40">
           {/* visível só enquanto os dados não chegam */}
-          Composição, nomes e fotos a confirmar com a diretoria.
+          Composição, nomes e fotos a confirmar com a diretoria. (TODO)
         </p>
-      </Section>
 
-      {/* Diretoria executiva */}
-      <Section tone="bg" className="pt-0">
-        <SectionHeading eyebrow="Mandato vigente" title="Diretoria executiva" size="h2" />
-        <ul className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-          {diretoriaExecutiva.map((d, i) => (
-            <li key={`${d.role}-${i}`}>
-              <DirectorCard {...d} />
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      {/* Conselho fiscal */}
-      <Section tone="tint">
-        <SectionHeading eyebrow="Fiscalização" title="Conselho fiscal" size="h2" />
-        <ul className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-          {conselhoFiscal.map((d, i) => (
-            <li key={`${d.role}-${i}`}>
-              <DirectorCard {...d} />
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      {/* Continue navegando */}
-      <Section tone="bg" className="border-t border-blue-200">
-        <Eyebrow>Continue conhecendo</Eyebrow>
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:gap-8">
-          <Link
-            href="/sobre/quem-somos"
-            className="group inline-flex items-center gap-1.5 text-body font-medium text-navy-700 transition-colors hover:text-navy-900"
-          >
-            Quem somos
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
-          <Link
-            href="/sobre/imprensa"
-            className="group inline-flex items-center gap-1.5 text-body font-medium text-navy-700 transition-colors hover:text-navy-900"
-          >
-            Assessoria de imprensa
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
+        {/* Diretoria executiva */}
+        <div className="mt-14">
+          <p className="text-center font-inter text-sm font-medium text-black/60">
+            Mandato vigente
+          </p>
+          <h2 className="mt-2 text-center font-inter text-3xl font-bold tracking-tight text-brand md:text-4xl">
+            Diretoria executiva
+          </h2>
+          <ul className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+            {diretoriaExecutiva.map((d, i) => (
+              <li key={`${d.role}-${i}`}>
+                <DirectorCard {...d} />
+              </li>
+            ))}
+          </ul>
         </div>
-      </Section>
+
+        {/* Conselho fiscal */}
+        <div className="mt-16">
+          <p className="text-center font-inter text-sm font-medium text-black/60">
+            Fiscalização
+          </p>
+          <h2 className="mt-2 text-center font-inter text-3xl font-bold tracking-tight text-brand md:text-4xl">
+            Conselho fiscal
+          </h2>
+          <ul className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+            {conselhoFiscal.map((d, i) => (
+              <li key={`${d.role}-${i}`}>
+                <DirectorCard {...d} />
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Continue conhecendo */}
+        <div className="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <PillLink href="/sobre/quem-somos" tone="black">
+            Quem somos
+          </PillLink>
+          <PillLink href="/sobre/imprensa" tone="white">
+            Assessoria de imprensa
+          </PillLink>
+        </div>
+      </div>
     </main>
   );
 }

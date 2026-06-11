@@ -1,10 +1,9 @@
 import Image from "next/image";
-import { Eyebrow } from "@/components/Eyebrow";
-import { Section } from "@/components/Section";
 
 /**
- * Seção "Parceiros" da Home (CLAUDE.md §9): faixa de logos, discreta.
- * Em repouso os logos ficam em cinza/esmaecidos; ganham cor no hover.
+ * "Parceiros" — visual Lovable: faixa discreta sobre o cream, rótulo central
+ * pequeno em black/60 (mesma linguagem dos eyebrows do mock) e logos em
+ * cinza no repouso → cor no hover.
  *
  * TODO: lista real de parceiros (nome + arquivo de logo). Enquanto não houver
  * logo, renderizamos um placeholder de wordmark — nada de logo inventado.
@@ -27,10 +26,12 @@ const parceiros: Partner[] = [
 
 export function Partners() {
   return (
-    <Section tone="bg" id="parceiros">
-      <Eyebrow>Parceiros e apoiadores</Eyebrow>
+    <section id="parceiros" className="mx-auto max-w-6xl px-2 pb-20 md:pb-28">
+      <p className="text-center font-inter text-sm font-medium text-black/60">
+        Parceiros e apoiadores
+      </p>
 
-      <ul className="mt-8 flex flex-wrap items-center gap-x-12 gap-y-8 sm:gap-x-16">
+      <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-12 gap-y-8 sm:gap-x-16">
         {parceiros.map((p) => (
           <li key={p.nome}>
             {p.logo ? (
@@ -39,15 +40,13 @@ export function Partners() {
                 alt={p.nome}
                 width={140}
                 height={48}
-                className="h-10 w-auto object-contain opacity-70 grayscale transition duration-200 hover:opacity-100 hover:grayscale-0"
+                className="h-10 w-auto object-contain opacity-60 grayscale transition duration-200 hover:opacity-100 hover:grayscale-0"
                 unoptimized={p.logo.endsWith(".svg")}
               />
             ) : (
-              // Placeholder de wordmark — substituível pelo logo real (que,
-              // sendo <Image>, fica isento de contraste e usa grayscale→cor).
-              // Tom de repouso já passa AA; hover reforça com a primária.
+              // Placeholder de wordmark — substituível pelo logo real.
               <span
-                className="select-none font-display text-h3 font-medium text-navy-900/80 transition-colors duration-200 hover:text-navy-700"
+                className="select-none font-inter text-xl font-bold tracking-tight text-black/40 transition-colors duration-200 hover:text-brand"
                 title="TODO: logo do parceiro"
               >
                 {p.nome}
@@ -57,10 +56,10 @@ export function Partners() {
         ))}
       </ul>
 
-      <p className="mt-8 text-small text-navy-900/80">
+      <p className="mt-10 text-center font-inter text-xs text-black/40">
         {/* visível só enquanto a lista real não chega */}
         Lista de parceiros a confirmar.
       </p>
-    </Section>
+    </section>
   );
 }

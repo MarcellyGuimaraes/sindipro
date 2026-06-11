@@ -3,9 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { Section } from "@/components/Section";
-import { Eyebrow } from "@/components/Eyebrow";
-import { FeatherUnderline } from "@/components/Feather";
 import { getNoticia, getAllNoticias } from "@/lib/noticias";
 
 type Params = { slug: string };
@@ -33,34 +30,32 @@ export default function NoticiaPage({ params }: { params: Params }) {
   if (!noticia) notFound();
 
   return (
-    <main>
-      <Section tone="bg">
+    <main className="min-h-screen bg-cream px-4 md:px-8">
+      <div className="mx-auto max-w-3xl px-2 py-16 font-inter md:py-24">
         <Link
           href="/noticias"
-          className="group inline-flex items-center gap-1.5 text-small font-medium text-navy-700 transition-colors hover:text-navy-900"
+          className="group inline-flex items-center gap-2 rounded-full bg-white py-1.5 pl-2 pr-4 text-sm font-medium text-black shadow-sm transition hover:bg-white/80"
         >
-          <ArrowLeft
-            className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5"
-            aria-hidden="true"
-          />
+          <span className="grid h-7 w-7 place-items-center rounded-full bg-brand text-white transition group-hover:-translate-x-0.5">
+            <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+          </span>
           Todas as notícias
         </Link>
 
-        <article className="mt-8 max-w-3xl">
-          <Eyebrow as="p">
+        <article className="mt-10">
+          <span className="inline-block rounded-full bg-brand/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand">
             <time dateTime={noticia.dateISO}>{noticia.date}</time>
-          </Eyebrow>
+          </span>
 
-          <h1 className="mt-3 font-display text-display-l font-semibold leading-[1.1] text-navy-900">
+          <h1 className="mt-4 font-inter text-3xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
             {noticia.title}
           </h1>
-          <FeatherUnderline className="mt-4" />
 
-          <p className="mt-6 text-h3 font-normal text-navy-900/80">
+          <p className="mt-5 text-base leading-relaxed text-black/60 md:text-lg">
             {noticia.summary}
           </p>
 
-          <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-card border border-blue-200 bg-navy-900">
+          <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-[28px] bg-neutral-900">
             <Image
               src={noticia.image}
               alt={noticia.imageAlt}
@@ -72,13 +67,13 @@ export default function NoticiaPage({ params }: { params: Params }) {
             />
           </div>
 
-          <div className="mt-8 space-y-4 text-body text-navy-900/85">
+          <div className="mt-8 space-y-4 text-base leading-relaxed text-black/75">
             {noticia.content.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
           </div>
         </article>
-      </Section>
+      </div>
     </main>
   );
 }

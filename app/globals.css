@@ -3,10 +3,17 @@
 @tailwind utilities;
 
 /*
- * Tokens de cor do CLAUDE.md (seção 4) também como CSS vars,
- * para uso pontual fora do Tailwind (SVG, gradiente-livre = nunca).
+ * Tokens como CSS vars.
+ * Visual atual (referência Lovable "Pixel Perfect Page"): cream + brand + Inter.
+ * Os tokens antigos (navy/blue/gold) permanecem para o styleguide/legado.
  */
 :root {
+  /* novo visual */
+  --brand: #004b8e;
+  --cream: #f0f1e8;
+  --ink: #1c1d22;
+
+  /* legado (styleguide / componentes antigos) */
   --bg: #f4f4f4;
   --surface: #ffffff;
   --navy-900: #1c4464;
@@ -26,32 +33,21 @@
   }
 
   body {
-    background-color: var(--bg);
-    color: var(--navy-900);
-    font-family: var(--font-sans), system-ui, sans-serif;
-    font-size: 1.0625rem;
-    line-height: 1.7;
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-inter), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display), Georgia, serif;
-    color: var(--navy-900);
-    font-weight: 600;
-  }
-
-  /* Foco visível no teclado (seção 10) — nunca remover outline sem troca. */
+  /* Foco visível no teclado — nunca remover outline sem troca. */
   :focus-visible {
-    outline: 2px solid var(--navy-700);
+    outline: 2px solid var(--brand);
     outline-offset: 2px;
     border-radius: 2px;
   }
 
-  /* Respeita prefers-reduced-motion (seção 7). */
+  /* Respeita prefers-reduced-motion. */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

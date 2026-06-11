@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Section } from "@/components/Section";
-import { SectionHeading } from "@/components/SectionHeading";
+import { PageHeader } from "@/components/PageHeader";
 import { NewsCard } from "@/components/NewsCard";
 import { getPagina } from "@/lib/noticias";
 
@@ -26,29 +25,29 @@ export default function NoticiasPage({
   const { items, current, totalPages } = getPagina(parsePage(searchParams.page));
 
   return (
-    <main>
-      <Section tone="bg">
-        <SectionHeading eyebrow="Notícias" title="Notícias e comunicados" as="h1" />
-        <p className="mt-6 max-w-2xl text-body text-navy-900/85">
-          Acompanhe a atuação do Sindipro SE: negociações coletivas, pautas
-          regulatórias, eventos e orientações para os provedores de Sergipe.
-        </p>
-        <p className="mt-4 max-w-2xl text-small text-navy-900/80">
+    <main className="min-h-screen bg-cream px-4 md:px-8">
+      <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
+        <PageHeader
+          eyebrow="Notícias"
+          title={
+            <>
+              Notícias e
+              <br /> comunicados.
+            </>
+          }
+          lead="Acompanhe a atuação do Sindipro SE: negociações coletivas, pautas regulatórias, eventos e orientações para os provedores de Sergipe."
+        />
+        <p className="mt-4 text-center font-inter text-xs text-black/40">
           {/* visível enquanto o conteúdo é mockado */}
           Conteúdo em preparação — notícias de exemplo. (TODO)
         </p>
-      </Section>
 
-      <Section tone="bg" className="pt-0">
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
           {items.map((n, i) => {
-            // Na 1ª página, a primeira notícia vira destaque editorial (assimetria).
+            // Na 1ª página, a primeira notícia vira destaque (assimetria).
             const isFeature = current === 1 && i === 0;
             return (
-              <li
-                key={n.slug}
-                className={isFeature ? "sm:col-span-2 lg:col-span-2" : ""}
-              >
+              <li key={n.slug} className={isFeature ? "md:col-span-2" : ""}>
                 <NewsCard
                   href={`/noticias/${n.slug}`}
                   date={n.date}
@@ -66,7 +65,7 @@ export default function NoticiasPage({
         {totalPages > 1 && (
           <Pagination current={current} totalPages={totalPages} />
         )}
-      </Section>
+      </div>
     </main>
   );
 }
@@ -84,33 +83,30 @@ function Pagination({
   const hasNext = current < totalPages;
 
   const base =
-    "inline-flex h-10 items-center gap-1.5 rounded border px-4 text-small font-medium transition-colors";
+    "inline-flex h-10 items-center gap-1.5 rounded-full px-4 font-inter text-sm font-medium transition";
 
   return (
     <nav
       aria-label="Paginação de notícias"
-      className="mt-12 flex items-center justify-between border-t border-blue-200 pt-6"
+      className="mt-12 flex items-center justify-between"
     >
       {hasPrev ? (
         <Link
           href={prevHref}
           aria-label="Página anterior"
-          className={`${base} border-navy-700 text-navy-700 hover:bg-navy-700 hover:text-surface`}
+          className={`${base} bg-white text-black shadow-sm hover:bg-white/80`}
         >
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           <span className="hidden sm:inline">Anterior</span>
         </Link>
       ) : (
-        <span
-          className={`${base} border-blue-200 text-navy-900/40`}
-          aria-disabled="true"
-        >
+        <span className={`${base} bg-black/5 text-black/35`} aria-disabled="true">
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           <span className="hidden sm:inline">Anterior</span>
         </span>
       )}
 
-      <span className="text-small text-navy-900/80">
+      <span className="font-inter text-sm text-black/60">
         Página {current} de {totalPages}
       </span>
 
@@ -118,16 +114,13 @@ function Pagination({
         <Link
           href={nextHref}
           aria-label="Próxima página"
-          className={`${base} border-navy-700 text-navy-700 hover:bg-navy-700 hover:text-surface`}
+          className={`${base} bg-white text-black shadow-sm hover:bg-white/80`}
         >
           <span className="hidden sm:inline">Próxima</span>
           <ChevronRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       ) : (
-        <span
-          className={`${base} border-blue-200 text-navy-900/40`}
-          aria-disabled="true"
-        >
+        <span className={`${base} bg-black/5 text-black/35`} aria-disabled="true">
           <span className="hidden sm:inline">Próxima</span>
           <ChevronRight className="h-4 w-4" aria-hidden="true" />
         </span>

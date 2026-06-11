@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 /**
- * Card de diretor (CLAUDE.md §8): foto, nome, cargo. Layout sóbrio.
- * Borda 1px blue-200, raio discreto, sem sombra. Retrato 4/5.
+ * Card de diretor — visual Lovable: retrato em card rounded-[28px] com
+ * gradiente de leitura e nome/cargo sobrepostos na base, em Inter.
  */
 
 export type DirectorCardProps = {
@@ -14,22 +14,22 @@ export type DirectorCardProps = {
 
 export function DirectorCard({ name, role, image, imageAlt }: DirectorCardProps) {
   return (
-    <article className="overflow-hidden rounded-card border border-blue-200 bg-surface">
-      <div className="relative aspect-[4/5] w-full bg-navy-900">
-        <Image
-          src={image}
-          alt={imageAlt}
-          fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-          className="object-cover object-top"
-          unoptimized={image.endsWith(".svg")}
-        />
-      </div>
-      <div className="p-4">
-        <h3 className="font-display text-h3 font-medium leading-tight text-navy-900">
+    <article className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-5 font-inter text-white">
+      <Image
+        src={image}
+        alt={imageAlt}
+        fill
+        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+        className="object-cover object-top transition duration-500 group-hover:scale-105"
+        unoptimized={image.endsWith(".svg")}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+
+      <div className="relative">
+        <h3 className="font-inter text-lg font-bold leading-tight text-white">
           {name}
         </h3>
-        <p className="mt-1 text-small text-navy-900/80">{role}</p>
+        <p className="mt-1 text-sm text-white/75">{role}</p>
       </div>
     </article>
   );

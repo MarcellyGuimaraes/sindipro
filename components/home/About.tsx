@@ -1,87 +1,52 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Section } from "@/components/Section";
-import { SectionHeading } from "@/components/SectionHeading";
 
 /**
- * Seção "Sobre / objetivo do sindicato" da Home (CLAUDE.md §9).
- * Bloco de texto institucional alinhado à esquerda + faixa de números.
+ * "Conheça o SindiproSE" — novo visual (referência Lovable "Pixel Perfect
+ * Page"): card dividido, texto à esquerda e foto da sede à direita.
  *
- * IMPORTANTE: nenhuma estatística inventada. Os números abaixo são
- * placeholders ("—") aguardando os dados reais da diretoria.
+ * Nota: o botão no mock dizia "Learn more" (resquício do template em inglês);
+ * mantido o visual, texto em pt-BR.
  */
-
-// TODO: substituir pelos números reais (valor + rótulo). Enquanto não houver
-// dado confirmado, o valor fica como "—" e NÃO se inventa estatística.
-const numeros: { valor: string; rotulo: string }[] = [
-  { valor: "—", rotulo: "Provedores associados" }, // TODO
-  { valor: "—", rotulo: "Municípios com associados" }, // TODO
-  { valor: "—", rotulo: "Ano de fundação" }, // TODO
-];
-
 export function About() {
   return (
-    <Section tone="tint" id="sobre">
-      <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-        {/* Texto institucional */}
-        <div className="lg:col-span-7">
-          <SectionHeading
-            eyebrow="Sobre o sindicato"
-            title="A voz organizada dos provedores de internet de Sergipe"
-          />
-
-          <div className="mt-6 max-w-xl space-y-4 text-body text-navy-900/85">
-            <p>
-              O Sindipro SE representa os provedores de internet e de serviço de
-              comunicação multimídia do Estado de Sergipe perante o poder
-              público, os órgãos reguladores e a sociedade. Como sindicato
-              patronal, reúne as empresas do setor em torno de interesses
-              comuns e de uma atuação institucional permanente.
-            </p>
-            <p>
-              Entre as frentes de trabalho estão a negociação da Convenção
-              Coletiva de Trabalho (CCT) e dos Acordos Coletivos (ACT), o
-              acompanhamento das pautas regulatórias que afetam o segmento e o
-              apoio técnico e jurídico aos associados no dia a dia da operação.
-            </p>
-          </div>
-
-          {/* TODO: confirmar histórico/missão para a página /sobre/quem-somos. */}
-          <Link
-            href="/sobre/quem-somos"
-            className="group mt-7 inline-flex items-center gap-1.5 text-small font-medium text-navy-700 transition-colors hover:text-navy-900"
-          >
-            Quem somos
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
-        </div>
-
-        {/* Números — placeholders até virem os dados reais */}
-        <div className="lg:col-span-5">
-          <dl className="divide-y divide-blue-200 border-t border-blue-200">
-            {numeros.map((n) => (
-              <div
-                key={n.rotulo}
-                className="flex items-baseline justify-between gap-6 py-5"
-              >
-                <dd className="font-display text-display-l font-semibold leading-none text-navy-900">
-                  {n.valor}
-                </dd>
-                <dt className="max-w-[12rem] text-right text-small text-navy-900/85">
-                  {n.rotulo}
-                </dt>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-4 text-small text-navy-900/85">
-            {/* visível só enquanto os dados não chegam */}
-            Dados a confirmar com a diretoria.
+    <section id="sobre" className="mx-auto max-w-6xl px-2 pb-20 md:pb-28">
+      <div className="grid overflow-hidden rounded-[28px] md:grid-cols-2">
+        <div className="bg-cream p-8 font-inter md:p-12">
+          <p className="text-sm font-medium text-black/60">Conheça o SindiproSE</p>
+          <h2 className="mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
+            Sindicato dos Provedores
+            <br /> de Internet de
+            <br /> Sergipe.
+          </h2>
+          <p className="mt-6 max-w-md text-sm leading-relaxed text-black/60">
+            Somos a entidade sindical patronal legítima que representa, defende
+            e impulsiona as empresas provedoras de internet e serviços de
+            comunicação multimídia em todo o território sergipano.
           </p>
+          {/* <div className="mt-8">
+            <Link
+              href="/sobre/quem-somos"
+              className="group inline-flex items-center gap-3 rounded-full bg-black py-1.5 pl-5 pr-1.5 text-sm font-medium text-white transition hover:bg-black/85"
+            >
+              Saiba mais
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-white text-black transition group-hover:translate-x-0.5">
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </span>
+            </Link>
+          </div> */}
+        </div>
+        <div className="relative min-h-[320px]">
+          <Image
+            src="/img/casa-comercio.png"
+            alt="Casa do Comércio - Laércio Oliveira, sede da Fecomércio SE"
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
         </div>
       </div>
-    </Section>
+    </section>
   );
 }

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Mail, Phone, ArrowRight } from "lucide-react";
-import { Section } from "@/components/Section";
-import { SectionHeading } from "@/components/SectionHeading";
-import { Eyebrow } from "@/components/Eyebrow";
+import { Mail, Phone } from "lucide-react";
+import { PageHeader } from "@/components/PageHeader";
+import { PillLink } from "@/components/Pill";
 import { FileCard, type FileCardProps } from "@/components/FileCard";
 
 export const metadata: Metadata = {
@@ -39,127 +37,104 @@ const kit: FileCardProps[] = [
 
 export default function ImprensaPage() {
   return (
-    <main>
-      {/* Cabeçalho */}
-      <Section tone="bg">
-        <SectionHeading
+    <main className="min-h-screen bg-cream px-4 md:px-8">
+      <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
+        <PageHeader
           eyebrow="Sobre o sindicato"
-          title="Assessoria de imprensa"
-          as="h1"
+          title={
+            <>
+              Assessoria de
+              <br /> imprensa.
+            </>
+          }
+          lead="Canal para jornalistas e veículos de comunicação que buscam informações, entrevistas e posicionamentos do Sindipro SE sobre o setor de provedores de internet em Sergipe."
         />
-        <p className="mt-6 max-w-2xl text-body text-navy-900/85">
-          Canal para jornalistas e veículos de comunicação que buscam
-          informações, entrevistas e posicionamentos do Sindipro SE sobre o
-          setor de provedores de internet em Sergipe.
-        </p>
-      </Section>
 
-      {/* Contato para imprensa */}
-      <Section tone="bg" className="pt-0">
-        <div className="grid gap-8 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <SectionHeading
-              eyebrow="Falar com a imprensa"
-              title="Contato"
-              size="h2"
-            />
+        {/* Contato — card dividido brand/branco */}
+        <div className="mt-14 grid overflow-hidden rounded-[28px] md:grid-cols-2">
+          <div className="bg-brand p-8 font-inter text-white md:p-12">
+            <p className="text-sm font-medium text-white/70">Falar com a imprensa</p>
+            <h2 className="mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-5xl">
+              Contato
+            </h2>
           </div>
+          <div className="bg-white p-8 font-inter md:p-12">
+            <p className="text-lg font-bold text-black">{imprensa.nome}</p>
+            <p className="mt-1 text-xs text-black/40">
+              {/* visível só enquanto os dados não chegam */}
+              Contato a confirmar com a diretoria. (TODO)
+            </p>
 
-          <div className="lg:col-span-7 lg:col-start-6">
-            <div className="rounded-card border border-blue-200 bg-surface p-6">
-              <p className="font-display text-h3 font-medium text-navy-900">
-                {imprensa.nome}
-              </p>
-              <p className="mt-1 text-small text-navy-900/80">
-                {/* visível só enquanto os dados não chegam */}
-                Contato a confirmar com a diretoria.
-              </p>
-
-              <div className="mt-5 flex flex-col gap-3 text-body">
-                <a
-                  href={`mailto:${imprensa.email}`}
-                  className="inline-flex items-center gap-2.5 text-navy-700 transition-colors hover:text-navy-900"
-                >
-                  <Mail className="h-4 w-4 text-blue-400" aria-hidden="true" />
-                  {imprensa.email}
-                </a>
-                <a
-                  href={`tel:${imprensa.telefoneHref}`}
-                  className="inline-flex items-center gap-2.5 text-navy-700 transition-colors hover:text-navy-900"
-                >
-                  <Phone className="h-4 w-4 text-blue-400" aria-hidden="true" />
-                  {imprensa.telefone}
-                </a>
-              </div>
+            <div className="mt-6 flex flex-col gap-3 text-sm">
+              <a
+                href={`mailto:${imprensa.email}`}
+                className="inline-flex items-center gap-3 font-medium text-black/70 transition hover:text-brand"
+              >
+                <span className="grid h-9 w-9 place-items-center rounded-full bg-brand/10 text-brand">
+                  <Mail className="h-4 w-4" aria-hidden="true" />
+                </span>
+                {imprensa.email}
+              </a>
+              <a
+                href={`tel:${imprensa.telefoneHref}`}
+                className="inline-flex items-center gap-3 font-medium text-black/70 transition hover:text-brand"
+              >
+                <span className="grid h-9 w-9 place-items-center rounded-full bg-brand/10 text-brand">
+                  <Phone className="h-4 w-4" aria-hidden="true" />
+                </span>
+                {imprensa.telefone}
+              </a>
             </div>
           </div>
         </div>
-      </Section>
 
-      {/* Releases */}
-      <Section tone="tint">
-        <SectionHeading eyebrow="Para publicação" title="Releases" size="h2" />
-        {/*
-          TODO: lista de releases (notas oficiais à imprensa). Estrutura prevista:
-          data (eyebrow) + título + link para o texto/PDF. Virá do painel da
-          diretoria (§6, funcionalidade futura). Enquanto não houver release
-          publicado, mantemos o estado vazio honesto abaixo.
-        */}
-        <div className="mt-8 max-w-2xl rounded-card border border-blue-200 bg-surface p-8">
-          <p className="text-body text-navy-900/80">
+        {/* Releases */}
+        <div className="mt-5 rounded-[28px] bg-white p-8 font-inter md:p-12">
+          <p className="text-sm font-medium text-black/60">Para publicação</p>
+          <h2 className="mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
+            Releases
+          </h2>
+          {/*
+            TODO: lista de releases (notas oficiais à imprensa). Estrutura
+            prevista: data (pílula) + título + link para o texto/PDF. Virá do
+            painel da diretoria (funcionalidade futura). Enquanto não houver
+            release publicado, mantemos o estado vazio honesto abaixo.
+          */}
+          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-black/60 md:text-base">
             Ainda não há releases publicados. As notas oficiais à imprensa
             aparecerão aqui assim que forem divulgadas. (TODO)
           </p>
         </div>
-      </Section>
 
-      {/* Kit de imprensa */}
-      <Section tone="bg">
-        <SectionHeading
-          eyebrow="Material para download"
-          title="Kit de imprensa"
-          size="h2"
-        />
-        <p className="mt-6 max-w-2xl text-body text-navy-900/85">
-          Logotipos em alta resolução, apresentação institucional e dados de
-          referência para uso da imprensa.
-        </p>
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {kit.map((item) => (
-            <FileCard key={item.name} {...item} />
-          ))}
+        {/* Kit de imprensa */}
+        <div className="mt-16">
+          <p className="text-center font-inter text-sm font-medium text-black/60">
+            Material para download
+          </p>
+          <h2 className="mt-2 text-center font-inter text-3xl font-bold tracking-tight text-brand md:text-4xl">
+            Kit de imprensa
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center font-inter text-sm leading-relaxed text-black/60">
+            Logotipos em alta resolução, apresentação institucional e dados de
+            referência para uso da imprensa. Arquivos em preparação. (TODO)
+          </p>
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            {kit.map((item) => (
+              <FileCard key={item.name} {...item} />
+            ))}
+          </div>
         </div>
-        <p className="mt-4 text-small text-navy-900/80">
-          Arquivos em preparação. (TODO)
-        </p>
-      </Section>
 
-      {/* Continue navegando */}
-      <Section tone="bg" className="border-t border-blue-200">
-        <Eyebrow>Continue conhecendo</Eyebrow>
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:gap-8">
-          <Link
-            href="/sobre/quem-somos"
-            className="group inline-flex items-center gap-1.5 text-body font-medium text-navy-700 transition-colors hover:text-navy-900"
-          >
+        {/* Continue conhecendo */}
+        <div className="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <PillLink href="/sobre/quem-somos" tone="black">
             Quem somos
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
-          <Link
-            href="/sobre/diretoria"
-            className="group inline-flex items-center gap-1.5 text-body font-medium text-navy-700 transition-colors hover:text-navy-900"
-          >
+          </PillLink>
+          <PillLink href="/sobre/diretoria" tone="white">
             Quadro de diretoria
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
+          </PillLink>
         </div>
-      </Section>
+      </div>
     </main>
   );
 }

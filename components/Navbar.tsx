@@ -1,31 +1,26 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 /**
- * Navbar sticky (CLAUDE.md §6): logo à esquerda; Início · Sobre nós ▾ ·
- * Notícias · Arquivos; botão "Entrar" visível mas desabilitado ("em breve").
+ * Navbar global — visual Lovable "Pixel Perfect Page" em todo o site.
  *
- * "Sobre nós" abre por hover, por foco de teclado e por toque (mobile).
- * Acessível: aria-expanded/haspopup, Esc fecha e devolve o foco ao gatilho,
- * aria-current na rota ativa, foco visível herdado do globals.css.
+ * Duas variantes da MESMA linguagem (pílula):
+ * - Home ("/"): flutuante sobre o hero (vidro branco sobre a imagem).
+ * - Demais páginas: sticky sobre o fundo cream (pílula em black/5).
  *
- * TODO: trocar o wordmark pelo logo oficial (SVG) do Sindipro SE.
+ * Funcionalidade preservada nas duas: dropdown "Sobre nós" (hover, foco e
+ * toque), botão "Entrar" desabilitado ("em breve"), menu mobile acessível.
  */
 
 const sobreLinks = [
   { href: "/sobre/quem-somos", label: "Quem somos" },
   { href: "/sobre/diretoria", label: "Quadro de diretoria" },
   { href: "/sobre/imprensa", label: "Assessoria de imprensa" },
-];
-
-const mainLinks = [
-  { href: "/", label: "Início" },
-  { href: "/noticias", label: "Notícias" },
-  { href: "/arquivos", label: "Arquivos" },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -35,6 +30,7 @@ function isActive(pathname: string, href: string) {
 
 export function Navbar() {
   const pathname = usePathname();
+  const floating = pathname === "/";
   const [sobreOpen, setSobreOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSobreOpen, setMobileSobreOpen] = useState(false);
@@ -63,23 +59,42 @@ export function Navbar() {
   const sobreIsActive = pathname.startsWith("/sobre");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-blue-200 bg-surface">
+    <header
+      className={
+        floating
+          ? "absolute inset-x-0 top-4 z-50 md:top-6"
+          : "sticky top-0 z-50 bg-cream/90 backdrop-blur-md"
+      }
+    >
       <nav
         aria-label="Principal"
-        className="mx-auto flex h-16 w-full max-w-container items-center justify-between px-6 sm:px-8"
+        className={`mx-auto flex w-full max-w-[1800px] items-center justify-between ${
+          floating ? "px-8 py-4 md:px-14" : "px-4 py-3 md:px-8"
+        }`}
       >
-        {/* Logo */}
-        <Link
-          href="/"
-          className="font-display text-h3 font-semibold text-navy-900"
-        >
-          Sindipro<span className="text-navy-700"> SE</span>
+        <Link href="/" className={floating ? "" : "shrink-0"}>
+          <Image
+            src="/img/sindipro-logo.png"
+            alt="Sindipro SE"
+            width={955}
+            height={309}
+            priority
+            className={`w-auto ${
+              floating ? "h-10 drop-shadow-lg md:h-12" : "h-9 md:h-10"
+            }`}
+          />
         </Link>
 
         {/* Navegação desktop */}
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul
+          className={`hidden items-center gap-1 rounded-full px-1.5 py-1.5 font-inter text-sm lg:flex ${
+            floating
+              ? "bg-white/15 text-white backdrop-blur-md"
+              : "bg-black/5 text-black"
+          }`}
+        >
           <li>
-            <TopLink href="/" active={isActive(pathname, "/")}>
+            <TopLink href="/" active={isActive(pathname, "/")} floating={floating}>
               Início
             </TopLink>
           </li>
@@ -108,7 +123,7 @@ export function Navbar() {
               aria-expanded={sobreOpen}
               aria-controls="menu-sobre"
               onClick={() => setSobreOpen((v) => !v)}
-              className={topLinkClasses(sobreIsActive)}
+              className={topLinkClasses(sobreIsActive, floating)}
             >
               Sobre nós
               <ChevronDown
@@ -124,13 +139,13 @@ export function Navbar() {
               hidden={!sobreOpen}
               className="absolute left-0 top-full min-w-[15rem] pt-2"
             >
-              <ul className="overflow-hidden rounded-card border border-blue-200 bg-surface p-2 shadow-card">
+              <ul className="overflow-hidden rounded-[20px] bg-white p-2 shadow-card">
                 {sobreLinks.map((l) => (
                   <li key={l.href}>
                     <Link
                       href={l.href}
                       aria-current={isActive(pathname, l.href) ? "page" : undefined}
-                      className="block rounded px-3 py-2 text-small text-navy-900 transition-colors hover:bg-blue-100 aria-[current=page]:text-navy-700"
+                      className="block rounded-full px-3 py-2 text-sm text-black transition-colors hover:bg-black/5 aria-[current=page]:text-brand"
                     >
                       {l.label}
                     </Link>
@@ -141,12 +156,20 @@ export function Navbar() {
           </li>
 
           <li>
-            <TopLink href="/noticias" active={isActive(pathname, "/noticias")}>
+            <TopLink
+              href="/noticias"
+              active={isActive(pathname, "/noticias")}
+              floating={floating}
+            >
               Notícias
             </TopLink>
           </li>
           <li>
-            <TopLink href="/arquivos" active={isActive(pathname, "/arquivos")}>
+            <TopLink
+              href="/arquivos"
+              active={isActive(pathname, "/arquivos")}
+              floating={floating}
+            >
               Arquivos
             </TopLink>
           </li>
@@ -154,13 +177,17 @@ export function Navbar() {
 
         {/* Ações à direita (desktop) */}
         <div className="hidden lg:block">
-          <EntrarButton />
+          <EntrarButton floating={floating} />
         </div>
 
         {/* Botão hambúrguer (mobile) */}
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded text-navy-900 lg:hidden"
+          className={`inline-flex h-10 w-10 items-center justify-center rounded-full lg:hidden ${
+            floating
+              ? "bg-white/15 text-white backdrop-blur-md"
+              : "bg-black/5 text-black"
+          }`}
           aria-expanded={mobileOpen}
           aria-controls="menu-mobile"
           aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
@@ -178,9 +205,9 @@ export function Navbar() {
       {mobileOpen && (
         <div
           id="menu-mobile"
-          className="border-t border-blue-200 bg-surface lg:hidden"
+          className="mx-4 rounded-[20px] bg-white font-inter shadow-card lg:hidden"
         >
-          <ul className="mx-auto w-full max-w-container px-6 py-4 sm:px-8">
+          <ul className="px-6 py-4">
             <li>
               <MobileLink href="/" active={isActive(pathname, "/")}>
                 Início
@@ -194,8 +221,8 @@ export function Navbar() {
                 aria-expanded={mobileSobreOpen}
                 aria-controls="submenu-sobre-mobile"
                 onClick={() => setMobileSobreOpen((v) => !v)}
-                className={`flex w-full items-center justify-between py-3 text-body font-medium ${
-                  sobreIsActive ? "text-navy-700" : "text-navy-900"
+                className={`flex w-full items-center justify-between py-3 text-base font-medium ${
+                  sobreIsActive ? "text-brand" : "text-black"
                 }`}
               >
                 Sobre nós
@@ -209,7 +236,7 @@ export function Navbar() {
               {mobileSobreOpen && (
                 <ul
                   id="submenu-sobre-mobile"
-                  className="mb-2 ml-1 border-l border-blue-200 pl-4"
+                  className="mb-2 ml-1 border-l border-black/10 pl-4"
                 >
                   {sobreLinks.map((l) => (
                     <li key={l.href}>
@@ -233,7 +260,7 @@ export function Navbar() {
               </MobileLink>
             </li>
 
-            <li className="mt-4 border-t border-blue-200 pt-4">
+            <li className="mt-4 border-t border-black/10 pt-4">
               <EntrarButton full />
             </li>
           </ul>
@@ -245,30 +272,39 @@ export function Navbar() {
 
 /* ---------- subcomponentes ---------- */
 
-function topLinkClasses(active: boolean) {
+function topLinkClasses(active: boolean, floating: boolean) {
+  const base = "inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm transition";
+  if (floating) {
+    // Pílulas sobre o hero: ativa = pílula branca (como no mock).
+    return [
+      base,
+      active ? "bg-white text-black" : "text-white hover:bg-white/15",
+      "focus-visible:outline-white",
+    ].join(" ");
+  }
+  // Pílulas sobre o cream: ativa = pílula branca com leve sombra.
   return [
-    "inline-flex items-center gap-1 border-b-2 px-3 py-1.5 text-small font-medium",
-    "transition-colors",
-    active
-      ? "border-gold-600 text-navy-700"
-      : "border-transparent text-navy-900/80 hover:text-navy-700",
+    base,
+    active ? "bg-white text-black shadow-sm" : "text-black/70 hover:bg-black/5",
   ].join(" ");
 }
 
 function TopLink({
   href,
   active,
+  floating,
   children,
 }: {
   href: string;
   active: boolean;
+  floating: boolean;
   children: React.ReactNode;
 }) {
   return (
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={topLinkClasses(active)}
+      className={topLinkClasses(active, floating)}
     >
       {children}
     </Link>
@@ -290,8 +326,8 @@ function MobileLink({
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`block py-3 font-medium ${sub ? "text-small" : "text-body"} ${
-        active ? "text-navy-700" : "text-navy-900"
+      className={`block py-3 font-medium ${sub ? "text-sm" : "text-base"} ${
+        active ? "text-brand" : "text-black"
       }`}
     >
       {children}
@@ -303,21 +339,31 @@ function MobileLink({
  * Botão "Entrar" — visível mas desabilitado ("em breve"). Sem fluxo de login.
  * TODO (futuro, §6): habilitar e ligar à área do associado.
  */
-function EntrarButton({ full = false }: { full?: boolean }) {
+function EntrarButton({
+  full = false,
+  floating = false,
+}: {
+  full?: boolean;
+  floating?: boolean;
+}) {
   return (
     <button
       type="button"
       disabled
       title="Login do associado — em breve"
       aria-label="Entrar — login do associado, em breve"
-      className={`inline-flex h-10 items-center justify-center gap-2 rounded border border-blue-200 px-4 text-small font-medium text-navy-900/55 ${
-        full ? "w-full" : ""
-      }`}
+      className={`inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 font-inter text-sm font-medium ${
+        floating
+          ? "bg-white/15 text-white/80 backdrop-blur-md"
+          : "bg-black/5 text-black/50"
+      } ${full ? "w-full" : ""}`}
     >
       Entrar
       <span
         aria-hidden="true"
-        className="rounded-sm bg-blue-100 px-1.5 py-0.5 text-eyebrow font-medium uppercase tracking-[0.08em] text-navy-700"
+        className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.08em] ${
+          floating ? "bg-white/20 text-white" : "bg-white text-black/60"
+        }`}
       >
         Em breve
       </span>

@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Section } from "@/components/Section";
-import { SectionHeading } from "@/components/SectionHeading";
-import { Eyebrow } from "@/components/Eyebrow";
-import { FeatherDivider } from "@/components/Feather";
+import { PageHeader } from "@/components/PageHeader";
+import { PillLink } from "@/components/Pill";
 
 export const metadata: Metadata = {
   title: "Quem somos",
@@ -25,31 +21,27 @@ const objetivos = [
 
 export default function QuemSomosPage() {
   return (
-    <main>
-      {/* Cabeçalho da página */}
-      <Section tone="bg">
-        <SectionHeading
+    <main className="min-h-screen bg-cream px-4 md:px-8">
+      <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
+        <PageHeader
           eyebrow="Sobre o sindicato"
-          title="Quem somos"
-          as="h1"
+          title={
+            <>
+              Quem somos.
+            </>
+          }
+          lead="O Sindipro SE é o sindicato patronal que reúne e representa os provedores de internet e de serviço de comunicação multimídia do Estado de Sergipe, dando voz organizada ao setor perante o poder público, os órgãos reguladores e a sociedade."
         />
-        <p className="mt-6 max-w-2xl text-body text-navy-900/85">
-          O Sindipro SE é o sindicato patronal que reúne e representa os
-          provedores de internet e de serviço de comunicação multimídia do
-          Estado de Sergipe, dando voz organizada ao setor perante o poder
-          público, os órgãos reguladores e a sociedade.
-        </p>
-      </Section>
 
-      <FeatherDivider className="mx-auto max-w-container px-6 sm:px-8" />
-
-      {/* História */}
-      <Section tone="bg">
-        <div className="grid gap-8 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <SectionHeading eyebrow="Nossa história" title="História" size="h2" />
+        {/* História — card branco dividido */}
+        <div className="mt-14 grid overflow-hidden rounded-[28px] bg-white md:grid-cols-2">
+          <div className="p-8 font-inter md:p-12">
+            <p className="text-sm font-medium text-black/60">Nossa história</p>
+            <h2 className="mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
+              História
+            </h2>
           </div>
-          <div className="space-y-4 text-body text-navy-900/85 lg:col-span-7 lg:col-start-6">
+          <div className="space-y-4 p-8 pt-0 font-inter text-sm leading-relaxed text-black/60 md:p-12 md:text-base">
             <p>
               {/* TODO: ano de fundação e contexto da criação do sindicato. */}
               O Sindipro SE foi constituído para organizar os provedores de
@@ -67,71 +59,51 @@ export default function QuemSomosPage() {
             </p>
           </div>
         </div>
-      </Section>
 
-      {/* Missão — declaração em destaque */}
-      <Section tone="tint">
-        <Eyebrow>Nossa missão</Eyebrow>
-        <p className="mt-5 max-w-3xl font-display text-h2 font-medium leading-snug text-navy-900">
-          Representar, defender e fortalecer os provedores de internet e de
-          serviço de comunicação multimídia de Sergipe, assegurando um ambiente
-          regulatório e trabalhista equilibrado para o desenvolvimento do setor.
-        </p>
-      </Section>
+        {/* Missão — declaração em destaque sobre brand */}
+        <div className="mt-5 rounded-[28px] bg-brand p-8 font-inter text-white md:p-12">
+          <p className="text-sm font-medium text-white/70">Nossa missão</p>
+          <p className="mt-4 max-w-3xl text-2xl font-bold leading-snug tracking-tight md:text-4xl">
+            Representar, defender e fortalecer os provedores de internet e de
+            serviço de comunicação multimídia de Sergipe, assegurando um
+            ambiente regulatório e trabalhista equilibrado para o
+            desenvolvimento do setor.
+          </p>
+        </div>
 
-      {/* Objetivos */}
-      <Section tone="bg">
-        <div className="grid gap-8 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <SectionHeading
-              eyebrow="O que fazemos"
-              title="Nossos objetivos"
-              size="h2"
-            />
-          </div>
-          <ul className="lg:col-span-7 lg:col-start-6">
-            {objetivos.map((o) => (
-              <li
-                key={o}
-                className="flex gap-4 border-t border-blue-200 py-4 first:border-t-0 first:pt-0"
-              >
+        {/* Objetivos */}
+        <div className="mt-5 rounded-[28px] bg-white p-8 font-inter md:p-12">
+          <p className="text-sm font-medium text-black/60">O que fazemos</p>
+          <h2 className="mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
+            Nossos objetivos
+          </h2>
+          <ul className="mt-8 grid gap-x-10 gap-y-5 md:grid-cols-2">
+            {objetivos.map((o, i) => (
+              <li key={o} className="flex gap-4">
                 <span
-                  className="mt-2.5 h-px w-6 shrink-0 bg-gold-600"
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand/10 text-sm font-bold text-brand"
                   aria-hidden="true"
-                />
-                <span className="text-body text-navy-900/85">{o}</span>
+                >
+                  {i + 1}
+                </span>
+                <span className="text-sm leading-relaxed text-black/70 md:text-base">
+                  {o}
+                </span>
               </li>
             ))}
           </ul>
         </div>
-      </Section>
 
-      {/* Continue navegando em "Sobre nós" */}
-      <Section tone="bg" className="border-t border-blue-200">
-        <Eyebrow>Continue conhecendo</Eyebrow>
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:gap-8">
-          <Link
-            href="/sobre/diretoria"
-            className="group inline-flex items-center gap-1.5 text-body font-medium text-navy-700 transition-colors hover:text-navy-900"
-          >
+        {/* Continue conhecendo */}
+        <div className="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <PillLink href="/sobre/diretoria" tone="black">
             Quadro de diretoria
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
-          <Link
-            href="/sobre/imprensa"
-            className="group inline-flex items-center gap-1.5 text-body font-medium text-navy-700 transition-colors hover:text-navy-900"
-          >
+          </PillLink>
+          <PillLink href="/sobre/imprensa" tone="white">
             Assessoria de imprensa
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
+          </PillLink>
         </div>
-      </Section>
+      </div>
     </main>
   );
 }

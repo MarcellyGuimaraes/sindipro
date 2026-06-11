@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { fontDisplay, fontSans } from "@/lib/fonts";
+import { fontDisplay, fontSans, fontInter } from "@/lib/fonts";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import "./globals.css";
@@ -34,7 +34,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${fontDisplay.variable} ${fontSans.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${fontDisplay.variable} ${fontSans.variable} ${fontInter.variable}`}
+    >
       <body>
         <Navbar />
         {children}

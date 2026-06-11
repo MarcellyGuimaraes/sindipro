@@ -34,10 +34,16 @@ const config: Config = {
           600: "#ab8221",
           200: "#dcc99e",
         },
+        // Novo visual (referência Lovable "Pixel Perfect Page") — home/footer.
+        // TODO: consolidar no CLAUDE.md quando o redesign for aprovado.
+        brand: "#004b8e",
+        cream: "#f0f1e8", // oklch(0.95 0.012 110) convertido
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        // Novo visual — Inter para as seções redesenhadas.
+        inter: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       // Escala de tipo da seção 5 — sem tamanhos aleatórios.
       fontSize: {
