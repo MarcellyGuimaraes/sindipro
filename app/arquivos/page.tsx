@@ -58,7 +58,7 @@ export default function ArquivosPage() {
         />
         <p className="mt-4 text-center font-inter text-xs text-black/40">
           {/* visível enquanto os arquivos não chegam */}
-          Arquivos em preparação — exemplos para layout. (TODO)
+          Arquivos em preparação - exemplos para layout. (TODO)
         </p>
 
         <div className="mt-14 space-y-16">

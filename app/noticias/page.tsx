@@ -39,13 +39,14 @@ export default function NoticiasPage({
         />
         <p className="mt-4 text-center font-inter text-xs text-black/40">
           {/* visível enquanto o conteúdo é mockado */}
-          Conteúdo em preparação — notícias de exemplo. (TODO)
+          Conteúdo em preparação - notícias de exemplo. (TODO)
         </p>
 
         <ul className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
           {items.map((n, i) => {
-            // Na 1ª página, a primeira notícia vira destaque (assimetria).
+            // Na 1ª página, a notícia mais recente em destaque (2 colunas).
             const isFeature = current === 1 && i === 0;
+            const isCompanion = current === 1 && i === 1;
             return (
               <li key={n.slug} className={isFeature ? "md:col-span-2" : ""}>
                 <NewsCard
@@ -56,6 +57,7 @@ export default function NoticiasPage({
                   image={n.image}
                   imageAlt={n.imageAlt}
                   feature={isFeature}
+                  tall={isCompanion}
                 />
               </li>
             );

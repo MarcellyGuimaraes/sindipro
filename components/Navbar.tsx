@@ -350,8 +350,8 @@ function EntrarButton({
     <button
       type="button"
       disabled
-      title="Login do associado — em breve"
-      aria-label="Entrar — login do associado, em breve"
+      title="Login do associado - em breve"
+      aria-label="Entrar - login do associado, em breve"
       className={`inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 font-inter text-sm font-medium ${
         floating
           ? "bg-white/15 text-white/80 backdrop-blur-md"

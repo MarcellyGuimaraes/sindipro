@@ -32,7 +32,7 @@ export const noticias: Noticia[] = [
     summary:
       "A convenção coletiva de 2026 traz reajuste salarial, novas faixas de função e cláusulas de capacitação técnica para o setor de internet do estado.",
     image: IMG,
-    imageAlt: "TODO: imagem real — assinatura da CCT",
+    imageAlt: "TODO: imagem real - assinatura da CCT",
     content: [
       "O Sindipro SE concluiu a negociação da Convenção Coletiva de Trabalho (CCT) para o período vigente, em entendimento com a representação dos trabalhadores do setor.",
       "Entre os pontos acordados estão o reajuste salarial, a revisão das faixas de função e novas cláusulas voltadas à capacitação técnica das equipes dos provedores associados.",
@@ -47,7 +47,7 @@ export const noticias: Noticia[] = [
     summary:
       "Representantes do sindicato participaram de audiência pública sobre infraestrutura de rede nos municípios do interior.",
     image: IMG,
-    imageAlt: "TODO: imagem real — audiência pública",
+    imageAlt: "TODO: imagem real - audiência pública",
     content: [
       "Representantes do Sindipro SE participaram de audiência pública dedicada à expansão da infraestrutura de fibra óptica nos municípios do interior de Sergipe.",
       "Na ocasião, o sindicato apresentou a perspectiva dos provedores locais sobre os desafios de cobertura e os investimentos necessários.",
@@ -62,7 +62,7 @@ export const noticias: Noticia[] = [
     summary:
       "Capacitação gratuita orienta os provedores associados sobre as obrigações junto à Anatel e aos órgãos de defesa do consumidor.",
     image: IMG,
-    imageAlt: "TODO: imagem real — capacitação de associados",
+    imageAlt: "TODO: imagem real - capacitação de associados",
     content: [
       "O sindicato abriu inscrições para o curso de boas práticas regulatórias, voltado às empresas associadas.",
       "O conteúdo aborda as principais obrigações junto à Anatel e aos órgãos de defesa do consumidor, com foco na rotina dos provedores de pequeno e médio porte.",
@@ -77,7 +77,7 @@ export const noticias: Noticia[] = [
     summary:
       "Associados se reuniram para deliberar sobre prioridades de atuação e o calendário de negociações.",
     image: IMG,
-    imageAlt: "TODO: imagem real — assembleia geral",
+    imageAlt: "TODO: imagem real - assembleia geral",
     content: [
       "Os associados do Sindipro SE participaram da assembleia geral que definiu as prioridades de atuação do sindicato para o ano.",
       "TODO: registrar as deliberações aprovadas e o calendário definido.",
@@ -91,7 +91,7 @@ export const noticias: Noticia[] = [
     summary:
       "Evento promoveu a troca de experiências entre empresas e debateu tendências do mercado de banda larga.",
     image: IMG,
-    imageAlt: "TODO: imagem real — encontro de provedores",
+    imageAlt: "TODO: imagem real - encontro de provedores",
     content: [
       "Provedores de todo o estado se reuniram em Aracaju para troca de experiências e debate sobre as tendências do mercado de banda larga.",
       "TODO: complementar com programação, palestrantes e número de participantes.",
@@ -105,7 +105,7 @@ export const noticias: Noticia[] = [
     summary:
       "Nota técnica reúne as contribuições do setor às mudanças regulatórias em discussão.",
     image: IMG,
-    imageAlt: "TODO: imagem real — nota técnica",
+    imageAlt: "TODO: imagem real - nota técnica",
     content: [
       "O Sindipro SE divulgou posicionamento com as contribuições dos provedores de Sergipe às mudanças regulatórias em discussão.",
       "TODO: anexar a nota técnica completa e referências às consultas públicas correspondentes.",
@@ -119,7 +119,7 @@ export const noticias: Noticia[] = [
     summary:
       "Diretoria detalhou os avanços obtidos e os próximos passos das tratativas trabalhistas.",
     image: IMG,
-    imageAlt: "TODO: imagem real — reunião de balanço",
+    imageAlt: "TODO: imagem real - reunião de balanço",
     content: [
       "A diretoria apresentou aos associados o balanço da negociação coletiva, detalhando avanços e próximos passos.",
       "TODO: incluir os indicadores apresentados na reunião.",
@@ -133,7 +133,7 @@ export const noticias: Noticia[] = [
     summary:
       "Acordo viabiliza treinamentos voltados à operação e à manutenção de redes dos associados.",
     image: IMG,
-    imageAlt: "TODO: imagem real — treinamento técnico",
+    imageAlt: "TODO: imagem real - treinamento técnico",
     content: [
       "Uma nova parceria firmada pelo sindicato amplia a oferta de capacitação técnica para as equipes das empresas associadas.",
       "TODO: identificar a instituição parceira e o escopo dos treinamentos.",
@@ -147,7 +147,7 @@ export const noticias: Noticia[] = [
     summary:
       "Comunicado reúne recomendações de boas práticas de segurança para a operação dos provedores.",
     image: IMG,
-    imageAlt: "TODO: imagem real — segurança de redes",
+    imageAlt: "TODO: imagem real - segurança de redes",
     content: [
       "O sindicato publicou comunicado com recomendações de boas práticas de segurança para a operação dos provedores associados.",
       "TODO: detalhar as recomendações e as referências utilizadas.",

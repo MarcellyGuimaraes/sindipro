@@ -1,24 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowUp,
-  Mail,
-  Phone,
-  MessageCircle,
-  Instagram,
-  Facebook,
-  Linkedin,
-} from "lucide-react";
+import { Mail, Phone, Instagram } from "lucide-react";
 
 /**
  * Footer único, reutilizado em todo o site — novo visual (referência Lovable
  * "Pixel Perfect Page"): card arredondado com imagem de fundo escurecida,
  * bloco de newsletter, colunas de links e redes sociais.
  *
- * Mantidos do requisito original (§6): e-mail, telefone, WhatsApp e
- * Instagram @sindiprose (na coluna da marca).
+ * Mantidos do requisito original (§6): e-mail, telefone e Instagram
+ * @sindiprose (na coluna da marca).
  *
- * TODO: confirmar e-mail/telefone/WhatsApp reais com a diretoria.
+ * TODO: confirmar e-mail/telefone reais com a diretoria.
  * TODO: newsletter sem backend ainda — botão desabilitado ("em breve").
  * TODO: URLs de Facebook/LinkedIn, se existirem.
  */
@@ -27,7 +19,6 @@ const contato = {
   email: "contato@sindiprose.org.br", // TODO: confirmar
   telefone: "(79) 0000-0000", // TODO: confirmar
   telefoneHref: "+5579000000000", // TODO: confirmar
-  whatsappHref: "https://wa.me/5579900000000", // TODO: confirmar
   instagramHref: "https://www.instagram.com/sindiprose/",
 };
 
@@ -151,43 +142,16 @@ export function Footer() {
                 </li>
                 <li>
                   <a
-                    href={contato.whatsappHref}
+                    href={contato.instagramHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 transition hover:text-white focus-visible:outline-bg"
                   >
-                    <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
-                    WhatsApp
+                    <Instagram className="h-3.5 w-3.5" aria-hidden="true" />
+                    @sindiprose
                   </a>
                 </li>
               </ul>
-
-              <div className="mt-6 flex items-center gap-2">
-                <a
-                  href={contato.instagramHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                  className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-bg"
-                >
-                  <Instagram className="h-4 w-4" aria-hidden="true" />
-                </a>
-                {/* TODO: URLs reais de Facebook/LinkedIn (ou remover). */}
-                {/* <a
-                  href="#"
-                  aria-label="Facebook"
-                  className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-bg"
-                >
-                  <Facebook className="h-4 w-4" aria-hidden="true" />
-                </a>
-                <a
-                  href="#"
-                  aria-label="LinkedIn"
-                  className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus-visible:outline-bg"
-                >
-                  <Linkedin className="h-4 w-4" aria-hidden="true" />
-                </a> */}
-              </div>
             </div>
 
             {colunas.map((col) => (
@@ -221,7 +185,7 @@ export function Footer() {
           {/* Base */}
           <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-white/15 pt-6 text-xs text-white/60 md:flex-row md:items-center">
             <p>
-              Copyright © {new Date().getFullYear()} Sindipro SE — Todos os
+              Copyright © {new Date().getFullYear()} Sindipro SE - Todos os
               direitos reservados.
             </p>
             <p>Sindicato dos Provedores de Internet de Sergipe</p>

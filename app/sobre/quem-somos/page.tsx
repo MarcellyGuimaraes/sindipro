@@ -96,7 +96,7 @@ export default function QuemSomosPage() {
 
         {/* Continue conhecendo */}
         <div className="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <PillLink href="/sobre/diretoria" tone="black">
+          <PillLink href="/sobre/diretoria" tone="brand">
             Quadro de diretoria
           </PillLink>
           <PillLink href="/sobre/imprensa" tone="white">

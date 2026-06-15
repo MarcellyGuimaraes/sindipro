@@ -6,7 +6,7 @@ import { DirectorCard, type DirectorCardProps } from "@/components/DirectorCard"
 export const metadata: Metadata = {
   title: "Quadro de diretoria",
   description:
-    "Diretoria executiva e conselho fiscal do Sindicato dos Provedores de Internet e Serviço de Comunicação Multimídia do Estado de Sergipe.",
+    "Diretoria executiva do Sindicato dos Provedores de Internet e Serviço de Comunicação Multimídia do Estado de Sergipe.",
 };
 
 // TODO: nomes e fotos reais de cada membro. Os cargos seguem a estrutura
@@ -16,7 +16,7 @@ const mk = (role: string): DirectorCardProps => ({
   name: "Nome a confirmar", // TODO
   role,
   image: PLACEHOLDER,
-  imageAlt: `Foto a confirmar — ${role}`, // TODO
+  imageAlt: `Foto a confirmar - ${role}`, // TODO
 });
 
 const diretoriaExecutiva: DirectorCardProps[] = [
@@ -26,12 +26,6 @@ const diretoriaExecutiva: DirectorCardProps[] = [
   mk("2º Secretário"),
   mk("1º Tesoureiro"),
   mk("2º Tesoureiro"),
-];
-
-const conselhoFiscal: DirectorCardProps[] = [
-  mk("Conselheiro(a) fiscal"),
-  mk("Conselheiro(a) fiscal"),
-  mk("Conselheiro(a) fiscal"),
 ];
 
 export default function DiretoriaPage() {
@@ -70,26 +64,9 @@ export default function DiretoriaPage() {
           </ul>
         </div>
 
-        {/* Conselho fiscal */}
-        <div className="mt-16">
-          <p className="text-center font-inter text-sm font-medium text-black/60">
-            Fiscalização
-          </p>
-          <h2 className="mt-2 text-center font-inter text-3xl font-bold tracking-tight text-brand md:text-4xl">
-            Conselho fiscal
-          </h2>
-          <ul className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-            {conselhoFiscal.map((d, i) => (
-              <li key={`${d.role}-${i}`}>
-                <DirectorCard {...d} />
-              </li>
-            ))}
-          </ul>
-        </div>
-
         {/* Continue conhecendo */}
         <div className="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <PillLink href="/sobre/quem-somos" tone="black">
+          <PillLink href="/sobre/quem-somos" tone="brand">
             Quem somos
           </PillLink>
           <PillLink href="/sobre/imprensa" tone="white">

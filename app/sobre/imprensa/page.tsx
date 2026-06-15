@@ -24,13 +24,13 @@ const kit: FileCardProps[] = [
   {
     name: "Logotipos do Sindipro SE",
     type: "Kit",
-    meta: "ZIP — em preparação", // TODO
+    meta: "ZIP - em preparação", // TODO
     href: "#", // TODO
   },
   {
     name: "Apresentação institucional",
     type: "Kit",
-    meta: "PDF — em preparação", // TODO
+    meta: "PDF - em preparação", // TODO
     href: "#", // TODO
   },
 ];
@@ -127,7 +127,7 @@ export default function ImprensaPage() {
 
         {/* Continue conhecendo */}
         <div className="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <PillLink href="/sobre/quem-somos" tone="black">
+          <PillLink href="/sobre/quem-somos" tone="brand">
             Quem somos
           </PillLink>
           <PillLink href="/sobre/diretoria" tone="white">

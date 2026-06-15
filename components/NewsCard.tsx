@@ -17,6 +17,8 @@ export type NewsCardProps = {
   imageAlt: string;
   /** Destaque (mais alto, título maior) na listagem. */
   feature?: boolean;
+  /** Mesma altura do destaque, sem tipografia ampliada (ex.: card ao lado do destaque). */
+  tall?: boolean;
 };
 
 export function NewsCard({
@@ -27,11 +29,13 @@ export function NewsCard({
   image,
   imageAlt,
   feature = false,
+  tall = false,
 }: NewsCardProps) {
+  const isTall = feature || tall;
   return (
     <article
       className={`group relative flex flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-6 font-inter text-white ${
-        feature ? "h-[520px] md:p-8" : "h-[440px]"
+        isTall ? "h-[520px] md:p-8" : "h-[440px]"
       }`}
     >
       <Image
