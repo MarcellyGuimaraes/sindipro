@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
 import { PillLink } from "@/components/Pill";
 import { DirectorCard } from "@/components/DirectorCard";
-import { getBoardSections, type BoardMemberPublic } from "@/lib/board-members";
+import {
+  getDiretoriaDestaque,
+  GRUPO_ROLE,
+  type BoardMemberPublic,
+} from "@/lib/board-members";
 
 export const metadata: Metadata = {
   title: "Quadro de diretoria",
@@ -12,22 +16,20 @@ export const metadata: Metadata = {
 
 const PLACEHOLDER = "/placeholder-person.svg";
 
-function cardProps(m: BoardMemberPublic) {
+function img(m: BoardMemberPublic) {
   return {
-    name: m.name,
-    role: m.role,
     image: m.photoUrl ?? PLACEHOLDER,
     imageAlt: m.photoUrl ? `Foto de ${m.name}` : "",
   };
 }
 
 export default async function DiretoriaPage() {
-  const sections = await getBoardSections();
-  const hasMembers = sections.some((s) => s.members.length > 0);
+  const { presidente, vice, grupo } = await getDiretoriaDestaque();
+  const temConteudo = presidente || vice || grupo;
 
   return (
     <main className="min-h-screen bg-cream px-4 md:px-8">
-      <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
+      <div className="mx-auto max-w-5xl px-2 py-16 md:py-24">
         <PageHeader
           eyebrow="Sobre o sindicato"
           title={
@@ -39,50 +41,33 @@ export default async function DiretoriaPage() {
           lead="A diretoria conduz a representação institucional do Sindipro SE e a negociação coletiva do setor. Conheça quem responde pela entidade."
         />
 
-        {!hasMembers ? (
+        {!temConteudo ? (
           <p className="mt-12 text-center font-inter text-sm text-black/50">
             O quadro de diretoria será publicado em breve.
           </p>
         ) : (
-          <div className="mt-14 space-y-16">
-            {sections.map((section, idx) => {
-              if (section.members.length === 0) return null;
+          <div className="mt-14 space-y-5">
+            {/* Presidente + Vice-presidente, lado a lado */}
+            {(presidente || vice) && (
+              <div className="mx-auto grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2">
+                {presidente && (
+                  <DirectorCard {...img(presidente)} name={presidente.name} role={presidente.role} />
+                )}
+                {vice && (
+                  <DirectorCard {...img(vice)} name={vice.name} role={vice.role} />
+                )}
+              </div>
+            )}
 
-              // Destaque do Presidente: na Executiva, o primeiro membro
-              // (menor display_order) ganha um card maior no topo.
-              const isExecutiva = section.group === "executiva";
-              const [first, ...rest] = section.members;
-              const destaque = isExecutiva ? first : null;
-              const grade = isExecutiva ? rest : section.members;
-
-              return (
-                <section key={section.group}>
-                  <h2 className="text-center font-inter text-2xl font-bold tracking-tight text-brand md:text-3xl">
-                    {section.label}
-                  </h2>
-
-                  {destaque && (
-                    <div className="mx-auto mt-8 max-w-xs">
-                      <DirectorCard {...cardProps(destaque)} />
-                    </div>
-                  )}
-
-                  {grade.length > 0 && (
-                    <ul className="mt-6 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-                      {grade.map((m) => (
-                        <li key={m.id}>
-                          <DirectorCard {...cardProps(m)} />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {idx < sections.length - 1 && (
-                    <div className="mx-auto mt-16 h-px w-24 bg-black/10" />
-                  )}
-                </section>
-              );
-            })}
+            {/* Foto do grupo, horizontal e em largura total */}
+            {grupo && (
+              <DirectorCard
+                {...img(grupo)}
+                name={GRUPO_ROLE}
+                role=""
+                wide
+              />
+            )}
           </div>
         )}
 
