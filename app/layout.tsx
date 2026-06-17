@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { fontDisplay, fontSans, fontInter } from "@/lib/fonts";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import "./globals.css";
 
 const SITE_NAME = "Sindipro SE";
@@ -38,11 +36,7 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${fontDisplay.variable} ${fontSans.variable} ${fontInter.variable}`}
     >
-      <body>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

@@ -323,3 +323,87 @@ institucional (sem frase de efeito vazia) e **marque com `TODO:`** para revisão
 > O Claude Code não acessa essas páginas direto. Tire **prints** das referências
 > e cole na conversa ao construir as seções correspondentes (identidade visual da
 > marca → hero/cores; CCT do sinstal → estrutura da página /arquivos).
+
+## 14. Painel da diretoria (admin) + dados
+
+### Stack de dados
+- Supabase como serviço único: Postgres (dados) + Auth (login) + Storage (arquivos).
+- O MESMO projeto Supabase serve o site e o painel. Painel escreve; site lê só o
+  que estiver publicado.
+- Acesso ao Supabase via @supabase/ssr (App Router). NUNCA usar o pacote
+  depreciado @supabase/auth-helpers. Seguir sempre o guia oficial atual de
+  Server-Side Auth do Supabase para Next.js. Usar as chaves publishable/secret
+  novas (sb_publishable_... / sb_secret_...).
+- Em produção (serverless) NÃO salvar upload no filesystem do Next — arquivos vão
+  para o Supabase Storage. Nunca expor a chave secret/service no client.
+
+### Rotas do painel
+- Base em /painel-diretoria (caminho não-óbvio). NÃO linkar no site institucional.
+- Todas as rotas sob /painel-diretoria são protegidas por login. Acesso sem
+  sessão redireciona para /painel-diretoria/login.
+- O painel inteiro é noindex (robots) — não deve aparecer em buscadores.
+
+### Segurança (inegociável)
+- "Não linkar" não é proteção. O portão é o login + Row Level Security (RLS) no
+  banco. Ativar RLS em todas as tabelas.
+- RLS: público pode apenas SELECT de notícias/arquivos PUBLICADOS. Só usuários
+  autenticados (diretoria) podem INSERT/UPDATE/DELETE.
+- Sem cadastro público. As contas da diretoria são criadas manualmente no painel
+  do Supabase por enquanto.
+- Validar tipo e tamanho de arquivo no upload (ex.: PDF/imagem, limite de MB).
+
+### Modelo de dados (agora)
+- Tabela `news`: id, slug, title, excerpt, content (markdown ou rich text),
+  cover_image_url, status ('draft' | 'published'), published_at, author_id,
+  created_at, updated_at.
+- Tabela `files`: id, title, type ('CCT' | 'ACT' | 'outro'), description,
+  storage_path, file_url, size_bytes, uploaded_by, created_at.
+- Buckets de Storage: `news-images` (leitura pública), `downloads` (leitura
+  pública, para CCT/ACT).
+
+### Modelo de dados (futuro — só deixar preparado, não construir)
+- Contas de associado (Supabase Auth com role 'member').
+- Bucket privado `member-files` com pastas (arquivos, atas, editais, comunicados),
+  acessível só por associado logado via URLs assinadas / RLS.
+
+### Design do painel
+- Mesma identidade do site: tokens de cor, Fraunces (títulos) + IBM Plex Sans (UI),
+  o acento dourado. As proibições da seção 12 continuam valendo.
+- Porém o painel é UTILITÁRIO: layout de dashboard (navegação lateral + área de
+  conteúdo), tabelas e formulários claros. Não é página de marketing — priorize
+  legibilidade e densidade de informação sobre "impacto visual". Animação mínima.
+- shadcn/ui é permitido aqui, desde que re-skinizado nos nossos tokens.
+
+### Conexão com o site público
+- /noticias, /noticias/[slug], /arquivos e a seção "Últimas notícias" da home
+  passam a ler do Supabase (substituir os dados TODO mockados), mostrando apenas
+  status 'published'.
+
+  ### Modelo de dados — diretoria (NOVO)
+- Tabela `board_members`: id, name, role (texto), board_group, photo_url,
+  display_order (int), created_at, updated_at.
+  - board_group: 'executiva' | 'conselho_titular' | 'conselho_suplente'
+  - display_order ordena os membros dentro de cada grupo.
+- Bucket de Storage `board-photos` (leitura pública) para as fotos.
+- RLS: público lê tudo de board_members; só diretoria autenticada escreve.
+
+### Estrutura da diretoria (12 membros) — vinda do cliente
+Diretoria Executiva (board_group = 'executiva'):
+  1. Presidente
+  2. Vice-presidente
+  3. Secretário-geral
+  4. Suplente de secretário
+  5. Tesoureiro
+  6. Suplente de tesoureiro
+Conselho Fiscal — Titulares (board_group = 'conselho_titular'): 3 membros
+  - role: "Conselheiro fiscal titular"
+Conselho Fiscal — Suplentes (board_group = 'conselho_suplente'): 3 membros
+  - role: "Conselheiro fiscal suplente"
+Total: 12.
+
+### Página pública /sobre/diretoria
+- Passa a ler de board_members (substituir os dados TODO).
+- Exibe em três seções: "Diretoria Executiva", "Conselho Fiscal — Titulares",
+  "Conselho Fiscal — Suplentes", cada uma respeitando display_order.
+- Card de diretor: foto, nome, cargo. Sóbrio, institucional, na identidade do
+  site (não é o card proibido de "ícone + título + texto").

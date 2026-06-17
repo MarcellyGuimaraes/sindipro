@@ -1,21 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getAllNoticias } from "@/lib/noticias";
+import { getLatestNews } from "@/lib/news";
 
 /**
- * "Últimas notícias" — novo visual (referência Lovable "Pixel Perfect Page"):
- * eyebrow + headline central em azul brand, 3 cards de imagem com gradiente
- * de leitura e CTA em pílula. Puxa as 3 mais recentes de lib/noticias.
- *
- * TODO: as fotos (wind/solar/tree) vieram do template Lovable como
- * placeholder — trocar pelas imagens reais de cada notícia.
+ * "Últimas notícias" — eyebrow + headline central em azul brand e 3 cards de
+ * imagem com gradiente de leitura e CTA em pílula. Lê as 3 notícias publicadas
+ * mais recentes do Supabase (Server Component).
  */
 
-const CARD_IMAGES = ["/img/wind.jpg", "/img/solar-farm.jpg", "/img/tree-sky.jpg"];
-
-export function LatestNews() {
-  const noticias = getAllNoticias().slice(0, 3);
+export async function LatestNews() {
+  const noticias = await getLatestNews(3);
 
   return (
     <section id="noticias" className="mx-auto max-w-6xl px-2 py-20 md:py-28">
@@ -27,47 +22,54 @@ export function LatestNews() {
         <br /> provedores de Sergipe.
       </h2>
 
-      <div className="mt-12 grid gap-5 md:grid-cols-3">
-        {noticias.map((item, i) => (
-          <article
-            key={item.slug}
-            className="group relative flex h-[440px] flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-6 font-inter text-white"
-          >
-            <Image
-              src={CARD_IMAGES[i] ?? CARD_IMAGES[0]}
-              alt="" // decorativa; o conteúdo está no texto do card. TODO: foto real da notícia.
-              fill
-              sizes="(min-width: 768px) 33vw, 100vw"
-              className="object-cover transition duration-500 group-hover:scale-105"
-            />
-            {/* Filtro de leitura */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/20" />
-            <div className="absolute inset-0 bg-black/15" />
+      {noticias.length === 0 ? (
+        <p className="mt-12 text-center font-inter text-sm text-black/50">
+          Em breve, as primeiras notícias do sindicato.
+        </p>
+      ) : (
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {noticias.map((item) => (
+            <article
+              key={item.slug}
+              className="group relative flex h-[440px] flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-6 font-inter text-white"
+            >
+              <Image
+                src={item.image}
+                alt={item.imageAlt}
+                fill
+                sizes="(min-width: 768px) 33vw, 100vw"
+                className="object-cover transition duration-500 group-hover:scale-105"
+                unoptimized={item.image.endsWith(".svg")}
+              />
+              {/* Filtro de leitura */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/20" />
+              <div className="absolute inset-0 bg-black/15" />
 
-            <div className="relative">
-              <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-white backdrop-blur">
-                {item.date}
-              </span>
-              {/* font/cor explícitos: o base layer de h1–h4 (visual antigo) vence a herança */}
-              <h3 className="mt-4 font-inter text-xl font-bold leading-snug text-white">
-                {item.title}
-              </h3>
-              <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-white/80">
-                {item.summary}
-              </p>
-              <Link
-                href={`/noticias/${item.slug}`}
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-white py-1 pl-4 pr-1 text-xs font-semibold text-black transition hover:bg-white/90 focus-visible:outline-bg"
-              >
-                Ler notícia
-                <span className="grid h-7 w-7 place-items-center rounded-full bg-brand text-white">
-                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              <div className="relative">
+                <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-white backdrop-blur">
+                  {item.date}
                 </span>
-              </Link>
-            </div>
-          </article>
-        ))}
-      </div>
+                {/* font/cor explícitos: o base layer de h1–h4 (visual antigo) vence a herança */}
+                <h3 className="mt-4 font-inter text-xl font-bold leading-snug text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-white/80">
+                  {item.summary}
+                </p>
+                <Link
+                  href={`/noticias/${item.slug}`}
+                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-white py-1 pl-4 pr-1 text-xs font-semibold text-black transition hover:bg-white/90 focus-visible:outline-bg"
+                >
+                  Ler notícia
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-brand text-white">
+                    <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </span>
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
 
       <div className="mt-10 text-center">
         <Link

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { NewsCard } from "@/components/NewsCard";
-import { getPagina } from "@/lib/noticias";
+import { getNewsPage } from "@/lib/news";
 
 export const metadata: Metadata = {
   title: "Notícias",
@@ -17,12 +17,14 @@ function parsePage(value: string | string[] | undefined): number {
   return Number.isFinite(n) && n >= 1 ? Math.floor(n) : 1;
 }
 
-export default function NoticiasPage({
+export default async function NoticiasPage({
   searchParams,
 }: {
   searchParams: { page?: string | string[] };
 }) {
-  const { items, current, totalPages } = getPagina(parsePage(searchParams.page));
+  const { items, current, totalPages } = await getNewsPage(
+    parsePage(searchParams.page)
+  );
 
   return (
     <main className="min-h-screen bg-cream px-4 md:px-8">
@@ -37,32 +39,34 @@ export default function NoticiasPage({
           }
           lead="Acompanhe a atuação do Sindipro SE: negociações coletivas, pautas regulatórias, eventos e orientações para os provedores de Sergipe."
         />
-        <p className="mt-4 text-center font-inter text-xs text-black/40">
-          {/* visível enquanto o conteúdo é mockado */}
-          Conteúdo em preparação - notícias de exemplo. (TODO)
-        </p>
 
-        <ul className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {items.map((n, i) => {
-            // Na 1ª página, a notícia mais recente em destaque (2 colunas).
-            const isFeature = current === 1 && i === 0;
-            const isCompanion = current === 1 && i === 1;
-            return (
-              <li key={n.slug} className={isFeature ? "md:col-span-2" : ""}>
-                <NewsCard
-                  href={`/noticias/${n.slug}`}
-                  date={n.date}
-                  title={n.title}
-                  summary={n.summary}
-                  image={n.image}
-                  imageAlt={n.imageAlt}
-                  feature={isFeature}
-                  tall={isCompanion}
-                />
-              </li>
-            );
-          })}
-        </ul>
+        {items.length === 0 ? (
+          <p className="mt-12 text-center font-inter text-sm text-black/50">
+            Ainda não há notícias publicadas.
+          </p>
+        ) : (
+          <ul className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+            {items.map((n, i) => {
+              // Na 1ª página, a notícia mais recente em destaque (2 colunas).
+              const isFeature = current === 1 && i === 0;
+              const isCompanion = current === 1 && i === 1;
+              return (
+                <li key={n.slug} className={isFeature ? "md:col-span-2" : ""}>
+                  <NewsCard
+                    href={`/noticias/${n.slug}`}
+                    date={n.date}
+                    title={n.title}
+                    summary={n.summary}
+                    image={n.image}
+                    imageAlt={n.imageAlt}
+                    feature={isFeature}
+                    tall={isCompanion}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        )}
 
         {totalPages > 1 && (
           <Pagination current={current} totalPages={totalPages} />

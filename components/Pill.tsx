@@ -32,6 +32,8 @@ type PillLinkProps = {
   small?: boolean;
   className?: string;
   external?: boolean;
+  /** Baixa o recurso em vez de navegar (links de arquivo). */
+  download?: boolean;
 };
 
 export function PillLink({
@@ -42,6 +44,7 @@ export function PillLink({
   small = false,
   className,
   external = false,
+  download = false,
 }: PillLinkProps) {
   const t = tones[tone];
   const cls = [
@@ -66,11 +69,12 @@ export function PillLink({
     </>
   );
 
-  if (external || !href.startsWith("/")) {
+  if (external || download || !href.startsWith("/")) {
     return (
       <a
         href={href}
         className={cls}
+        {...(download ? { download: "" } : {})}
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {inner}

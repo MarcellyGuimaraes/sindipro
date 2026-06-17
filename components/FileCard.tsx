@@ -38,7 +38,7 @@ export function FileCard({ name, type, meta, href }: FileCardProps) {
         </h3>
       </div>
 
-      <PillLink href={href} tone="black" small icon={Download} className="shrink-0 self-start sm:self-center">
+      <PillLink href={href} download tone="black" small icon={Download} className="shrink-0 self-start sm:self-center">
         Baixar
       </PillLink>
     </article>
