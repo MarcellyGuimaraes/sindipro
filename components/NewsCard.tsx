@@ -35,7 +35,7 @@ export function NewsCard({
   return (
     <article
       className={`group relative flex flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-6 font-inter text-white ${
-        isTall ? "h-[520px] md:p-8" : "h-[440px]"
+        isTall ? "h-[400px] sm:h-[520px] md:p-8" : "h-[340px] sm:h-[440px]"
       }`}
     >
       <Image

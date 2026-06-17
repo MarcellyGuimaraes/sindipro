@@ -31,7 +31,7 @@ export async function LatestNews() {
           {noticias.map((item) => (
             <article
               key={item.slug}
-              className="group relative flex h-[440px] flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-6 font-inter text-white"
+              className="group relative flex h-[340px] flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-6 font-inter text-white sm:h-[440px]"
             >
               <Image
                 src={item.image}

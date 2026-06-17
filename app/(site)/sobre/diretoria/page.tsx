@@ -49,7 +49,7 @@ export default async function DiretoriaPage() {
           <div className="mt-14 space-y-5">
             {/* Presidente + Vice-presidente, lado a lado */}
             {(presidente || vice) && (
-              <div className="mx-auto grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="mx-auto grid max-w-3xl grid-cols-2 gap-3 sm:gap-5">
                 {presidente && (
                   <DirectorCard {...img(presidente)} name={presidente.name} role={presidente.role} />
                 )}

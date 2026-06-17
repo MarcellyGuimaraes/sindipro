@@ -16,7 +16,7 @@ export function Hero() {
         width={1920}
         height={1080}
         priority
-        className="h-[88vh] min-h-[640px] w-full object-cover"
+        className="h-[64vh] min-h-[460px] w-full object-cover sm:h-[88vh] sm:min-h-[640px]"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/55" />
 
