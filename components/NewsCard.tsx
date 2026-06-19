@@ -19,6 +19,8 @@ export type NewsCardProps = {
   feature?: boolean;
   /** Mesma altura do destaque, sem tipografia ampliada (ex.: card ao lado do destaque). */
   tall?: boolean;
+  /** Notícia recém-publicada — mostra a tag "Novo" ao lado da data. */
+  isNew?: boolean;
 };
 
 export function NewsCard({
@@ -30,6 +32,7 @@ export function NewsCard({
   imageAlt,
   feature = false,
   tall = false,
+  isNew = false,
 }: NewsCardProps) {
   const isTall = feature || tall;
   return (
@@ -51,9 +54,16 @@ export function NewsCard({
       <div className="absolute inset-0 bg-black/15" />
 
       <div className="relative">
-        <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-white backdrop-blur">
-          {date}
-        </span>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-white backdrop-blur">
+            {date}
+          </span>
+          {isNew && (
+            <span className="inline-block rounded-full bg-gold-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
+              Novo
+            </span>
+          )}
+        </div>
         {/* font/cor explícitos: o legado pode estilizar h3 */}
         <h3
           className={`mt-4 font-inter font-bold leading-snug text-white ${

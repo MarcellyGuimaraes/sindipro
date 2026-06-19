@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getLatestNews } from "@/lib/news";
+import { getLatestNews, isRecentNews } from "@/lib/news";
 
 /**
  * "Últimas notícias" — eyebrow + headline central em azul brand e 3 cards de
@@ -28,7 +28,7 @@ export async function LatestNews() {
         </p>
       ) : (
         <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {noticias.map((item) => (
+          {noticias.map((item, i) => (
             <article
               key={item.slug}
               className="group relative flex h-[340px] flex-col justify-end overflow-hidden rounded-[28px] bg-neutral-900 p-6 font-inter text-white sm:h-[440px]"
@@ -46,9 +46,16 @@ export async function LatestNews() {
               <div className="absolute inset-0 bg-black/15" />
 
               <div className="relative">
-                <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-white backdrop-blur">
-                  {item.date}
-                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-white backdrop-blur">
+                    {item.date}
+                  </span>
+                  {i === 0 && isRecentNews(item.dateISO) && (
+                    <span className="inline-block rounded-full bg-gold-600 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
+                      Novo
+                    </span>
+                  )}
+                </div>
                 {/* font/cor explícitos: o base layer de h1–h4 (visual antigo) vence a herança */}
                 <h3 className="mt-4 font-inter text-xl font-bold leading-snug text-white">
                   {item.title}

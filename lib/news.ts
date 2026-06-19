@@ -56,6 +56,23 @@ export function formatNewsDate(iso: string | null): { date: string; dateISO: str
   return { date: `${day} ${month} ${year}`.trim(), dateISO: iso };
 }
 
+/** Janela (em dias) em que a notícia mais recente exibe a tag "Novo". */
+export const NEW_BADGE_DAYS = 7;
+
+/**
+ * A notícia foi publicada nos últimos {@link NEW_BADGE_DAYS} dias?
+ * Usado para a tag "Novo" da notícia mais recente. Páginas de notícia são
+ * dinâmicas (sem cache), então o cálculo reflete o momento da requisição e a
+ * tag some sozinha após uma semana.
+ */
+export function isRecentNews(iso: string | null): boolean {
+  if (!iso) return false;
+  const published = new Date(iso).getTime();
+  if (Number.isNaN(published)) return false;
+  const ageMs = Date.now() - published;
+  return ageMs >= 0 && ageMs <= NEW_BADGE_DAYS * 24 * 60 * 60 * 1000;
+}
+
 type CardSource = Pick<
   NewsRow,
   "slug" | "title" | "excerpt" | "cover_image_url" | "published_at"

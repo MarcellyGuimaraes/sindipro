@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { NewsCard } from "@/components/NewsCard";
-import { getNewsPage } from "@/lib/news";
+import { getNewsPage, isRecentNews } from "@/lib/news";
 
 export const metadata: Metadata = {
   title: "Notícias",
@@ -31,12 +31,7 @@ export default async function NoticiasPage({
       <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
         <PageHeader
           eyebrow="Notícias"
-          title={
-            <>
-              Notícias e
-              <br /> comunicados.
-            </>
-          }
+          title="Notícias e comunicados"
           lead="Acompanhe a atuação do Sindipro SE: negociações coletivas, pautas regulatórias, eventos e orientações para os provedores de Sergipe."
         />
 
@@ -50,6 +45,9 @@ export default async function NoticiasPage({
               // Na 1ª página, a notícia mais recente em destaque (2 colunas).
               const isFeature = current === 1 && i === 0;
               const isCompanion = current === 1 && i === 1;
+              // Só a notícia mais recente (1ª da 1ª página) ganha a tag "Novo",
+              // e apenas durante a primeira semana após a publicação.
+              const isNew = current === 1 && i === 0 && isRecentNews(n.dateISO);
               return (
                 <li key={n.slug} className={isFeature ? "md:col-span-2" : ""}>
                   <NewsCard
@@ -61,6 +59,7 @@ export default async function NoticiasPage({
                     imageAlt={n.imageAlt}
                     feature={isFeature}
                     tall={isCompanion}
+                    isNew={isNew}
                   />
                 </li>
               );

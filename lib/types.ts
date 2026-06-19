@@ -26,6 +26,26 @@ export type FileRow = {
   created_at: string;
 };
 
+/** Ações auditadas em `post_logs` (migration 0004). */
+export type PostLogAction =
+  | "created"
+  | "updated"
+  | "published"
+  | "unpublished"
+  | "deleted";
+
+/** Linha da tabela `post_logs` — log de quem mexeu na notícia e quando. */
+export type PostLogRow = {
+  id: string;
+  news_id: string | null;
+  news_slug: string | null;
+  news_title: string | null;
+  action: PostLogAction;
+  actor_id: string | null;
+  actor_email: string | null;
+  created_at: string;
+};
+
 /** Linha da tabela `news` (CLAUDE.md §14). */
 export type NewsRow = {
   id: string;

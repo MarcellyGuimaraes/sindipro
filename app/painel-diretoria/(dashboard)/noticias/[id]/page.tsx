@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { NewsForm } from "@/components/painel/NewsForm";
+import { NewsLogs } from "@/components/painel/NewsLogs";
 import type { NewsRow } from "@/lib/types";
 
 export default async function EditarNoticiaPage({
@@ -35,6 +36,7 @@ export default async function EditarNoticiaPage({
       <div className="mt-6">
         <NewsForm initial={noticia} />
       </div>
+      <NewsLogs newsId={noticia.id} />
     </div>
   );
 }

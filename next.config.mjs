@@ -34,6 +34,14 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  // isomorphic-dompurify carrega o jsdom via require dinâmico. O file-tracing do
+  // build serverless (Vercel) não segue esses requires, então a função da página
+  // da notícia quebra em runtime com 500 — embora funcione em dev e no
+  // `next start` local. Marcar como "external" faz o Next NÃO empacotar o pacote
+  // e exigi-lo do node_modules em runtime, que aí é rastreado por inteiro.
+  experimental: {
+    serverComponentsExternalPackages: ["isomorphic-dompurify"],
+  },
   images: {
     // SVGs (placeholders) são servidos com `unoptimized`, sem passar pelo
     // otimizador — por isso `dangerouslyAllowSVG` foi removido (segurança).
