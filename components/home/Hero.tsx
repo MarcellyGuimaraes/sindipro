@@ -11,10 +11,10 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden rounded-[28px]">
       <Image
-        src="/img/hero-sergipe.jpg"
-        alt="Vista aérea de Aracaju com o rio Sergipe e áreas de mangue"
-        width={1920}
-        height={1080}
+        src="/img/hero-aracaju.jpg"
+        alt="Vista aérea de Aracaju ao pôr do sol, com áreas de mangue e o casario ao fundo"
+        width={1170}
+        height={650}
         priority
         className="h-[64vh] min-h-[460px] w-full object-cover sm:h-[88vh] sm:min-h-[640px]"
       />
