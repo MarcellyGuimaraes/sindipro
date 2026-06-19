@@ -30,7 +30,7 @@ export default function QuemSomosPage() {
               Quem somos.
             </>
           }
-          lead="O Sindipro SE é o sindicato patronal que reúne e representa os provedores de internet e de serviço de comunicação multimídia do Estado de Sergipe, dando voz organizada ao setor perante o poder público, os órgãos reguladores e a sociedade."
+          lead="Conheça um pouco do SindiproSE e a nossa missão."
         />
 
         {/* História — card branco dividido */}
@@ -63,7 +63,7 @@ export default function QuemSomosPage() {
         {/* Missão — declaração em destaque sobre brand */}
         <div className="mt-5 rounded-[28px] bg-brand p-8 font-inter text-white md:p-12">
           <p className="text-sm font-medium text-white/70">Nossa missão</p>
-          <p className="mt-4 max-w-3xl text-2xl font-bold leading-snug tracking-tight md:text-4xl">
+          <p className="mt-4 max-w-3xl text-2xl leading-snug tracking-tight md:text-4xl">
             Representar, defender e fortalecer os provedores de internet e de
             serviço de comunicação multimídia de Sergipe, assegurando um
             ambiente regulatório e trabalhista equilibrado para o
