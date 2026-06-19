@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Upload, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { slugify } from "@/lib/slug";
-import { renderMarkdown } from "@/lib/markdown";
+import { renderMarkdown } from "@/lib/markdown.client";
 import type { NewsRow } from "@/lib/types";
 
 /**
@@ -128,7 +128,10 @@ export function NewsForm({ initial }: { initial?: NewsRow }) {
     router.refresh();
   }
 
-  const previewHtml = renderMarkdown(content || "_Nada para pré-visualizar._");
+  // Só sanitiza/renderiza quando a aba de preview está ativa (interação no
+  // browser, após a hidratação) — evita rodar o DOMPurify no SSR.
+  const previewHtml =
+    tab === "preview" ? renderMarkdown(content || "_Nada para pré-visualizar._") : "";
 
   return (
     <form onSubmit={onSubmit} className="max-w-3xl" noValidate>
