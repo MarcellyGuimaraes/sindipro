@@ -31,7 +31,6 @@ export default async function DiretoriaPage() {
     <main className="min-h-screen bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-5xl px-2 py-16 md:py-24">
         <PageHeader
-          eyebrow="Sobre o sindicato"
           title={
             <>
               Quadro de

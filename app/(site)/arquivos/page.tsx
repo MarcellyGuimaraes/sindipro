@@ -22,7 +22,6 @@ export default async function ArquivosPage() {
     <main className="min-h-screen bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
         <PageHeader
-          eyebrow="Arquivos"
           title={
             <>
               Convenções e acordos
@@ -40,10 +39,7 @@ export default async function ArquivosPage() {
           <div className="mt-14 space-y-16">
             {grupos.map((g) => (
               <div key={g.titulo}>
-                <p className="text-center font-inter text-sm font-medium text-black/60">
-                  {g.eyebrow}
-                </p>
-                <h2 className="mt-2 text-center font-inter text-3xl font-bold tracking-tight text-brand md:text-4xl">
+                <h2 className="text-center font-inter text-3xl font-bold tracking-tight text-brand md:text-4xl">
                   {g.titulo}
                 </h2>
                 <div className="mt-8 grid gap-5 md:grid-cols-2">

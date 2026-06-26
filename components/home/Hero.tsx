@@ -11,14 +11,16 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden rounded-[28px]">
       <Image
-        src="/img/hero-aracaju.jpg"
+        src="/img/hero-sergipe-1.jpg"
         alt="Vista aérea de Aracaju ao pôr do sol, com áreas de mangue e o casario ao fundo"
-        width={1170}
-        height={650}
+        width={2560}
+        height={1440}
         priority
+        quality={85}
+        sizes="100vw"
         className="h-[64vh] min-h-[460px] w-full object-cover sm:h-[88vh] sm:min-h-[640px]"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/55" />
+      <div className="absolute inset-0 bg-black/70" />
 
       {/* Copy do hero */}
       <div className="absolute inset-x-0 bottom-0 p-6 md:p-12">

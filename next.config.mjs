@@ -4,13 +4,20 @@
 // pelo runtime do Next sem nonce; o XSS do conteúdo já é barrado na origem
 // (sanitização em lib/markdown.ts), então o CSP aqui é defesa em profundidade.
 // connect-src libera as chamadas ao Supabase (REST/Auth/Storage/Realtime).
+//
+// 'unsafe-eval' SÓ em desenvolvimento: o Fast Refresh/HMR do Next usa eval()
+// no bundle de dev. Sem ele, o CSP bloqueia TODO o JS do cliente em dev — nada
+// hidrata e a página fica sem interatividade. Em produção o Next não usa eval,
+// então mantemos o CSP estrito (sem unsafe-eval).
+const isDev = process.env.NODE_ENV !== "production";
+
 const csp = [
   "default-src 'self'",
   "base-uri 'self'",
   "form-action 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'", // anti-clickjacking (cobre o painel)
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://*.supabase.co",
   "font-src 'self'",

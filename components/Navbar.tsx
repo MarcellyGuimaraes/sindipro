@@ -19,6 +19,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 
 const sobreLinks = [
   { href: "/sobre/quem-somos", label: "Quem somos" },
+  { href: "/sobre/missao-visao-valores", label: "Missão, visão e valores" },
   { href: "/sobre/diretoria", label: "Quadro de diretoria" },
   { href: "/sobre/imprensa", label: "Assessoria de imprensa" },
 ];

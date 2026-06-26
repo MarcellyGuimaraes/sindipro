@@ -23,7 +23,6 @@ export default function ImprensaPage() {
     <main className="min-h-screen bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
         <PageHeader
-          eyebrow="Sobre o sindicato"
           title="Assessoria de imprensa"
           lead="Canal para jornalistas e veículos de comunicação que buscam informações, entrevistas e posicionamentos do Sindipro SE sobre o setor de provedores de internet em Sergipe."
         />
@@ -31,8 +30,7 @@ export default function ImprensaPage() {
         {/* Contato — card dividido brand/branco */}
         <div className="mt-14 grid overflow-hidden rounded-[28px] md:grid-cols-2">
           <div className="bg-brand p-8 font-inter text-white md:p-12">
-            <p className="text-sm font-medium text-white/70">Falar com a imprensa</p>
-            <h2 className="mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-5xl">
+            <h2 className="font-inter text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-5xl">
               Contato
             </h2>
           </div>

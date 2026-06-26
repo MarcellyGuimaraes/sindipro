@@ -5,7 +5,7 @@
  */
 
 type PageHeaderProps = {
-  eyebrow: string;
+  eyebrow?: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   as?: "h1" | "h2";
@@ -25,7 +25,7 @@ export function PageHeader({
   const centered = align === "center";
   return (
     <div className={`font-inter ${centered ? "text-center" : ""} ${className ?? ""}`}>
-      <p className="text-sm font-medium text-black/60">{eyebrow}</p>
+      {eyebrow && <p className="text-sm font-medium text-black/60">{eyebrow}</p>}
       <Tag
         className={`mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-6xl ${
           centered ? "mx-auto max-w-3xl" : "max-w-3xl"

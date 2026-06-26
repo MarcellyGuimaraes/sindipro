@@ -24,7 +24,6 @@ export default function QuemSomosPage() {
     <main className="min-h-screen bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
         <PageHeader
-          eyebrow="Sobre o sindicato"
           title={
             <>
               Quem somos.
@@ -36,8 +35,7 @@ export default function QuemSomosPage() {
         {/* História — card branco dividido */}
         <div className="mt-14 grid overflow-hidden rounded-[28px] bg-white md:grid-cols-2">
           <div className="p-8 font-inter md:p-12">
-            <p className="text-sm font-medium text-black/60">Nossa história</p>
-            <h2 className="mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
+            <h2 className="font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
               História
             </h2>
           </div>
@@ -60,21 +58,9 @@ export default function QuemSomosPage() {
           </div>
         </div>
 
-        {/* Missão — declaração em destaque sobre brand */}
-        <div className="mt-5 rounded-[28px] bg-brand p-8 font-inter text-white md:p-12">
-          <p className="text-sm font-medium text-white/70">Nossa missão</p>
-          <p className="mt-4 max-w-3xl text-2xl leading-snug tracking-tight md:text-4xl">
-            Representar, defender e fortalecer os provedores de internet e de
-            serviço de comunicação multimídia de Sergipe, assegurando um
-            ambiente regulatório e trabalhista equilibrado para o
-            desenvolvimento do setor.
-          </p>
-        </div>
-
         {/* Objetivos */}
         <div className="mt-5 rounded-[28px] bg-white p-8 font-inter md:p-12">
-          <p className="text-sm font-medium text-black/60">O que fazemos</p>
-          <h2 className="mt-3 font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
+          <h2 className="font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-5xl">
             Nossos objetivos
           </h2>
           <ul className="mt-8 grid gap-x-10 gap-y-5 md:grid-cols-2">

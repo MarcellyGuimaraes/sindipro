@@ -62,7 +62,7 @@ export function Footer() {
         className="relative mt-8 overflow-hidden rounded-[28px] scroll-mt-20"
       >
         <Image
-          src="/img/hero-sergipe.jpg"
+          src="/img/footer-sergipe.jpg"
           alt=""
           fill
           sizes="100vw"

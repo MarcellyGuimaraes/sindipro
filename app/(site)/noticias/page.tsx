@@ -30,7 +30,6 @@ export default async function NoticiasPage({
     <main className="min-h-screen bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
         <PageHeader
-          eyebrow="Notícias"
           title="Notícias e comunicados"
           lead="Acompanhe a atuação do Sindipro SE: negociações coletivas, pautas regulatórias, eventos e orientações para os provedores de Sergipe."
         />
