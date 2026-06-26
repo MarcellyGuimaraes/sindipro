@@ -33,8 +33,7 @@ export default async function DiretoriaPage() {
         <PageHeader
           title={
             <>
-              Quadro de
-              <br /> diretoria.
+              Quadro de diretoria
             </>
           }
           lead="A diretoria conduz a representação institucional do Sindipro SE e a negociação coletiva do setor. Conheça quem responde pela entidade."
