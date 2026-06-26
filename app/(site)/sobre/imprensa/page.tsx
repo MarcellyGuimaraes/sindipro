@@ -36,7 +36,7 @@ const imprensa = {
 export default function ImprensaPage() {
   return (
     <main className="min-h-screen bg-cream px-4 md:px-8">
-      <div className="mx-auto max-w-6xl px-2 py-16 md:py-24">
+      <div className="mx-auto max-w-6xl px-2 pb-16 md:pb-24">
         <PageHeader
           title="Assessoria de imprensa"
           lead="Canal para jornalistas e veículos de comunicação que buscam informações, entrevistas e posicionamentos do Sindipro SE sobre o setor de provedores de internet em Sergipe."
@@ -107,8 +107,8 @@ export default function ImprensaPage() {
 
         {/* Continue conhecendo */}
         <div className="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <PillLink href="/sobre/quem-somos" tone="brand">
-            Quem somos
+          <PillLink href="/sobre/missao-visao-valores" tone="brand">
+            Sobre nós
           </PillLink>
           <PillLink href="/sobre/diretoria" tone="white">
             Quadro de diretoria

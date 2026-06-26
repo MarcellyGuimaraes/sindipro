@@ -29,7 +29,7 @@ export default async function DiretoriaPage() {
 
   return (
     <main className="min-h-screen bg-cream px-4 md:px-8">
-      <div className="mx-auto max-w-5xl px-2 py-16 md:py-24">
+      <div className="mx-auto max-w-5xl px-2 pb-16 md:pb-24">
         <PageHeader
           title={
             <>
@@ -71,8 +71,8 @@ export default async function DiretoriaPage() {
 
         {/* Continue conhecendo */}
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <PillLink href="/sobre/quem-somos" tone="brand">
-            Quem somos
+          <PillLink href="/sobre/missao-visao-valores" tone="brand">
+            Sobre nós
           </PillLink>
           <PillLink href="/sobre/imprensa" tone="white">
             Assessoria de imprensa

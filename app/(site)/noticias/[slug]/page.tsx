@@ -38,7 +38,7 @@ export default async function NoticiaPage({ params }: { params: Params }) {
 
   return (
     <main className="min-h-screen bg-cream px-4 md:px-8">
-      <div className="mx-auto max-w-3xl px-2 py-16 font-inter md:py-24">
+      <div className="mx-auto max-w-3xl px-2 pb-16 pt-8 font-inter md:pb-24">
         <Link
           href="/noticias"
           className="group inline-flex items-center gap-2 rounded-full bg-white py-1.5 pl-2 pr-4 text-sm font-medium text-black shadow-sm transition hover:bg-white/80"

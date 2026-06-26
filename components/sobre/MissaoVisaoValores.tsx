@@ -116,7 +116,6 @@ export function MissaoVisaoValores() {
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
-  const current = ITEMS[shown];
   const progress = (active + 1) / ITEMS.length;
 
   return (
@@ -182,15 +181,24 @@ export function MissaoVisaoValores() {
             </ul>
           </nav>
 
-          {/* Conteúdo do item ativo */}
-          <div className="relative min-w-0 min-h-[15rem] md:min-h-[14rem]">
-            <article
-              className={`rounded-2xl bg-white/[0.06] p-7 ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 md:p-10 ${
-                visible ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              {current.body}
-            </article>
+          {/* Conteúdo do item ativo.
+              Os três conteúdos ficam empilhados na MESMA célula de grid
+              (col-start-1/row-start-1), então o card assume sempre a altura do
+              maior item — a altura não muda ao alternar Missão/Visão/Valores. */}
+          <div className="relative grid min-w-0">
+            {ITEMS.map((it, i) => (
+              <article
+                key={it.id}
+                aria-hidden={i !== shown}
+                className={`col-start-1 row-start-1 rounded-2xl bg-white/[0.06] p-7 ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 md:p-10 ${
+                  i === shown && visible
+                    ? "opacity-100"
+                    : "pointer-events-none opacity-0"
+                }`}
+              >
+                {it.body}
+              </article>
+            ))}
           </div>
         </div>
       </div>

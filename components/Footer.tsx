@@ -28,7 +28,7 @@ const colunas: { title: string; links: { label: string; href: string }[] }[] = [
     title: "Acesso rápido",
     links: [
       { label: "Início", href: "/" },
-      { label: "Sobre nós", href: "/sobre/quem-somos" },
+      { label: "Sobre nós", href: "/sobre/missao-visao-valores" },
       { label: "Notícias", href: "/noticias" },
       { label: "Arquivos", href: "/arquivos" },
       { label: "Contato", href: `mailto:${contato.email}` },
