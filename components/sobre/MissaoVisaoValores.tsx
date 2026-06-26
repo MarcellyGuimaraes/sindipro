@@ -4,21 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { FeatherMark } from "@/components/Feather";
 
 /**
- * "Missão · Visão · Valores" — tela institucional do print do cliente.
+ * "Missão · Visão · Valores" — card institucional compacto.
  *
- * Seção "pinada" (sticky): enquanto a página rola, o painel fica fixo e o
- * DESTAQUE muda Missão → Visão → Valores, trocando o conteúdo à direita. A
- * navegação à esquerda também é clicável (vai até o item).
- *
- * O item ativo é dirigido por DOIS mecanismos redundantes (o que disparar
- * primeiro vence; ambos calculam o mesmo índice):
- *  1) evento de `scroll` (posição da seção → terço atual) — também alimenta o
- *     trilho de progresso;
- *  2) IntersectionObserver com uma faixa real no centro da viewport (sentinelas
- *     de uma viewport cada) — cobre o caso de o scroll não disparar.
- * Sem requestAnimationFrame: o estado de repouso é sempre visível, então o
- * conteúdo nunca some se o navegador limitar animações (também cobre
- * prefers-reduced-motion).
+ * Card pequeno em fluxo normal (não fixa a tela, não cria região de rolagem).
+ * A passagem entre os itens acontece de duas formas:
+ *  - CLIQUE nos rótulos;
+ *  - ROLAGEM com a roda do mouse SOBRE o card — enquanto houver próximo item, o
+ *    scroll é capturado e só troca o destaque (a página não rola); ao chegar no
+ *    primeiro/último, o scroll é liberado e a página rola normalmente.
+ * Assim a "rolagem" fica só dentro do card, sem espaço sobrando por fora.
  *
  * Identidade do site: superfície navy chapada (#1c4464), Inter, acento dourado
  * (gold-600) no item ativo + a pena (FeatherMark) como assinatura.
@@ -35,10 +29,11 @@ const ITEMS: Item[] = [
     id: "missao",
     label: "Missão",
     body: (
-      <p className="max-w-xl text-lg leading-relaxed text-white/80 md:text-2xl md:leading-snug">
-        Representar as empresas provedoras de internet de Sergipe como um setor organizado 
-        perante a sociedade civil, órgãos públicos e reguladores, ajudando no desenvolvimento 
-        dos associados e levando conectividade para os municípios do estado.
+      <p className="text-lg leading-relaxed text-white/85 md:text-2xl md:leading-snug">
+        Representar as empresas provedoras de internet de Sergipe como um setor
+        organizado perante a sociedade civil, órgãos públicos e reguladores,
+        ajudando no desenvolvimento dos associados e levando conectividade para os
+        municípios do estado.
       </p>
     ),
   },
@@ -46,7 +41,7 @@ const ITEMS: Item[] = [
     id: "visao",
     label: "Visão",
     body: (
-      <p className="max-w-xl text-lg leading-relaxed text-white/80 md:text-2xl md:leading-snug">
+      <p className="text-lg leading-relaxed text-white/85 md:text-2xl md:leading-snug">
         Ser a principal referência no fortalecimento e desenvolvimento do mercado
         de telecomunicações em Sergipe, promovendo a universalização da internet
         de alta qualidade em todo o estado.
@@ -57,7 +52,7 @@ const ITEMS: Item[] = [
     id: "valores",
     label: "Valores",
     body: (
-      <ul className="max-w-xl space-y-3.5 text-white/80">
+      <ul className="space-y-3.5 text-white/85">
         {[
           ["União e Colaboração", "Fortalecer o setor através da parceria entre os provedores associados."],
           ["Inovação", "Apoiar o constante desenvolvimento tecnológico e a modernização da infraestrutura da nossa região."],
@@ -80,60 +75,15 @@ const ITEMS: Item[] = [
 ];
 
 export function MissaoVisaoValores() {
-  const wrapperRef = useRef<HTMLElement>(null);
-  const sentinels = useRef<(HTMLDivElement | null)[]>([]);
-  // `active` = item destacado pela rolagem; `shown` = item renderizado no painel
-  // (defasado uma fração de segundo para o fade de troca).
+  const cardRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(0);
+  // `active` = item destacado; `shown` = item no painel (defasado p/ o crossfade).
   const [active, setActive] = useState(0);
   const [shown, setShown] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [progress, setProgress] = useState(0);
+  activeRef.current = active;
 
-  // Driver 1 — evento de scroll: progresso (0→1) e item por terços.
-  useEffect(() => {
-    const onScroll = () => {
-      const el = wrapperRef.current;
-      if (!el) return;
-      const range = el.offsetHeight - window.innerHeight;
-      if (range <= 0) {
-        setProgress(0);
-        setActive(0);
-        return;
-      }
-      const p = Math.min(1, Math.max(0, -el.getBoundingClientRect().top / range));
-      setProgress(p);
-      setActive(Math.min(ITEMS.length - 1, Math.floor(p * ITEMS.length)));
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  // Driver 2 — IntersectionObserver (faixa real no centro): redundante ao scroll.
-  useEffect(() => {
-    if (typeof IntersectionObserver === "undefined") return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setActive(Number((e.target as HTMLElement).dataset.idx));
-          }
-        }
-      },
-      // Faixa de ~2% de altura no centro (não zero): evita o caso degenerado em
-      // que o root de altura zero nunca reporta interseção.
-      { rootMargin: "-49% 0px -49% 0px", threshold: 0 }
-    );
-    sentinels.current.forEach((s) => s && obs.observe(s));
-    return () => obs.disconnect();
-  }, []);
-
-  // Crossfade: ao mudar o destaque, esmaece, troca o conteúdo e reaparece.
+  // Crossfade: ao trocar o destaque, esmaece, troca o conteúdo e reaparece.
   useEffect(() => {
     if (active === shown) return;
     setVisible(false);
@@ -144,109 +94,106 @@ export function MissaoVisaoValores() {
     return () => clearTimeout(t);
   }, [active, shown]);
 
-  function goTo(index: number) {
-    const el = wrapperRef.current;
+  // Rolagem só dentro do card: a roda do mouse sobre o card troca o item; nos
+  // extremos, libera o scroll da página (não prende o usuário).
+  useEffect(() => {
+    const el = cardRef.current;
     if (!el) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const top = el.getBoundingClientRect().top + window.scrollY;
-    const range = Math.max(0, el.offsetHeight - window.innerHeight);
-    const target = top + ((index + 0.5) / ITEMS.length) * range;
-    window.scrollTo({ top: target, behavior: reduce ? "auto" : "smooth" });
-  }
+    let locked = false;
+    const onWheel = (e: WheelEvent) => {
+      const dir = e.deltaY > 0 ? 1 : -1;
+      const next = activeRef.current + dir;
+      if (next < 0 || next >= ITEMS.length) return; // extremo: deixa a página rolar
+      e.preventDefault();
+      if (locked) return;
+      locked = true;
+      setActive(next);
+      window.setTimeout(() => {
+        locked = false;
+      }, 450);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
 
   const current = ITEMS[shown];
+  const progress = (active + 1) / ITEMS.length;
 
   return (
-    // A altura extra (uma viewport por item) é o "trilho" da rolagem; o cartão
-    // interno fica fixo (sticky) e troca o conteúdo conforme se avança.
-    <section
-      ref={wrapperRef}
+    <div
+      ref={cardRef}
       aria-label="Missão, visão e valores"
-      className="relative mt-5"
-      style={{ height: `${ITEMS.length * 100}vh` }}
+      className="relative mt-5 overflow-hidden rounded-[28px] bg-navy-900 font-inter"
     >
-      {/* Sentinelas invisíveis (uma viewport por item) para o IntersectionObserver. */}
-      {ITEMS.map((it, i) => (
-        <div
-          key={it.id}
-          ref={(el) => {
-            sentinels.current[i] = el;
-          }}
-          data-idx={i}
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 h-screen"
-          style={{ top: `${i * 100}vh` }}
-        />
-      ))}
+      {/* Pena dourada — assinatura, canto inferior direito */}
+      <FeatherMark
+        size={220}
+        className="pointer-events-none absolute -bottom-8 -right-6 opacity-[0.07]"
+      />
 
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden rounded-[28px] bg-navy-900 font-inter">
-        {/* Pena dourada — assinatura, canto inferior direito */}
-        <FeatherMark
-          size={260}
-          className="pointer-events-none absolute -bottom-10 -right-8 opacity-[0.07]"
-        />
+      <div className="relative px-6 py-10 md:px-14 md:py-12">
+        <p className="mb-8 text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-white/45 md:mb-10">
+          Identidade institucional
+        </p>
 
-        <div className="relative w-full px-6 py-12 md:px-14 md:py-16">
-          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-[300px_minmax(0,1fr)] md:gap-16">
-            {/* Navegação vertical (trilho de progresso + rótulos) */}
-            <nav className="flex items-stretch gap-5">
-              {/* Trilho de progresso — só desktop */}
-              <div className="relative hidden w-px shrink-0 self-stretch bg-white/15 md:block">
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 origin-top bg-gold-600 transition-[height] duration-300 ease-out"
-                  style={{ height: `${progress * 100}%` }}
-                />
-              </div>
-
-              <ul className="flex flex-1 flex-col gap-4 md:gap-5">
-                {ITEMS.map((it, i) => {
-                  const isActive = i === active;
-                  return (
-                    <li key={it.id} className="shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => goTo(i)}
-                        aria-current={isActive ? "true" : undefined}
-                        className="group flex items-center gap-3 text-left focus-visible:outline-none"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className={`h-2.5 w-2.5 shrink-0 rounded-full transition-all duration-300 ${
-                            isActive
-                              ? "scale-100 bg-gold-600"
-                              : "scale-75 bg-white/20 group-hover:bg-white/40"
-                          }`}
-                        />
-                        <span
-                          className={`font-bold uppercase leading-none tracking-tight transition-all duration-300 ${
-                            isActive
-                              ? "text-4xl text-white md:text-6xl"
-                              : "text-2xl text-white/30 group-hover:text-white/55 md:text-3xl"
-                          }`}
-                        >
-                          {it.label}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
-
-            {/* Conteúdo — painel translúcido que troca conforme o destaque */}
-            <div className="relative min-w-0 min-h-[16rem] md:min-h-[20rem]">
-              <article
-                className={`rounded-2xl bg-white/[0.06] p-7 ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 md:p-12 ${
-                  visible ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                {current.body}
-              </article>
+        <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-[260px_minmax(0,1fr)] md:gap-12">
+          {/* Lista de rótulos (clicáveis) + trilho de progresso */}
+          <nav className="flex items-stretch gap-5" aria-label="Selecionar missão, visão ou valores">
+            <div className="relative hidden w-px shrink-0 self-stretch bg-white/15 md:block">
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 origin-top bg-gold-600 transition-[height] duration-300 ease-out"
+                style={{ height: `${progress * 100}%` }}
+              />
             </div>
+
+            <ul className="flex flex-1 flex-col gap-4 md:gap-5">
+              {ITEMS.map((it, i) => {
+                const isActive = i === active;
+                return (
+                  <li key={it.id}>
+                    <button
+                      type="button"
+                      onClick={() => setActive(i)}
+                      aria-current={isActive ? "true" : undefined}
+                      className="group flex items-center gap-3 text-left focus-visible:outline-none"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`h-2.5 w-2.5 shrink-0 rounded-full transition-all duration-300 ${
+                          isActive
+                            ? "scale-100 bg-gold-600"
+                            : "scale-75 bg-white/20 group-hover:bg-white/40"
+                        }`}
+                      />
+                      <span
+                        className={`font-bold uppercase leading-none tracking-tight transition-all duration-300 ${
+                          isActive
+                            ? "text-4xl text-white md:text-5xl"
+                            : "text-2xl text-white/30 group-hover:text-white/55 md:text-3xl"
+                        }`}
+                      >
+                        {it.label}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          {/* Conteúdo do item ativo */}
+          <div className="relative min-w-0 min-h-[15rem] md:min-h-[14rem]">
+            <article
+              className={`rounded-2xl bg-white/[0.06] p-7 ring-1 ring-white/15 backdrop-blur-sm transition-opacity duration-300 md:p-10 ${
+                visible ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {current.body}
+            </article>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
