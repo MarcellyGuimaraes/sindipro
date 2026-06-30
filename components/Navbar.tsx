@@ -173,6 +173,15 @@ export function Navbar() {
               Arquivos
             </TopLink>
           </li>
+          <li>
+            <TopLink
+              href="/parceiros"
+              active={isActive(pathname, "/parceiros")}
+              floating={floating}
+            >
+              Parceiros
+            </TopLink>
+          </li>
         </ul>
 
         {/* Ações à direita (desktop) */}
@@ -257,6 +266,11 @@ export function Navbar() {
             <li>
               <MobileLink href="/arquivos" active={isActive(pathname, "/arquivos")}>
                 Arquivos
+              </MobileLink>
+            </li>
+            <li>
+              <MobileLink href="/parceiros" active={isActive(pathname, "/parceiros")}>
+                Parceiros
               </MobileLink>
             </li>
 

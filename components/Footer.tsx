@@ -31,6 +31,7 @@ const colunas: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Sobre nós", href: "/sobre/missao-visao-valores" },
       { label: "Notícias", href: "/noticias" },
       { label: "Arquivos", href: "/arquivos" },
+      { label: "Parceiros", href: "/parceiros" },
       { label: "Contato", href: `mailto:${contato.email}` },
     ],
   },
