@@ -13,6 +13,17 @@ export type BoardMemberRow = {
   updated_at: string;
 };
 
+/** Linha da tabela `partners` — parceiros do carrossel da home. */
+export type PartnerRow = {
+  id: string;
+  name: string;
+  logo_url: string | null;
+  link_url: string | null;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
 /** Linha da tabela `files` (CLAUDE.md §14). */
 export type FileRow = {
   id: string;

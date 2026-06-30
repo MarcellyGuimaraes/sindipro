@@ -11,7 +11,7 @@ import { ArrowRight } from "lucide-react";
  */
 export function About() {
   return (
-    <section id="sobre" className="mx-auto max-w-6xl px-2 pb-20 md:pb-28">
+    <section id="sobre" className="mx-auto max-w-6xl px-2 pt-10 pb-20 md:pt-14 md:pb-28">
       <div className="grid overflow-hidden rounded-[28px] md:grid-cols-2">
         <div className="bg-cream p-8 font-inter md:p-12">
           <p className="text-sm font-medium text-black/60">Conheça o SindiproSE</p>
@@ -39,8 +39,8 @@ export function About() {
         </div>
         <div className="relative min-h-[320px]">
           <Image
-            src="/img/casa-comercio.png"
-            alt="Casa do Comércio - Laércio Oliveira, sede da Fecomércio SE"
+            src="/img/sobre-aracaju.jpg"
+            alt="Vista aérea de Aracaju"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"

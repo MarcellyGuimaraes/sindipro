@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Newspaper, FolderClosed, Users } from "lucide-react";
+import { Newspaper, FolderClosed, Users, Handshake } from "lucide-react";
 import { LogoutButton } from "./LogoutButton";
 
 /**
@@ -15,6 +15,7 @@ const nav = [
   { href: "/painel-diretoria/noticias", label: "Notícias", icon: Newspaper },
   { href: "/painel-diretoria/arquivos", label: "Arquivos", icon: FolderClosed },
   { href: "/painel-diretoria/diretoria", label: "Diretoria", icon: Users },
+  { href: "/painel-diretoria/parceiros", label: "Parceiros", icon: Handshake },
 ];
 
 export function DashboardShell({

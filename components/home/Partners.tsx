@@ -1,65 +1,93 @@
 import Image from "next/image";
+import { getPartners, type PartnerPublic } from "@/lib/partners";
 
 /**
- * "Parceiros" — visual Lovable: faixa discreta sobre o cream, rótulo central
- * pequeno em black/60 (mesma linguagem dos eyebrows do mock) e logos em
- * cinza no repouso → cor no hover.
+ * "Parceiros" — faixa discreta sobre o cream (sem fundo colorido). Os logos
+ * passam num carrossel automático (marquee, ver .animate-marquee no globals.css)
+ * que pausa no hover.
  *
- * TODO: lista real de parceiros (nome + arquivo de logo). Enquanto não houver
- * logo, renderizamos um placeholder de wordmark — nada de logo inventado.
+ * Conteúdo vem do Supabase (tabela `partners`, gerida pelo painel). A seção some
+ * quando não há parceiros cadastrados.
+ *
+ * Acessibilidade: a 2ª metade da faixa é decorativa (aria-hidden) e o movimento
+ * é desligado por prefers-reduced-motion (globals.css). Logos com fundo branco
+ * usam mix-blend-multiply para casar com o cream.
  */
 
-type Partner = {
-  nome: string;
-  /** Caminho do logo real quando existir (ex.: /parceiros/anatel.svg). */
-  logo?: string;
-};
+function LogoItem({
+  partner,
+  decorativo,
+}: {
+  partner: PartnerPublic;
+  decorativo?: boolean;
+}) {
+  const conteudo = partner.logoUrl ? (
+    <Image
+      src={partner.logoUrl}
+      alt={partner.name}
+      width={180}
+      height={64}
+      className="h-12 w-auto object-contain mix-blend-multiply sm:h-14"
+      unoptimized
+    />
+  ) : (
+    // Sem logo enviado ainda → wordmark com o nome.
+    <span className="select-none font-inter text-xl font-bold tracking-tight text-black/30">
+      {partner.name}
+    </span>
+  );
 
-// TODO: substituir pelos parceiros reais e seus logos.
-const parceiros: Partner[] = [
-  { nome: "Parceiro 1" },
-  { nome: "Parceiro 2" },
-  { nome: "Parceiro 3" },
-  { nome: "Parceiro 4" },
-  { nome: "Parceiro 5" },
-];
-
-export function Partners() {
   return (
-    <section id="parceiros" className="mx-auto max-w-6xl px-2 pb-20 md:pb-28">
-      <p className="text-center font-inter text-sm font-medium text-black/60">
-        Parceiros e apoiadores
-      </p>
+    <li
+      className="mr-12 flex shrink-0 items-center sm:mr-16"
+      aria-hidden={decorativo}
+    >
+      {partner.linkUrl ? (
+        <a
+          href={partner.linkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={partner.name}
+          tabIndex={decorativo ? -1 : undefined}
+          className="focus-visible:outline-brand"
+        >
+          {conteudo}
+        </a>
+      ) : (
+        conteudo
+      )}
+    </li>
+  );
+}
 
-      <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-12 gap-y-8 sm:gap-x-16">
-        {parceiros.map((p) => (
-          <li key={p.nome}>
-            {p.logo ? (
-              <Image
-                src={p.logo}
-                alt={p.nome}
-                width={140}
-                height={48}
-                className="h-10 w-auto object-contain opacity-60 grayscale transition duration-200 hover:opacity-100 hover:grayscale-0"
-                unoptimized={p.logo.endsWith(".svg")}
-              />
-            ) : (
-              // Placeholder de wordmark — substituível pelo logo real.
-              <span
-                className="select-none font-inter text-xl font-bold tracking-tight text-black/40 transition-colors duration-200 hover:text-brand"
-                title="TODO: logo do parceiro"
-              >
-                {p.nome}
-              </span>
-            )}
-          </li>
-        ))}
-      </ul>
+export async function Partners() {
+  const parceiros = await getPartners();
+  if (parceiros.length === 0) return null;
 
-      <p className="mt-10 text-center font-inter text-xs text-black/40">
-        {/* visível só enquanto a lista real não chega */}
-        Lista de parceiros a confirmar.
-      </p>
+  // A faixa precisa ser larga o bastante para preencher a tela; repete a lista
+  // curta até ter um mínimo de itens, depois duplica tudo para o loop (-50%).
+  const MIN_ITENS = 8;
+  const repeticoes = Math.max(1, Math.ceil(MIN_ITENS / parceiros.length));
+  const faixa = Array.from({ length: repeticoes }).flatMap(() => parceiros);
+
+  return (
+    <section id="parceiros" className="mx-auto max-w-6xl px-2 py-10 md:py-14">
+      {/* Carrossel: faixa com duas cópias para loop contínuo (-50%). */}
+      <div className="group relative overflow-hidden">
+        {/* Esmaecimento nas bordas, no tom do fundo */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-cream to-transparent md:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-cream to-transparent md:w-24" />
+
+        <ul className="flex w-max animate-marquee items-center group-hover:[animation-play-state:paused]">
+          {faixa.map((p, i) => (
+            <LogoItem key={`${p.id}-${i}`} partner={p} />
+          ))}
+          {/* Cópia decorativa para o loop sem emenda */}
+          {faixa.map((p, i) => (
+            <LogoItem key={`dup-${p.id}-${i}`} partner={p} decorativo />
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

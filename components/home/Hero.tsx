@@ -11,7 +11,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden rounded-[28px]">
       <Image
-        src="/img/hero-sergipe-1.jpg"
+        src="/img/hero-antena.jpg"
         alt="Vista aérea de Aracaju ao pôr do sol, com áreas de mangue e o casario ao fundo"
         width={2560}
         height={1440}

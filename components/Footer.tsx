@@ -16,7 +16,7 @@ import { Mail, Phone, Instagram } from "lucide-react";
  */
 
 const contato = {
-  email: "contato@sindiprose.org.br", // TODO: confirmar
+  email: "adm.novi.se@gmail.com",
   telefone: "(79) 0000-0000", // TODO: confirmar
   telefoneHref: "+5579000000000", // TODO: confirmar
   instagramHref: "https://www.instagram.com/sindiprose/",
@@ -39,19 +39,19 @@ const colunas: { title: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: "Diretoria", href: "/sobre/diretoria" },
       { label: "Assessoria de imprensa", href: "/sobre/imprensa" },
+      { label: "Arquivos", href: "/arquivos" },
       // { label: "Estatuto", href: "#" }, // TODO: página/PDF do estatuto
       // { label: "Política de Privacidade", href: "#" }, // TODO
     ],
   },
-  {
-    title: "Para provedores",
-    links: [
-      { label: "Associe-se", href: `mailto:${contato.email}` }, // TODO: fluxo real
-      { label: "Convenções (CCT/ACT)", href: "/arquivos" },
-      // { label: "Capacitação", href: "/noticias" }, // TODO: página própria
-      // { label: "Suporte jurídico", href: `mailto:${contato.email}` }, // TODO
-    ],
-  },
+  // {
+  //   title: "Para provedores",
+  //   links: [
+  //     { label: "Associe-se", href: `mailto:${contato.email}` }, // TODO: fluxo real
+  //     // { label: "Capacitação", href: "/noticias" }, // TODO: página própria
+  //     // { label: "Suporte jurídico", href: `mailto:${contato.email}` }, // TODO
+  //   ],
+  // },
 ];
 
 export function Footer() {
@@ -62,13 +62,13 @@ export function Footer() {
         className="relative mt-8 overflow-hidden rounded-[28px] scroll-mt-20"
       >
         <Image
-          src="/img/footer-sergipe.jpg"
+          src="/img/footer-antena.png"
           alt=""
           fill
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/80" />
+        <div className="absolute inset-0 bg-black/60" />
 
         <div className="relative px-6 py-12 font-inter text-white md:px-14 md:py-16">
           {/* Topo: Newsletter */}

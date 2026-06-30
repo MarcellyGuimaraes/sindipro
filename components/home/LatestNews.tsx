@@ -13,7 +13,7 @@ export async function LatestNews() {
   const noticias = await getLatestNews(3);
 
   return (
-    <section id="noticias" className="mx-auto max-w-6xl px-2 py-20 md:py-28">
+    <section id="noticias" className="mx-auto max-w-6xl px-2 pb-20 md:pb-28">
       <p className="text-center font-inter text-sm font-medium text-black/60">
         Últimas notícias
       </p>

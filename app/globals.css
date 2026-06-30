@@ -27,6 +27,26 @@
   --gold-200: #dcc99e;
 }
 
+/*
+ * Carrossel de parceiros (marquee). Definido aqui (não no tailwind.config)
+ * porque mudança de config não recarrega via HMR; CSS sim.
+ * A faixa tem duas cópias idênticas e desloca -50% → loop sem emenda.
+ * Pausa no hover e o prefers-reduced-motion abaixo desliga o movimento.
+ */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+  will-change: transform;
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
