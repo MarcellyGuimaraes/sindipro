@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { LoginForm } from "@/components/painel/LoginForm";
 
 export const metadata: Metadata = {
-  title: "Entrar — Painel da diretoria",
+  title: "Entrar - Painel da diretoria",
   robots: { index: false, follow: false },
 };
 
