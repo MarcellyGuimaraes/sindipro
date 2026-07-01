@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 const imprensa = {
-  email: "adm.novi.se@gmail.com",
+  email: "contato@sindiprose.com.br",
   // WhatsApp: número internacional (55 + DDD + número) para o link wa.me.
   contatos: [
     { nome: "Maurício", whatsapp: "(79) 99151-0291", href: "https://wa.me/5579991510291" },

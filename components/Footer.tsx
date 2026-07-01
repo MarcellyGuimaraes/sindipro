@@ -16,9 +16,9 @@ import { Mail, Phone, Instagram } from "lucide-react";
  */
 
 const contato = {
-  email: "adm.novi.se@gmail.com",
-  telefone: "(79) 0000-0000", // TODO: confirmar
-  telefoneHref: "+5579000000000", // TODO: confirmar
+  email: "contato@sindiprose.com.br",
+  telefone: "(79) 9 8857-6962", // TODO: confirmar
+  telefoneHref: "+5579988576962", // TODO: confirmar
   instagramHref: "https://www.instagram.com/sindiprose/",
 };
 
