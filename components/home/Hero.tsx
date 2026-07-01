@@ -18,7 +18,7 @@ export function Hero() {
         priority
         quality={85}
         sizes="100vw"
-        className="h-[64vh] min-h-[460px] w-full object-cover sm:h-[88vh] sm:min-h-[640px]"
+        className="h-[64vh] min-h-[460px] w-full object-cover object-[74%_50%] sm:h-[88vh] sm:min-h-[640px] sm:object-center"
       />
       <div className="absolute inset-0 bg-black/70" />
 

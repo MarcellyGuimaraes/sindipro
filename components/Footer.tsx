@@ -67,11 +67,11 @@ export function Footer() {
           alt=""
           fill
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-[68%_center] md:object-center"
         />
         <div className="absolute inset-0 bg-black/60" />
 
-        <div className="relative px-6 py-12 font-inter text-white md:px-14 md:py-16">
+        <div className="relative px-6 py-10 font-inter text-white md:px-14 md:py-16">
           {/* Topo: Newsletter */}
           {/* <div className="grid gap-10 md:grid-cols-2 md:gap-8">
             <h2 className="font-inter text-6xl font-bold leading-[0.9] tracking-tight text-white md:text-8xl">
@@ -107,9 +107,9 @@ export function Footer() {
           
 
           {/* Colunas */}
-          <div className="grid gap-10 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 md:gap-10">
             {/* Marca + contatos obrigatórios */}
-            <div>
+            <div className="col-span-2 md:col-span-1">
               <Image
                 src="/img/sindipro-logo.png"
                 alt="Sindipro SE"
@@ -184,7 +184,7 @@ export function Footer() {
           </div>
 
           {/* Base */}
-          <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-white/15 pt-6 text-xs text-white/60 md:flex-row md:items-center">
+          <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-white/15 pt-6 text-xs text-white/60 md:mt-14 md:flex-row md:items-center">
             <p>
               Copyright © {new Date().getFullYear()} Sindipro SE - Todos os
               direitos reservados.
