@@ -14,9 +14,9 @@ export async function LatestNews() {
 
   return (
     <section id="noticias" className="mx-auto max-w-6xl px-2 pb-20 md:pb-28">
-      <p className="text-center font-inter text-sm font-medium text-black/60">
+      {/* <p className="text-center font-inter text-sm font-medium text-black/60">
         Últimas notícias
-      </p>
+      </p> */}
       <h2 className="mx-auto mt-3 max-w-3xl text-center font-inter text-4xl font-bold leading-[1.05] tracking-tight text-brand md:text-6xl">
         Notícias que impactam os
         <br /> provedores de Sergipe.
