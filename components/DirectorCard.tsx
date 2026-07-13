@@ -42,7 +42,14 @@ export function DirectorCard({
         className="object-cover object-top transition duration-500 group-hover:scale-105"
         unoptimized={image.endsWith(".svg")}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+      {/* Overlay só o necessário p/ legenda — fotos menores ficavam muito escuras */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-t to-transparent ${
+          wide
+            ? "from-black/70 via-black/20"
+            : "from-black/50 via-black/10"
+        }`}
+      />
 
       {!hideCaption && (
         <div className="relative">
