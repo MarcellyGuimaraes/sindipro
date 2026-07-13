@@ -13,8 +13,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-cream px-4 pt-4 md:px-8 md:pt-6">
       <Hero />
-      <About />
       <LatestNews />
+      <About />
       <Associate />
     </main>
   );
