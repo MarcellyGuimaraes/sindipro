@@ -26,10 +26,12 @@ export const metadata: Metadata = {
 
 const imprensa = {
   email: "contato@sindiprose.com.br",
+  whatsapp: "(79) 98857-6962",
+  whatsappHref: "https://wa.me/5579988576962",
   // WhatsApp: número internacional (55 + DDD + número) para o link wa.me.
   contatos: [
-    { nome: "Maurício", whatsapp: "(79) 99151-0291", href: "https://wa.me/5579991510291" },
-    { nome: "Karla", whatsapp: "(79) 98106-0143", href: "https://wa.me/5579981060143" },
+    { nome: "Maurício Meneses", whatsapp: "(79) 99151-0291", href: "https://wa.me/5579991510291" },
+    { nome: "Karla Vieira", whatsapp: "(79) 98106-0143", href: "https://wa.me/5579981060143" },
   ],
 };
 
@@ -75,6 +77,17 @@ export default function ImprensaPage() {
                     <Mail className="h-4 w-4" aria-hidden="true" />
                   </span>
                   <span className="break-all">{imprensa.email}</span>
+                </a>
+                <a
+                  href={imprensa.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-3 text-sm font-medium text-black/70 transition hover:text-brand"
+                >
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand/10 text-brand">
+                    <WhatsappIcon className="h-4 w-4" />
+                  </span>
+                  {imprensa.whatsapp}
                 </a>
               </div>
 

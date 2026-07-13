@@ -30,10 +30,9 @@ const ITEMS: Item[] = [
     label: "Missão",
     body: (
       <p className="text-lg leading-relaxed text-white/85 md:text-2xl md:leading-snug">
-        Representar as empresas provedoras de internet de Sergipe como um setor
-        organizado perante a sociedade civil, órgãos públicos e reguladores,
-        ajudando no desenvolvimento dos associados e levando conectividade para os
-        municípios do estado.
+        Representar os Provedores de Internet de Sergipe perante a sociedade civil,
+        órgãos públicos e agências reguladoras, ajudando no desenvolvimento dos
+        associados e do estado de Sergipe.
       </p>
     ),
   },
@@ -54,10 +53,10 @@ const ITEMS: Item[] = [
     body: (
       <ul className="space-y-3.5 text-white/85">
         {[
-          ["União e Colaboração", "Fortalecer o setor através da parceria entre os provedores associados."],
+          ["Ética e Transparência", "Agir com integridade perante os associados, a sociedade e os órgãos reguladores."],
+          ["União e Colaboração", "Fortalecer o setor através da parceria entre os provedores associados e fornecedores."],
           ["Inovação", "Apoiar o constante desenvolvimento tecnológico e a modernização da infraestrutura da nossa região."],
           ["Inclusão Digital", "Garantir que a conectividade de verdade chegue a todas as pessoas e municípios sergipanos."],
-          ["Ética e Transparência", "Agir com integridade perante os associados, a sociedade e os órgãos reguladores."],
         ].map(([titulo, desc]) => (
           <li key={titulo} className="flex gap-3">
             <span

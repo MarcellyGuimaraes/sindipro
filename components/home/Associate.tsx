@@ -2,23 +2,10 @@ import { Mail } from "lucide-react";
 
 /**
  * "Associe-se" — convite para associação. Layout em seção escura (navy-900):
- * dois cartões de contato à esquerda (e-mail em destaque azul `brand`, WhatsApp
- * em cartão escuro sutil) e o checklist de documentos num card branco à direita.
- *
- * Re-skinizado nos tokens da Sindipro (o mock de referência usava um verde-água
- * fora da paleta — trocado pelo azul `brand` + dourado de acento).
+ * cartões de contato (e-mail em destaque azul `brand`, WhatsApp em cartão escuro
+ * sutil). Documentação e requisitos são tratados no atendimento — sem checklist
+ * público no site.
  */
-
-const documentos = [
-  "Contrato social",
-  "Última alteração contratual",
-  "Cartão do CNPJ atualizado",
-  "RG e CPF ou CNH dos representantes legais",
-  "Comprovante de residência dos representantes legais",
-  "Ato de outorga da ANATEL",
-  "Número de contrato ou comprovante de registro de protocolo para uso mútuo de postes",
-  "Comprovante de registro no Conselho Regional de Engenharia e Agronomia (CREA) ou (CFT)",
-];
 
 const contato = {
   email: "contato@sindiprose.com.br",
@@ -49,74 +36,54 @@ export function Associate() {
           Faça parte do SindiproSE
         </h2>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/60">
-          Confira os documentos necessários para associação.
+          Entre em contato com nossa equipe para saber como se associar. Documentação
+          e requisitos são orientados no atendimento.
         </p>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-[1fr_1.2fr] md:gap-8">
-          {/* Contatos */}
-          <div className="space-y-6">
-            {/* E-mail — cartão de destaque */}
-            <a
-              href={`mailto:${contato.email}`}
-              className="group block rounded-[20px] bg-brand p-5 transition hover:bg-brand/90 focus-visible:outline-bg sm:p-6"
-            >
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white">
-                <Mail className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <h3 className="mt-4 font-inter text-base font-semibold text-white">
-                E-mail institucional
-              </h3>
-              <p className="mt-1 text-sm leading-relaxed text-white/75">
-                Para se associar ao SindiproSE, envie os documentos para o
-                endereço oficial.
-              </p>
-              <span className="mt-4 inline-flex max-w-full items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm font-medium text-brand">
-                <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span className="break-all">{contato.email}</span>
-              </span>
-            </a>
-
-            {/* WhatsApp — cartão escuro sutil */}
-            <a
-              href={contato.whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block rounded-[20px] border border-white/10 bg-white/5 p-5 transition hover:bg-white/10 focus-visible:outline-bg sm:p-6"
-            >
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white">
-                <WhatsAppIcon className="h-5 w-5" />
-              </span>
-              <h3 className="mt-4 font-inter text-base font-semibold text-white">
-                Suporte via WhatsApp
-              </h3>
-              <p className="mt-1 text-sm leading-relaxed text-white/70">
-                Em caso de dúvidas sobre o processo de filiação, nossa equipe
-                está pronta para ajudar.
-              </p>
-              <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-sm font-medium text-white">
-                <WhatsAppIcon className="h-4 w-4" />
-                {contato.whatsapp}
-              </span>
-            </a>
-          </div>
-
-          {/* Checklist de documentos */}
-          <div className="rounded-[20px] bg-white p-6 md:p-8">
-            <p className="text-center font-inter text-xs font-semibold uppercase tracking-[0.12em] text-black/50">
-              Documentos necessários
+        <div className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8">
+          {/* E-mail — cartão de destaque */}
+          <a
+            href={`mailto:${contato.email}`}
+            className="group block rounded-[20px] bg-brand p-5 transition hover:bg-brand/90 focus-visible:outline-bg sm:p-6"
+          >
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white">
+              <Mail className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <h3 className="mt-4 font-inter text-base font-semibold text-white">
+              E-mail institucional
+            </h3>
+            <p className="mt-1 text-sm leading-relaxed text-white/75">
+              Escreva para o endereço oficial e nossa equipe orientará o processo
+              de filiação e a documentação necessária.
             </p>
-            <div className="mt-5 h-px w-full bg-black/10" />
-            <ul className="mt-5 space-y-3">
-              {documentos.map((doc) => (
-                <li
-                  key={doc}
-                  className="text-sm leading-relaxed text-black/70"
-                >
-                  {doc}
-                </li>
-              ))}
-            </ul>
-          </div>
+            <span className="mt-4 inline-flex max-w-full items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm font-medium text-brand">
+              <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className="break-all">{contato.email}</span>
+            </span>
+          </a>
+
+          {/* WhatsApp — cartão escuro sutil */}
+          <a
+            href={contato.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block rounded-[20px] border border-white/10 bg-white/5 p-5 transition hover:bg-white/10 focus-visible:outline-bg sm:p-6"
+          >
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white">
+              <WhatsAppIcon className="h-5 w-5" />
+            </span>
+            <h3 className="mt-4 font-inter text-base font-semibold text-white">
+              Suporte via WhatsApp
+            </h3>
+            <p className="mt-1 text-sm leading-relaxed text-white/70">
+              Dúvidas sobre associação, documentos ou prazos? Fale diretamente com
+              nossa equipe de atendimento.
+            </p>
+            <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-sm font-medium text-white">
+              <WhatsAppIcon className="h-4 w-4" />
+              {contato.whatsapp}
+            </span>
+          </a>
         </div>
       </div>
     </section>
