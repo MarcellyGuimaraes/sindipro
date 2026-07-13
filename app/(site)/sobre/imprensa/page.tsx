@@ -67,7 +67,7 @@ export default function ImprensaPage() {
               {/* E-mail */}
               <div className="md:pr-10">
                 <p className="text-xs font-semibold uppercase tracking-[0.08em] text-black/40">
-                  E-mail
+                Contato Sindipro SE
                 </p>
                 <a
                   href={`mailto:${imprensa.email}`}
@@ -94,9 +94,6 @@ export default function ImprensaPage() {
               {/* WhatsApp — um por contato */}
               {imprensa.contatos.map((c, i) => (
                 <div key={c.nome} className={i === 0 ? "md:px-10" : "md:pl-10"}>
-                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-black/40">
-                    WhatsApp
-                  </p>
                   <p className="mt-4 text-lg font-bold leading-tight text-black">
                     {c.nome}
                   </p>

@@ -8,12 +8,11 @@ import { Loader2 } from "lucide-react";
  * indicador. Evita a sensação de "tela travada" enquanto o servidor responde.
  */
 export default function Loading() {
-  return (
-    <div className="flex min-h-[60vh] items-center justify-center bg-cream px-4">
-      <div className="flex items-center gap-3 text-brand" role="status" aria-live="polite">
-        <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-        <span className="font-inter text-sm font-medium">Carregando…</span>
-      </div>
-    </div>
-  );
+  return (null);
+  // <div className="flex min-h-[60vh] items-center justify-center bg-cream px-4">
+    //   <div className="flex items-center gap-3 text-brand" role="status" aria-live="polite">
+    //     <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+    //     <span className="font-inter text-sm font-medium">Carregando…</span>
+    //   </div>
+    // </div>);
 }
