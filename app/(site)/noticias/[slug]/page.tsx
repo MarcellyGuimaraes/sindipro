@@ -37,7 +37,7 @@ export default async function NoticiaPage({ params }: { params: Params }) {
   const contentHtml = noticia.content ? renderMarkdown(noticia.content) : "";
 
   return (
-    <main className="min-h-screen bg-cream px-4 md:px-8">
+    <main className="min-h-screen animate-fade-in bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-3xl px-2 pb-16 pt-8 font-inter md:pb-24">
         <Link
           href="/noticias"

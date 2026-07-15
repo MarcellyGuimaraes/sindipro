@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function MissaoVisaoValoresPage() {
   return (
-    <main className="bg-cream px-4 md:px-8">
+    <main className="animate-fade-in bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-6xl px-2">
         <PageHeader
           title="Sobre nós"

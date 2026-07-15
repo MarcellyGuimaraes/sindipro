@@ -5,20 +5,20 @@ import { Instagram } from "lucide-react";
  * Hero — novo visual (referência Lovable "Pixel Perfect Page").
  * Imagem full-bleed em card arredondado (28px), gradiente de leitura,
  * headline Inter bold gigante no canto inferior-esquerdo e CTA em pílula.
- * A navegação flutua por cima via Navbar global (variante "floating" na home).
+ * A Navbar global fica fixa acima, no fluxo normal — não flutua sobre a Hero.
  */
 export function Hero() {
   return (
     <section className="relative overflow-hidden rounded-[28px]">
       <Image
-        src="/img/hero-antena.jpg"
+        src="/img/hero-teste.jpeg"
         alt="Vista aérea de Aracaju ao pôr do sol, com áreas de mangue e o casario ao fundo"
         width={2560}
         height={1440}
         priority
         quality={85}
         sizes="100vw"
-        className="h-[64vh] min-h-[460px] w-full object-cover object-[74%_50%] sm:h-[88vh] sm:min-h-[640px] sm:object-center"
+        className="h-[52vh] min-h-[380px] w-full object-cover object-[74%_50%] sm:h-[70vh] sm:min-h-[520px] sm:object-center"
       />
       <div className="absolute inset-0 bg-black/70" />
 

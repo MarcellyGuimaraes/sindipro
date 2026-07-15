@@ -63,7 +63,7 @@ export function Footer() {
         className="relative mt-8 overflow-hidden rounded-[28px] scroll-mt-20"
       >
         <Image
-          src="/img/footer-antena.png"
+          src="/img/footer.jpeg"
           alt=""
           fill
           sizes="100vw"

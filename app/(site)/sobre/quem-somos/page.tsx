@@ -21,7 +21,7 @@ const objetivos = [
 
 export default function QuemSomosPage() {
   return (
-    <main className="min-h-screen bg-cream px-4 md:px-8">
+    <main className="min-h-screen animate-fade-in bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-6xl px-2 pb-16 md:pb-24">
         <PageHeader
           title={

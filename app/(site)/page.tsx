@@ -11,7 +11,7 @@ import { Associate } from "@/components/home/Associate";
  */
 export default function Home() {
   return (
-    <main className="min-h-screen bg-cream px-4 pt-4 md:px-8 md:pt-6">
+    <main className="min-h-screen animate-fade-in bg-cream px-4 pt-4 md:px-8 md:pt-6">
       <Hero />
       <LatestNews />
       <About />

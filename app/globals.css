@@ -47,6 +47,27 @@
   will-change: transform;
 }
 
+/*
+ * Fade-in de entrada do conteúdo da página. Sem loading.tsx com spinner, o
+ * conteúdo (Server Component com fetch no Supabase) aparecia de repente,
+ * deixando um vazio antes. Isso suaviza a chegada: fade + leve subida, uma
+ * vez, ao montar.
+ */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;

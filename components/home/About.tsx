@@ -39,7 +39,7 @@ export function About() {
         </div>
         <div className="relative min-h-[320px]">
           <Image
-            src="/img/sobre-aracaju.jpg"
+            src="/img/sobre-nos.jpeg"
             alt="Vista aérea de Aracaju"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
