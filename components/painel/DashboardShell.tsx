@@ -6,8 +6,10 @@ import { usePathname } from "next/navigation";
 import {
   Newspaper,
   FolderClosed,
+  FolderLock,
   Users,
   Handshake,
+  UserCog,
   Menu,
   X,
 } from "lucide-react";
@@ -28,6 +30,12 @@ const nav: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/painel-diretoria/arquivos", label: "Arquivos", icon: FolderClosed },
   { href: "/painel-diretoria/diretoria", label: "Diretoria", icon: Users },
   { href: "/painel-diretoria/parceiros", label: "Parceiros", icon: Handshake },
+  { href: "/painel-diretoria/associados", label: "Associados", icon: UserCog },
+  {
+    href: "/painel-diretoria/arquivos-associado",
+    label: "Arquivos do associado",
+    icon: FolderLock,
+  },
 ];
 
 export function DashboardShell({

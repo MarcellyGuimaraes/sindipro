@@ -57,6 +57,33 @@ export type PostLogRow = {
   created_at: string;
 };
 
+/** Pastas da área logada do associado (CLAUDE.md §15). */
+export type MemberFileFolder = "arquivos" | "atas" | "editais" | "comunicados";
+
+/** Linha da tabela `member_files` — arquivos do bucket privado (CLAUDE.md §15). */
+export type MemberFileRow = {
+  id: string;
+  title: string;
+  folder: MemberFileFolder;
+  description: string | null;
+  storage_path: string;
+  size_bytes: number | null;
+  mime_type: string | null;
+  uploaded_by: string | null;
+  created_at: string;
+};
+
+/** Linha da tabela `profiles` — dados do associado (CLAUDE.md §15). */
+export type ProfileRow = {
+  id: string;
+  full_name: string;
+  company: string;
+  email: string;
+  status: "ativo" | "inativo";
+  created_at: string;
+  updated_at: string;
+};
+
 /** Linha da tabela `news` (CLAUDE.md §14). */
 export type NewsRow = {
   id: string;

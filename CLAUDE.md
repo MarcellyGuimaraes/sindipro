@@ -407,3 +407,62 @@ Total: 12.
   "Conselho Fiscal — Suplentes", cada uma respeitando display_order.
 - Card de diretor: foto, nome, cargo. Sóbrio, institucional, na identidade do
   site (não é o card proibido de "ícone + título + texto").
+
+## 15. Área do associado (fase 2)
+
+### Papéis (autorização) — REGRA CRÍTICA
+- Dois papéis: 'diretoria' e 'associado'.
+- O papel fica em `app_metadata` do usuário (editável APENAS com a chave secreta,
+  no servidor) — NUNCA em `user_metadata`, que o próprio usuário consegue alterar
+  via updateUser() e permitiria auto-promoção a diretoria.
+- Toda checagem de papel acontece no SERVIDOR e na RLS (via
+  auth.jwt() -> 'app_metadata' ->> 'role'). Esconder na UI não é autorização.
+- Padrão restritivo: usuário sem papel definido não acessa nada.
+
+### Tabela `profiles` (dados do associado)
+- id (= auth.users.id), full_name, company (provedor), email, status
+  ('ativo' | 'inativo'), created_at, updated_at.
+- Serve para listar/gerenciar associados no painel. O papel NÃO fica aqui — fica
+  no app_metadata.
+- Associado inativo perde o acesso mesmo com a conta existindo.
+- RLS: associado lê só o próprio perfil; diretoria lê e escreve todos.
+
+### Storage — bucket PRIVADO `member-files`
+- Bucket PRIVADO (diferente de `downloads`, que é público). Sem leitura anônima.
+- Pastas (prefixos): `arquivos`, `atas`, `editais`, `comunicados`.
+- Acesso SOMENTE via URL assinada de curta duração (ex.: 60s), gerada no SERVIDOR
+  após validar sessão + papel + status ativo. Nunca gerar URL assinada no client.
+- Policies do bucket: nenhuma leitura pública; escrita só para 'diretoria'.
+
+### Tabela `member_files`
+- id, title, folder ('arquivos' | 'atas' | 'editais' | 'comunicados'),
+  description, storage_path, size_bytes, mime_type, uploaded_by, created_at.
+- RLS: SELECT só para autenticado com papel 'associado' OU 'diretoria' (e perfil
+  ativo). INSERT/UPDATE/DELETE só 'diretoria'.
+
+### Rotas
+- /entrar — login do associado (agora LINKADO na navbar: ativar o botão "Entrar",
+  que estava desabilitado).
+- /area — área logada do associado (índice das pastas).
+- /area/[pasta] — lista os PDFs da pasta.
+- /area/[pasta]/[id] — abre o PDF NA TELA (visualização inline, não download
+  forçado).
+- /area/conta — alterar a própria senha.
+- /painel-diretoria/associados — diretoria cria e gerencia contas de associado.
+- /painel-diretoria/arquivos-associado — diretoria posta arquivos da área logada.
+
+### Regras de acesso
+- /area/* exige sessão + papel 'associado' (ou 'diretoria') + perfil ativo.
+- /painel-diretoria/* exige sessão + papel 'diretoria'. Um associado que acessar
+  o painel deve ser BLOQUEADO (não só ver a UI escondida).
+- Sem cadastro público. Só a diretoria cria contas de associado.
+- Área do associado é noindex.
+
+### Design
+- A área do associado é do SITE (pública em aparência, institucional): usa navbar,
+  footer, tokens, Fraunces + IBM Plex Sans, acento dourado — conforme seções 3 a 8.
+- Não é o dashboard utilitário do painel. É uma área de consulta, limpa e legível.
+
+### Dados pessoais (LGPD)
+- Coletar o mínimo (nome, e-mail, provedor). Nada de dado sensível desnecessário.
+- Nunca logar dados pessoais nem URLs assinadas em logs.
