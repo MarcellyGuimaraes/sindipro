@@ -59,6 +59,15 @@ export default async function EntrarPage({
             </p>
           )}
 
+          {erro === "inatividade" && (
+            <p
+              role="alert"
+              className="mb-6 rounded-xl bg-brand/5 px-4 py-3 text-sm font-medium text-black ring-1 ring-brand/20"
+            >
+              Sua sessão expirou por inatividade. Faça login novamente.
+            </p>
+          )}
+
           <EntrarForm next={next} />
         </div>
       </div>

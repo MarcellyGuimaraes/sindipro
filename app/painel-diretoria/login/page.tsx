@@ -8,17 +8,27 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+function firstParam(v: string | string[] | undefined): string | undefined {
+  return Array.isArray(v) ? v[0] : v;
+}
+
 /**
  * Login do painel — visual Lovable. Se já houver sessão, vai para o painel.
  * Sem cadastro público: contas são criadas manualmente no Supabase.
  */
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (user) redirect("/painel-diretoria");
+
+  const erro = firstParam(searchParams.erro);
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-12 font-inter">
@@ -33,6 +43,15 @@ export default async function LoginPage() {
           <p className="mt-2 text-sm text-black/60">
             Acesso restrito. Entre com seu e-mail e senha.
           </p>
+
+          {erro === "inatividade" && (
+            <p
+              role="alert"
+              className="mt-4 rounded-xl bg-brand/5 px-4 py-3 text-sm font-medium text-black ring-1 ring-brand/20"
+            >
+              Sua sessão expirou por inatividade. Faça login novamente.
+            </p>
+          )}
 
           <div className="mt-6">
             <LoginForm />

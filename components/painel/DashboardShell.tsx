@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { LogoutButton } from "./LogoutButton";
+import { InactivityGuard } from "@/components/auth/InactivityGuard";
 
 /**
  * Shell do painel — visual Lovable (igual ao site público): barra lateral azul
@@ -66,6 +67,8 @@ export function DashboardShell({
 
   return (
     <div className="grid min-h-screen lg:grid-cols-[16rem_1fr]">
+      <InactivityGuard loginPath="/painel-diretoria/login" />
+
       {/* Navegação lateral (desktop) */}
       <aside className="hidden flex-col bg-brand text-white lg:flex">
         <SideNavContent isActive={isActive} />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { roleFromUser } from "@/lib/auth/role";
+import { InactivityGuard } from "@/components/auth/InactivityGuard";
 
 /**
  * Layout da área do associado (CLAUDE.md §15) — fica dentro do route group
@@ -45,5 +46,10 @@ export default async function AreaLayout({
     }
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <InactivityGuard loginPath="/entrar" />
+      {children}
+    </>
+  );
 }
