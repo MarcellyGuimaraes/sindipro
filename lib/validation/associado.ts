@@ -27,6 +27,14 @@ export const createAssociadoSchema = z.object({
 });
 export type CreateAssociadoInput = z.infer<typeof createAssociadoSchema>;
 
+export const createMissingProfileSchema = z.object({
+  userId: z.string().uuid(),
+  fullName: z.string().trim().min(3, "Informe o nome completo."),
+  company: z.string().trim().min(2, "Informe o provedor."),
+  email: emailSchema,
+});
+export type CreateMissingProfileInput = z.infer<typeof createMissingProfileSchema>;
+
 export const updatePasswordSchema = z.object({
   userId: z.string().uuid(),
   password: passwordSchema,

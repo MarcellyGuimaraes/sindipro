@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, TriangleAlert } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AssociadoRowActions } from "@/components/painel/AssociadoRowActions";
+import { OrphanAssociadoRow } from "@/components/painel/OrphanAssociadoRow";
 import { PanelHeading } from "@/components/painel/PanelHeading";
+import { listOrphanedAssociados } from "@/lib/associados-orphans";
 import type { ProfileRow } from "@/lib/types";
 
 function formatDate(iso: string): string {
@@ -26,6 +28,8 @@ export default async function AssociadosAdminPage() {
     "id" | "full_name" | "company" | "email" | "status" | "created_at"
   >[];
 
+  const orphans = await listOrphanedAssociados().catch(() => []);
+
   return (
     <div className="mx-auto w-full max-w-4xl pt-2">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -43,6 +47,30 @@ export default async function AssociadosAdminPage() {
           </span>
         </Link>
       </div>
+
+      {orphans.length > 0 && (
+        <div className="mt-6 rounded-2xl border border-amber-300 bg-amber-50 p-5">
+          <div className="flex items-start gap-3">
+            <TriangleAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" aria-hidden="true" />
+            <div>
+              <p className="text-sm font-semibold text-amber-900">
+                {orphans.length} {orphans.length === 1 ? "conta" : "contas"} sem perfil
+              </p>
+              <p className="mt-1 text-sm text-amber-800">
+                Essas contas foram criadas no login (Auth) mas ficaram sem linha em{" "}
+                <code>profiles</code> — provavelmente por uma falha no meio da criação. Elas não
+                aparecem na lista abaixo e não têm acesso à área do associado até o perfil ser
+                criado.
+              </p>
+            </div>
+          </div>
+          <ul className="mt-4 space-y-2">
+            {orphans.map((o) => (
+              <OrphanAssociadoRow key={o.id} id={o.id} email={o.email} />
+            ))}
+          </ul>
+        </div>
+      )}
 
       {error ? (
         <p className="mt-8 rounded-2xl bg-white p-5 text-sm text-black ring-1 ring-brand/20">

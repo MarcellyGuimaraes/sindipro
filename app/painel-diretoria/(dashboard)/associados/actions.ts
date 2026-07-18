@@ -6,6 +6,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { isDirectorSession } from "@/lib/auth/role";
 import {
   createAssociadoSchema,
+  createMissingProfileSchema,
   updatePasswordSchema,
   setStatusSchema,
   deleteAssociadoSchema,
@@ -71,9 +72,51 @@ export async function createAssociado(input: unknown): Promise<ActionResult> {
 
   if (profileError) {
     // Sem perfil, a conta de auth fica órfã — desfaz para não deixar lixo.
-    await admin.auth.admin.deleteUser(created.user.id);
+    const { error: rollbackError } = await admin.auth.admin.deleteUser(created.user.id);
+    if (rollbackError) {
+      // O rollback também falhou: a conta órfã ficou para trás de verdade.
+      // Não há dado pessoal para logar (LGPD) além do id — mas o id sozinho
+      // já é suficiente para o banner de "contas sem perfil" da listagem
+      // encontrá-la e oferecer a criação manual do perfil.
+      console.error(
+        `[associados] rollback falhou após erro ao criar perfil — usuário órfão no Auth: ${created.user.id}`
+      );
+    }
     return { ok: false, error: "Não foi possível salvar o perfil. Tente novamente." };
   }
+
+  revalidatePath("/painel-diretoria/associados");
+  return { ok: true };
+}
+
+/**
+ * Cria a linha em `profiles` para um usuário que já existe no Auth com papel
+ * 'associado' mas ficou sem perfil (conta órfã — CLAUDE.md §15, ver também a
+ * nota em `createAssociado`). Usada pelo aviso da listagem de associados.
+ */
+export async function createMissingProfile(input: unknown): Promise<ActionResult> {
+  if (!(await isDirectorSession())) return ACCESS_DENIED;
+
+  const parsed = createMissingProfileSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: firstFieldErrors(parsed.error.issues),
+    };
+  }
+  const { userId, fullName, company, email } = parsed.data;
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("profiles").insert({
+    id: userId,
+    full_name: fullName,
+    company,
+    email,
+    status: "ativo",
+  });
+
+  if (error) return { ok: false, error: "Não foi possível criar o perfil. Tente novamente." };
 
   revalidatePath("/painel-diretoria/associados");
   return { ok: true };
