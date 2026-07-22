@@ -36,7 +36,7 @@ export default async function DiretoriaPage() {
               Quadro de diretoria
             </>
           }
-          lead="A diretoria conduz a representação institucional do Sindipro SE e a negociação coletiva do setor. Conheça quem responde pela entidade."
+          lead="A diretoria conduz a representação institucional do SindiproSE e a negociação coletiva do setor. Conheça quem responde pela entidade."
         />
 
         {!temConteudo ? (

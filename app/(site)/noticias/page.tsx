@@ -31,7 +31,7 @@ export default async function NoticiasPage({
       <div className="mx-auto max-w-6xl px-2 pb-16 md:pb-24">
         <PageHeader
           title="Notícias e comunicados"
-          lead="Acompanhe a atuação do Sindipro SE: negociações coletivas, pautas regulatórias, eventos e orientações para os provedores de Sergipe."
+          lead="Acompanhe a atuação do SindiproSE: negociações coletivas, pautas regulatórias, eventos e orientações para os provedores de Sergipe."
         />
 
         {items.length === 0 ? (

@@ -1,4 +1,4 @@
-# CLAUDE.md — Site institucional Sindipro SE
+# CLAUDE.md — Site institucional SindiproSE
 
 > Este arquivo é o contrato de design e implementação do projeto. Leia-o por
 > completo antes de escrever qualquer componente. Toda cor, fonte, espaçamento e
@@ -9,7 +9,7 @@
 
 ## 1. O que é o projeto
 
-Site institucional do **Sindipro SE — Sindicato dos Provedores de Internet e
+Site institucional do **SindiproSE — Sindicato dos Provedores de Internet e
 Serviço de Comunicação Multimídia do Estado de Sergipe**.
 
 - **Público:** provedores de internet de Sergipe (associados e potenciais

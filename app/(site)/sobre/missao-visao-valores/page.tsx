@@ -15,7 +15,7 @@ export default function MissaoVisaoValoresPage() {
       <div className="mx-auto max-w-6xl px-2">
         <PageHeader
           title="Sobre nós"
-          lead="O que nos move, onde queremos chegar e os princípios que orientam a atuação do Sindipro SE."
+          lead="O que nos move, onde queremos chegar e os princípios que orientam a atuação do SindiproSE."
         />
 
         {/* Painel interativo: clicar em Missão, Visão ou Valores troca o conteúdo. */}

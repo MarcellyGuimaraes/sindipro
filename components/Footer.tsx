@@ -112,7 +112,7 @@ export function Footer() {
             <div className="col-span-2 md:col-span-1">
               <Image
                 src="/img/sindipro-logo.png"
-                alt="Sindipro SE"
+                alt="SindiproSE"
                 width={955}
                 height={309}
                 className="h-12 w-auto"
@@ -186,7 +186,7 @@ export function Footer() {
           {/* Base */}
           <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-white/15 pt-6 text-xs text-white/60 md:mt-14 md:flex-row md:items-center">
             <p>
-              Copyright © {new Date().getFullYear()} Sindipro SE - Todos os
+              Copyright © {new Date().getFullYear()} SindiproSE - Todos os
               direitos reservados.
             </p>
             <p>Sindicato dos Provedores de Internet de Sergipe</p>
