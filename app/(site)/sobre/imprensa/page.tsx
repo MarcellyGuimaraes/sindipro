@@ -41,7 +41,7 @@ export default function ImprensaPage() {
       <div className="mx-auto max-w-6xl px-2 pb-16 md:pb-24">
         <PageHeader
           title="Assessoria de imprensa"
-          lead="Canal para jornalistas e veículos de comunicação que buscam informações, entrevistas e posicionamentos do Sindipro SE sobre o setor de provedores de internet em Sergipe."
+          lead="Canal para jornalistas e veículos de comunicação que buscam informações, entrevistas e posicionamentos do SindiproSE sobre o setor de provedores de internet em Sergipe."
         />
 
         {/* Contato — card empilhado: faixa brand em cima, informações em branco embaixo */}
@@ -67,7 +67,7 @@ export default function ImprensaPage() {
               {/* E-mail */}
               <div className="md:pr-10">
                 <p className="text-xs font-semibold uppercase tracking-[0.08em] text-black/40">
-                Contato Sindipro SE
+                Contato SindiproSE
                 </p>
                 <a
                   href={`mailto:${imprensa.email}`}

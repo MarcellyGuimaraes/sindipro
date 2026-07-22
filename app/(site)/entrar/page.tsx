@@ -8,7 +8,7 @@ import { EntrarForm } from "@/components/EntrarForm";
 
 export const metadata: Metadata = {
   title: "Entrar",
-  description: "Acesso restrito aos associados do Sindipro SE.",
+  description: "Acesso restrito aos associados do SindiproSE.",
   robots: { index: false, follow: false },
 };
 
@@ -44,7 +44,7 @@ export default async function EntrarPage({
     <main className="min-h-screen animate-fade-in bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-md px-2 pb-16 pt-8 md:pb-24 md:pt-12">
         <PageHeader
-          eyebrow="Sindipro SE"
+          eyebrow="SindiproSE"
           title="Entrar"
           lead="Acesso restrito aos associados. Sem cadastro público — se você ainda não tem uma conta, fale com a diretoria do sindicato."
         />

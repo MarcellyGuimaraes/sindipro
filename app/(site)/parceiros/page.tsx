@@ -22,7 +22,7 @@ export default async function ParceirosPage() {
       <div className="mx-auto max-w-6xl px-2 pb-16 md:pb-24">
         <PageHeader
           title="Parceiros"
-          lead="Empresas e instituições que caminham com o Sindipro SE no fortalecimento do setor de provedores de internet em Sergipe."
+          lead="Empresas e instituições que caminham com o SindiproSE no fortalecimento do setor de provedores de internet em Sergipe."
         />
 
         {parceiros.length === 0 ? (

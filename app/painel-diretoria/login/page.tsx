@@ -35,7 +35,7 @@ export default async function LoginPage({
       <div className="w-full max-w-sm">
         <div className="rounded-2xl bg-white p-8 shadow-sm">
           <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-black/50">
-            Sindipro SE
+            SindiproSE
           </p>
           <h1 className="mt-2 font-inter text-2xl font-bold tracking-tight text-brand">
             Painel da diretoria

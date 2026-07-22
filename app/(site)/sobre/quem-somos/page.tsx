@@ -42,7 +42,7 @@ export default function QuemSomosPage() {
           <div className="space-y-4 p-8 pt-0 font-inter text-sm leading-relaxed text-black/60 md:p-12 md:text-base">
             <p>
               {/* TODO: ano de fundação e contexto da criação do sindicato. */}
-              O Sindipro SE foi constituído para organizar os provedores de
+              O SindiproSE foi constituído para organizar os provedores de
               internet de Sergipe em torno de interesses comuns, num momento de
               expansão da banda larga e de crescente complexidade regulatória e
               trabalhista no setor. (TODO: confirmar ano de fundação e o

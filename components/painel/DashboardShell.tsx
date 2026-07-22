@@ -150,7 +150,7 @@ function SideNavContent({
           className="block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           <span className="font-inter text-lg font-bold tracking-tight text-white">
-            Sindipro SE
+            SindiproSE
           </span>
           <span className="mt-1 block text-[11px] font-medium uppercase tracking-[0.12em] text-white/60">
             Painel da diretoria

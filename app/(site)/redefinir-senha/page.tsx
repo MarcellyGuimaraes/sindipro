@@ -17,7 +17,7 @@ export default function RedefinirSenhaPage() {
   return (
     <main className="min-h-screen animate-fade-in bg-cream px-4 md:px-8">
       <div className="mx-auto max-w-md px-2 pb-16 pt-8 md:pb-24 md:pt-12">
-        <PageHeader eyebrow="Sindipro SE" title="Redefinir senha" />
+        <PageHeader eyebrow="SindiproSE" title="Redefinir senha" />
 
         <div className="mt-10 rounded-[28px] bg-white p-8 font-inter md:p-10">
           <RedefinirSenhaForm />

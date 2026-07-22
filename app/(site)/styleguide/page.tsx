@@ -61,7 +61,7 @@ export default function StyleguidePage() {
         />
         <div className="relative">
           <Eyebrow tone="light" className="mb-3">
-            Sindipro SE · Componentes base
+            SindiproSE · Componentes base
           </Eyebrow>
           <h1 className="font-display text-display-l font-semibold text-bg sm:text-display-xl">
             Styleguide
@@ -189,7 +189,7 @@ export default function StyleguidePage() {
                 title="Sindipro fecha nova CCT para os provedores de Sergipe"
                 summary="A convenção coletiva de 2026 traz reajuste salarial, novas faixas de função e cláusulas de capacitação técnica para o setor de internet do estado."
                 image="/placeholder-news.svg"
-                imageAlt="Reunião de diretoria do Sindipro SE"
+                imageAlt="Reunião de diretoria do SindiproSE"
               />
             </div>
             <div className="flex flex-col gap-6 lg:col-span-5">

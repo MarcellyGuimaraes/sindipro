@@ -154,7 +154,7 @@ function InactivityWarning({
         className="w-full max-w-sm rounded-[20px] bg-white p-6 font-inter shadow-card sm:p-8"
       >
         <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-black/50">
-          Sindipro SE
+          SindiproSE
         </p>
         <h2 id="inactivity-title" className="mt-2 text-lg font-bold text-brand">
           Sua sessão vai expirar

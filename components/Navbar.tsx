@@ -68,7 +68,7 @@ export function Navbar({ authRole }: { authRole: AppRole | null }) {
         <Link href="/" className="shrink-0">
           <Image
             src="/img/sindipro-logo.png"
-            alt="Sindipro SE"
+            alt="SindiproSE"
             width={955}
             height={309}
             priority
