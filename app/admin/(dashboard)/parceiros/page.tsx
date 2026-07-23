@@ -15,7 +15,7 @@ function storagePathFromUrl(url: string | null): string | null {
 }
 
 /** Lista de parceiros do carrossel, ordenada por display_order. */
-export default async function ParceirosAdminPage() {
+export default async function ParceirosadminPage() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("partners")

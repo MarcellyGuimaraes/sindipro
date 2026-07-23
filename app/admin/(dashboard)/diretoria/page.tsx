@@ -16,7 +16,7 @@ function storagePathFromUrl(url: string | null): string | null {
 }
 
 /** Lista do quadro de diretoria, agrupada por board_group. */
-export default async function DiretoriaAdminPage() {
+export default async function DiretoriaadminPage() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("board_members")
