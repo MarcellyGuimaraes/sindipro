@@ -18,7 +18,7 @@ export default async function DashboardLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/painel-diretoria/login");
+  if (!user) redirect("/admin/login");
 
   return <DashboardShell userEmail={user.email ?? ""}>{children}</DashboardShell>;
 }

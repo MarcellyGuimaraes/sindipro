@@ -12,5 +12,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // Escopo restrito ao painel: nada do site público dispara este middleware.
-  matcher: ["/painel-diretoria/:path*"],
+  matcher: ["/admin/:path*"],
 };

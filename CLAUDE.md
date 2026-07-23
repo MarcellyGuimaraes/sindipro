@@ -338,9 +338,9 @@ institucional (sem frase de efeito vazia) e **marque com `TODO:`** para revisão
   para o Supabase Storage. Nunca expor a chave secret/service no client.
 
 ### Rotas do painel
-- Base em /painel-diretoria (caminho não-óbvio). NÃO linkar no site institucional.
-- Todas as rotas sob /painel-diretoria são protegidas por login. Acesso sem
-  sessão redireciona para /painel-diretoria/login.
+- Base em /admin (caminho não-óbvio). NÃO linkar no site institucional.
+- Todas as rotas sob /admin são protegidas por login. Acesso sem
+  sessão redireciona para /admin/login.
 - O painel inteiro é noindex (robots) — não deve aparecer em buscadores.
 
 ### Segurança (inegociável)

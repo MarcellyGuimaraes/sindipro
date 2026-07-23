@@ -18,7 +18,7 @@ export default async function LoginPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (user) redirect("/painel-diretoria");
+  if (user) redirect("/admin");
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-12 font-inter">

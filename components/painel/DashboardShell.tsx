@@ -24,10 +24,10 @@ import { LogoutButton } from "./LogoutButton";
  */
 
 const nav: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/painel-diretoria/noticias", label: "Notícias", icon: Newspaper },
-  { href: "/painel-diretoria/arquivos", label: "Arquivos", icon: FolderClosed },
-  { href: "/painel-diretoria/diretoria", label: "Diretoria", icon: Users },
-  { href: "/painel-diretoria/parceiros", label: "Parceiros", icon: Handshake },
+  { href: "/admin/noticias", label: "Notícias", icon: Newspaper },
+  { href: "/admin/arquivos", label: "Arquivos", icon: FolderClosed },
+  { href: "/admin/diretoria", label: "Diretoria", icon: Users },
+  { href: "/admin/parceiros", label: "Parceiros", icon: Handshake },
 ];
 
 export function DashboardShell({
@@ -135,7 +135,7 @@ function SideNavContent({
     <>
       <div className="px-6 py-6">
         <Link
-          href="/painel-diretoria"
+          href="/admin"
           className="block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           <span className="font-inter text-lg font-bold tracking-tight text-white">

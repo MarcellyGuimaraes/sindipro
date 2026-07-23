@@ -26,7 +26,7 @@ export default async function ArquivosAdminPage() {
           subtitle={`${files.length} ${files.length === 1 ? "arquivo" : "arquivos"}.`}
         />
         <Link
-          href="/painel-diretoria/arquivos/novo"
+          href="/admin/arquivos/novo"
           className="group inline-flex items-center gap-2.5 rounded-full bg-brand py-1.5 pl-5 pr-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand/90"
         >
           Enviar arquivo
@@ -45,7 +45,7 @@ export default async function ArquivosAdminPage() {
         <div className="mt-8 rounded-2xl bg-white p-10 text-center">
           <p className="text-base text-black/70">Nenhum arquivo ainda.</p>
           <Link
-            href="/painel-diretoria/arquivos/novo"
+            href="/admin/arquivos/novo"
             className="mt-3 inline-block text-sm font-semibold text-brand hover:underline"
           >
             Enviar o primeiro →

@@ -10,19 +10,19 @@ import { PanelHeading } from "@/components/painel/PanelHeading";
 
 const atalhos = [
   {
-    href: "/painel-diretoria/noticias",
+    href: "/admin/noticias",
     label: "Notícias",
     desc: "Criar, editar e publicar notícias do site.",
     icon: Newspaper,
   },
   {
-    href: "/painel-diretoria/arquivos",
+    href: "/admin/arquivos",
     label: "Arquivos",
     desc: "Enviar e gerenciar CCT/ACT para download.",
     icon: FolderClosed,
   },
   {
-    href: "/painel-diretoria/diretoria",
+    href: "/admin/diretoria",
     label: "Diretoria",
     desc: "Gerenciar o quadro de diretoria e conselho fiscal.",
     icon: Users,

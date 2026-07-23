@@ -8,7 +8,7 @@ import { NextResponse, type NextRequest } from "next/server";
  * cookies da request/response e chama getUser() para revalidar o token.
  * NÃO inserir código entre createServerClient e getUser.
  *
- * Escopo: só roda nas rotas /painel-diretoria (ver matcher no middleware.ts);
+ * Escopo: só roda nas rotas /admin (ver matcher no middleware.ts);
  * o site institucional público não é afetado.
  */
 export async function updateSession(request: NextRequest) {
@@ -40,12 +40,12 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Portão de acesso: sem sessão em /painel-diretoria → manda para o login.
+  // Portão de acesso: sem sessão em /admin → manda para o login.
   const { pathname } = request.nextUrl;
-  const isLogin = pathname === "/painel-diretoria/login";
+  const isLogin = pathname === "/admin/login";
   if (!user && !isLogin) {
     const url = request.nextUrl.clone();
-    url.pathname = "/painel-diretoria/login";
+    url.pathname = "/admin/login";
     return NextResponse.redirect(url);
   }
 

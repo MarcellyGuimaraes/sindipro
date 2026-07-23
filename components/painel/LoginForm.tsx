@@ -34,7 +34,7 @@ export function LoginForm() {
       return;
     }
 
-    router.replace("/painel-diretoria");
+    router.replace("/admin");
     router.refresh();
   }
 

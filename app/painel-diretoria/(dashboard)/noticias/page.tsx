@@ -26,7 +26,7 @@ export default async function NoticiasAdminPage() {
           subtitle={`${news.length} ${news.length === 1 ? "notícia" : "notícias"}.`}
         />
         <Link
-          href="/painel-diretoria/noticias/nova"
+          href="/admin/noticias/nova"
           className="group inline-flex items-center gap-2.5 rounded-full bg-brand py-1.5 pl-5 pr-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand/90"
         >
           Nova notícia
@@ -45,7 +45,7 @@ export default async function NoticiasAdminPage() {
         <div className="mt-8 rounded-2xl bg-white p-10 text-center">
           <p className="text-base text-black/70">Nenhuma notícia ainda.</p>
           <Link
-            href="/painel-diretoria/noticias/nova"
+            href="/admin/noticias/nova"
             className="mt-3 inline-block text-sm font-semibold text-brand hover:underline"
           >
             Criar a primeira →
@@ -81,7 +81,7 @@ export default async function NoticiasAdminPage() {
                   <td className="px-5 py-3.5">
                     <div className="flex items-center justify-end gap-1">
                       <Link
-                        href={`/painel-diretoria/noticias/${n.id}`}
+                        href={`/admin/noticias/${n.id}`}
                         className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-brand transition hover:bg-brand/5"
                       >
                         <Pencil className="h-4 w-4" aria-hidden="true" />

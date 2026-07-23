@@ -6,7 +6,7 @@ export default function NovoMembroPage() {
   return (
     <div className="mx-auto w-full max-w-4xl pt-2">
       <Link
-        href="/painel-diretoria/diretoria"
+        href="/admin/diretoria"
         className="inline-flex items-center gap-1.5 text-sm font-medium text-black/60 transition hover:text-brand"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
