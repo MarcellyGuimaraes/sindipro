@@ -270,8 +270,12 @@ export default function ConecteSe2026Page() {
         <section className={`${styles.bgPrimary} mt-24 w-full`}>
           <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
             <div className="max-w-3xl">
+              {/* O protótipo aplica whitespace-nowrap em todos os tamanhos, e
+                  no celular o título estoura a largura da tela e cria rolagem
+                  horizontal. Aqui a linha única só vale de lg para cima, onde
+                  o texto cabe de fato. */}
               <h2
-                className={`${styles.textPrimaryFg} whitespace-nowrap text-2xl font-extrabold uppercase leading-tight sm:text-3xl md:text-4xl`}
+                className={`${styles.textPrimaryFg} text-2xl font-extrabold uppercase leading-tight sm:text-3xl md:text-4xl lg:whitespace-nowrap`}
               >
                 Faça parte do principal encontro do setor de ISPs
               </h2>
