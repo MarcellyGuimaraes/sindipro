@@ -161,6 +161,14 @@ export function Navbar() {
               Parceiros
             </TopLink>
           </li>
+          {/* <li>
+            <TopLink
+              href="/conecte-se-2026"
+              active={isActive(pathname, "/conecte-se-2026")}
+            >
+              Conecte-se 2026
+            </TopLink>
+          </li> */}
         </ul>
 
         {/* Ações à direita (desktop) */}
@@ -246,6 +254,14 @@ export function Navbar() {
             <li>
               <MobileLink href="/parceiros" active={isActive(pathname, "/parceiros")}>
                 Parceiros
+              </MobileLink>
+            </li>
+            <li>
+              <MobileLink
+                href="/conecte-se-2026"
+                active={isActive(pathname, "/conecte-se-2026")}
+              >
+                Conecte-se 2026
               </MobileLink>
             </li>
 

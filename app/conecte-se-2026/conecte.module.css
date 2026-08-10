@@ -1,0 +1,249 @@
+/*
+ * Réplica dos tokens do protótipo Lovable "sindiprose-future-connect".
+ * Valores copiados 1:1 do styles.css publicado (oklch, gradientes, sombras).
+ *
+ * Fica em CSS Module e todos os tokens são declarados dentro de .page para
+ * NÃO vazar para o resto do site (que é cream/brand/Inter). O tema escuro
+ * vale só enquanto esta rota estiver montada.
+ *
+ * O protótipo roda em Tailwind v4, onde a escala de raio deriva de
+ * --radius: 0.875rem. Como aqui o Tailwind é v3 (rounded-lg = 0.5rem), os
+ * raios usados na página vêm das classes .rounded* abaixo, não do utilitário.
+ */
+
+.page {
+  --radius: 0.875rem;
+
+  --background: oklch(17% 0.045 260);
+  --foreground: oklch(100% 0 0);
+  --card: oklch(23.5% 0.062 259);
+  --card-foreground: oklch(100% 0 0);
+  --primary: oklch(55.4% 0.171 251.3);
+  --primary-foreground: oklch(100% 0 0);
+  --secondary: oklch(30.3% 0.093 264.5);
+  --secondary-foreground: oklch(100% 0 0);
+  --muted: oklch(28% 0.055 260);
+  --muted-foreground: oklch(78% 0.03 255);
+  --accent: oklch(63.8% 0.111 87.5);
+  --accent-foreground: oklch(17% 0.045 260);
+  --border: oklch(38% 0.075 258 / 0.55);
+  --ring: oklch(55.4% 0.171 251.3);
+
+  --navy: oklch(30.3% 0.093 264.5);
+  --navy-deep: oklch(22% 0.07 264);
+  --steel: oklch(43.5% 0.107 254);
+  --gold: oklch(63.8% 0.111 87.5);
+
+  --gradient-hero: linear-gradient(135deg, var(--navy-deep), var(--steel) 55%, var(--primary));
+  --gradient-gold: linear-gradient(90deg, var(--gold), oklch(78% 0.1 92));
+  --shadow-glow: 0 24px 70px -24px oklch(55.4% 0.171 251.3 / 0.6);
+  --shadow-card: 0 18px 45px -22px oklch(10% 0.04 260 / 0.9);
+
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-conecte-sans), system-ui, sans-serif;
+  background-image:
+    radial-gradient(70% 55% at 12% 0, oklch(43.5% 0.107 254 / 0.35), #0000 70%),
+    radial-gradient(60% 50% at 95% 20%, oklch(30.3% 0.093 264.5 / 0.45), #0000 70%);
+  background-attachment: fixed;
+}
+
+/* h1..h3 do protótipo: Barlow Condensed + tracking negativo. */
+.page h1,
+.page h2,
+.page h3 {
+  font-family: var(--font-conecte-display), system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Equivalente ao utilitário font-display do protótipo. Não dá para usar a
+   classe font-display do projeto: lá ela aponta para Fraunces. */
+.display {
+  font-family: var(--font-conecte-display), system-ui, sans-serif;
+}
+
+/* --- superfícies --- */
+
+.surfaceCard {
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  background: linear-gradient(160deg, oklch(26% 0.065 260 / 0.9), oklch(20% 0.05 262 / 0.8));
+}
+
+/* Seção clara: reescreve os tokens de texto/borda dentro do próprio escopo,
+   como no protótipo. */
+.surfaceLight {
+  color: oklch(20% 0.05 262);
+  --muted-foreground: oklch(42% 0.04 262);
+  --border: oklch(82% 0.02 250 / 0.6);
+  background: oklch(96.5% 0.012 250);
+}
+
+.surfaceLightCard {
+  color: oklch(20% 0.05 262);
+  background: oklch(99% 0.006 250);
+  border: 1px solid oklch(86% 0.018 250 / 0.7);
+  box-shadow: 0 18px 45px -28px oklch(10% 0.04 262 / 0.55);
+}
+
+/* --- cores --- */
+
+.goldGradient {
+  background-image: var(--gradient-gold);
+  color: #0000;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.bgBackground {
+  background-color: var(--background);
+}
+
+.bgPrimary {
+  background-color: var(--primary);
+}
+
+.bgSecondary {
+  background-color: var(--secondary);
+}
+
+.bgSteel {
+  background-color: var(--steel);
+}
+
+.bgNavyDeep {
+  background-color: var(--navy-deep);
+}
+
+.bgPrimary15 {
+  background-color: color-mix(in oklab, var(--primary) 15%, transparent);
+}
+
+.bgPrimaryFg10 {
+  background-color: color-mix(in oklab, var(--primary-foreground) 10%, transparent);
+}
+
+.textPrimary {
+  color: var(--primary);
+}
+
+.textPrimaryFg {
+  color: var(--primary-foreground);
+}
+
+.textPrimaryFg70 {
+  color: color-mix(in oklab, var(--primary-foreground) 70%, transparent);
+}
+
+.textPrimaryFg75 {
+  color: color-mix(in oklab, var(--primary-foreground) 75%, transparent);
+}
+
+.textPrimaryFg80 {
+  color: color-mix(in oklab, var(--primary-foreground) 80%, transparent);
+}
+
+.textPrimaryFg85 {
+  color: color-mix(in oklab, var(--primary-foreground) 85%, transparent);
+}
+
+.textPrimaryFg90 {
+  color: color-mix(in oklab, var(--primary-foreground) 90%, transparent);
+}
+
+.textForeground {
+  color: var(--foreground);
+}
+
+.textMuted {
+  color: var(--muted-foreground);
+}
+
+.borderBorder {
+  border-color: var(--border);
+}
+
+/* --- raios do protótipo (Tailwind v4, derivados de --radius) --- */
+
+.roundedMd {
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.roundedLg {
+  border-radius: var(--radius);
+}
+
+.roundedXl {
+  border-radius: calc(var(--radius) + 4px);
+}
+
+.rounded2xl {
+  border-radius: calc(var(--radius) + 8px);
+}
+
+/* --- interações --- */
+
+.hoverBgPrimary90:hover {
+  background-color: color-mix(in oklab, var(--primary) 90%, transparent);
+}
+
+/* --- faixa de chamada em loop (topo) --- */
+
+.marqueeBar {
+  background-color: var(--navy-deep);
+  border-bottom: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: marqueeSlide 45s linear infinite;
+  will-change: transform;
+}
+
+/* Pausa no hover para dar tempo de clicar no botão. */
+.marqueeTrack:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeSlide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marqueeTrack {
+    animation: none;
+  }
+}
+
+/* A marca só existe na versão colorida (azul + dourado). Sobre o navy do
+   rodapé ela precisa ser chapada em branco: brightness(0) zera as cores e
+   invert(1) as leva ao branco, preservando a transparência do PNG. Assim não
+   há um segundo arquivo de logo para manter em sincronia. */
+.logoWhite {
+  filter: brightness(0) invert(1);
+}
+
+/* hover:scale-[1.03] do protótipo, em classe própria para poder desligar
+   sob prefers-reduced-motion. */
+.hoverScale {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hoverScale:hover {
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoverScale:hover {
+    transform: none;
+  }
+}
