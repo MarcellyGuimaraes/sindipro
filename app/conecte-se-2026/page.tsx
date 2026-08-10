@@ -127,8 +127,8 @@ const stats = [
 
 const venueFacts = [
   { label: "Endereço", value: "Av. Beira Mar, Praia de Atalaia, Aracaju – SE" },
-  { label: "Abertura", value: "08h30 (credenciamento e café)" },
-  { label: "Encerramento", value: "19h (após o happy hour)" },
+  { label: "Abertura", value: "08h30 credenciamento e café" },
+  { label: "Encerramento", value: "19h após o happy hour" },
   { label: "Estacionamento", value: "Próprio, no local" },
 ];
 
