@@ -11,6 +11,18 @@
 // então mantemos o CSP estrito (sem unsafe-eval).
 const isDev = process.env.NODE_ENV !== "production";
 
+// Google Analytics 4 (carregado só na landing /conecte-se-2026, mas liberado no
+// CSP do site inteiro: dois headers CSP na mesma resposta se aplicam pela
+// interseção, então não dá para relaxar a regra só naquela rota).
+// - script: o gtag.js vem do googletagmanager.com;
+// - connect: os hits vão para *.google-analytics.com (region1, region2...) e,
+//   em parte das configurações, para *.analytics.google.com;
+// - img: fallback em pixel quando o beacon/fetch não está disponível.
+const gaScript = "https://www.googletagmanager.com";
+const gaConnect =
+  "https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com";
+const gaImg = "https://*.google-analytics.com https://www.googletagmanager.com";
+
 const csp = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -20,11 +32,11 @@ const csp = [
   // Sem esta linha o frame-src herda o default-src 'self' e o mapa embutido
   // da página do Conecte-se 2026 é bloqueado. Liberado só o Google Maps.
   "frame-src 'self' https://www.google.com https://maps.google.com",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} ${gaScript}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.supabase.co",
+  `img-src 'self' data: blob: https://*.supabase.co ${gaImg}`,
   "font-src 'self'",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+  `connect-src 'self' https://*.supabase.co wss://*.supabase.co ${gaConnect}`,
   "upgrade-insecure-requests",
 ].join("; ");
 
