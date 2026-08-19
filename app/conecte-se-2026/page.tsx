@@ -61,12 +61,12 @@ type Item = {
 
 const blocks: Array<{ label: string; items: Item[] }> = [
   {
-    label: "Curso de TDR",
+    label: "Curso de OTDR",
     items: [
       {
         kind: "Curso",
         time: "09h às 17h",
-        title: "Curso de TDR",
+        title: "Curso de OTDR",
         speaker: "Giliade Paulino - Telecom Normas",
         note: "Inclui certificado de participação.",
       },
