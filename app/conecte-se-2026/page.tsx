@@ -4,6 +4,7 @@ import {
   Beer,
   CalendarDays,
   Clock,
+  GraduationCap,
   MapPin,
   MessagesSquare,
   Mic,
@@ -39,19 +40,38 @@ export const metadata: Metadata = {
 const SYMPLA =
   "https://www.sympla.com.br/evento/sindiprose-conecte-se-2026/3533600";
 
-const MAP_EMBED = "https://www.google.com/maps?q=Quality+Hotel+Aracaju&output=embed";
+// Nome do hotel + endereço na busca: só o nome corria o risco de cair em outra
+// unidade da rede, e só o endereço não fixa o ponto exato dentro da avenida.
+const MAP_QUERY = encodeURIComponent(
+  "Quality Hotel Aracaju, Av. Delmiro Gouveia, 100 - Coroa do Meio, Aracaju - SE, 49035-500"
+);
 
-const MAP_ROUTE =
-  "https://www.google.com/maps/dir/?api=1&destination=Quality+Hotel+Aracaju";
+const MAP_EMBED = `https://www.google.com/maps?q=${MAP_QUERY}&output=embed`;
+
+const MAP_ROUTE = `https://www.google.com/maps/dir/?api=1&destination=${MAP_QUERY}`;
 
 type Item = {
-  kind: "Palestra" | "Painel" | "Happy Hour";
+  kind: "Curso" | "Palestra" | "Painel" | "Happy Hour";
   time: string;
   title: string;
   speaker?: string;
+  /** Observação em destaque (dourado), abaixo do palestrante. */
+  note?: string;
 };
 
 const blocks: Array<{ label: string; items: Item[] }> = [
+  {
+    label: "Curso de TDR",
+    items: [
+      {
+        kind: "Curso",
+        time: "09h às 17h",
+        title: "Curso de TDR",
+        speaker: "Giliade Paulino - Telecom Normas",
+        note: "Inclui certificado de participação.",
+      },
+    ],
+  },
   {
     label: "Bloco 1",
     items: [
@@ -114,6 +134,7 @@ const blocks: Array<{ label: string; items: Item[] }> = [
 ];
 
 const kindIcon = {
+  Curso: GraduationCap,
   Palestra: Mic,
   Painel: MessagesSquare,
   "Happy Hour": Beer,
@@ -126,10 +147,13 @@ const stats = [
 ];
 
 const venueFacts = [
-  { label: "Endereço", value: "Av. Beira Mar, Praia de Atalaia, Aracaju – SE" },
+  {
+    label: "Endereço",
+    value: "Av. Delmiro Gouveia, 100 - Coroa do Meio, Aracaju - SE, 49035-500",
+  },
   { label: "Abertura", value: "08h30" },
   { label: "Encerramento", value: "19h" },
-  { label: "Estacionamento", value: "Próprio, no local" },
+  { label: "Estacionamento", value: "Gratuito no local" },
 ];
 
 export default function ConecteSe2026Page() {
@@ -255,6 +279,13 @@ export default function ConecteSe2026Page() {
                                 </span>
                               </p>
                             )}
+                            {item.note && (
+                              <p
+                                className={`${styles.goldGradient} mt-1.5 text-xs font-semibold`}
+                              >
+                                {item.note}
+                              </p>
+                            )}
                           </div>
                         </li>
                       );
@@ -335,9 +366,8 @@ export default function ConecteSe2026Page() {
                 Quality Hotel Aracaju
               </h2>
               <p className={`${styles.textMuted} mt-4 text-sm sm:text-base`}>
-                Av. Beira Mar, Praia de Atalaia — o principal centro de eventos da orla de
-                Aracaju, com estacionamento próprio e fácil acesso. O evento começa às
-                08h30 e segue até às 19h.
+                Av. Delmiro Gouveia, 100, Coroa do Meio — estacionamento próprio e fácil
+                acesso. O evento começa às 08h30 e segue até às 19h.
               </p>
             </div>
 
@@ -433,7 +463,7 @@ export default function ConecteSe2026Page() {
             className={`${styles.textMuted} ${styles.borderBorder} mt-12 flex flex-col items-center justify-between gap-3 border-t pt-6 text-xs uppercase tracking-[0.2em] sm:flex-row`}
           >
             <span>© 2026 Sindipro-SE · Todos os direitos reservados</span>
-            <span>Av. Beira Mar, Praia de Atalaia — Aracaju/SE</span>
+            <span>Av. Delmiro Gouveia, 100 - Coroa do Meio, Aracaju - SE, 49035-500</span>
           </div>
         </div>
       </footer>
