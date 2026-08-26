@@ -112,6 +112,11 @@
   background-color: var(--steel);
 }
 
+.registrationButton {
+  background-color: #051e4b;
+  color: rgb(169, 216, 255);
+}
+
 .bgNavyDeep {
   background-color: var(--navy-deep);
 }

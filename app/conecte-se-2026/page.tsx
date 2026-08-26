@@ -194,21 +194,21 @@ export default function ConecteSe2026Page() {
 
           <Countdown />
 
-          {/* <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-2">
             <a
               href={SYMPLA}
               target="_blank"
               rel="noopener noreferrer"
               className={`${styles.bgBackground} ${styles.textPrimary} ${styles.display} ${styles.hoverScale} inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-extrabold uppercase tracking-wide`}
             >
-              Garanta seu lugar aqui →
+              Inscreva-se agora
             </a>
             <span
               className={`${styles.textPrimaryFg80} text-[0.7rem] font-semibold uppercase tracking-[0.15em]`}
             >
-              Vagas limitadas
+              Últimas vagas
             </span>
-          </div> */}
+          </div>
         </div>
       </section>
 
@@ -339,13 +339,11 @@ export default function ConecteSe2026Page() {
             </div>
 
             <div className="mt-10 flex justify-center">
-              {/* Fundo em --steel, o azul que a seção usava antes: destaca o
-                  botão sobre o primário sem sair da família de azuis. */}
               <a
                 href={SYMPLA}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${styles.bgSteel} ${styles.textPrimaryFg} ${styles.hoverScale} inline-flex items-center justify-center rounded-full px-9 py-4 text-sm font-bold uppercase tracking-[0.15em]`}
+                className={`${styles.registrationButton} ${styles.hoverScale} inline-flex items-center justify-center rounded-full px-9 py-4 text-sm font-bold uppercase tracking-[0.15em]`}
               >
                 Quero garantir minha vaga
               </a>
