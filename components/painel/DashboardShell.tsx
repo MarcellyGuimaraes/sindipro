@@ -9,6 +9,8 @@ import {
   FolderLock,
   Users,
   Handshake,
+  Megaphone,
+  Building2,
   UserCog,
   Menu,
   X,
@@ -29,8 +31,10 @@ import { InactivityGuard } from "@/components/auth/InactivityGuard";
 const nav: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/painel-diretoria/noticias", label: "Notícias", icon: Newspaper },
   { href: "/painel-diretoria/arquivos", label: "Arquivos", icon: FolderClosed },
+  { href: "/painel-diretoria/comunicados", label: "Comunicados", icon: Megaphone },
   { href: "/painel-diretoria/diretoria", label: "Diretoria", icon: Users },
   { href: "/painel-diretoria/parceiros", label: "Parceiros", icon: Handshake },
+  { href: "/painel-diretoria/provedores", label: "Provedores", icon: Building2 },
   { href: "/painel-diretoria/associados", label: "Associados", icon: UserCog },
   {
     href: "/painel-diretoria/arquivos-associado",

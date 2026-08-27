@@ -1,11 +1,24 @@
 import Link from "next/link";
 import { Plus, TriangleAlert } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { AssociadoProviderCell } from "@/components/painel/AssociadoProviderCell";
 import { AssociadoRowActions } from "@/components/painel/AssociadoRowActions";
 import { OrphanAssociadoRow } from "@/components/painel/OrphanAssociadoRow";
 import { PanelHeading } from "@/components/painel/PanelHeading";
 import { listOrphanedAssociados } from "@/lib/associados-orphans";
+import { listProviderOptions } from "@/lib/providers";
 import type { ProfileRow } from "@/lib/types";
+
+/**
+ * Linha de `profiles` com o provedor embutido pelo join da FK
+ * profiles.provider_id -> providers.id (CLAUDE.md §16).
+ */
+type AssociadoListRow = Pick<
+  ProfileRow,
+  "id" | "full_name" | "company" | "provider_id" | "email" | "status" | "created_at"
+> & {
+  providers: { id: string; name: string } | null;
+};
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("pt-BR", {
@@ -20,15 +33,19 @@ export default async function AssociadosAdminPage() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, full_name, company, email, status, created_at")
+    .select(
+      "id, full_name, company, provider_id, email, status, created_at, providers(id, name)"
+    )
     .order("created_at", { ascending: false });
 
-  const associados = (data ?? []) as Pick<
-    ProfileRow,
-    "id" | "full_name" | "company" | "email" | "status" | "created_at"
-  >[];
+  const associados = (data ?? []) as unknown as AssociadoListRow[];
 
-  const orphans = await listOrphanedAssociados().catch(() => []);
+  const [orphans, providers] = await Promise.all([
+    listOrphanedAssociados().catch(() => []),
+    listProviderOptions(),
+  ]);
+
+  const semProvedor = associados.filter((a) => !a.provider_id).length;
 
   return (
     <div className="mx-auto w-full max-w-4xl pt-2">
@@ -48,6 +65,23 @@ export default async function AssociadosAdminPage() {
         </Link>
       </div>
 
+      {semProvedor > 0 && (
+        <div className="mt-6 flex items-start gap-3 rounded-2xl border border-amber-300 bg-amber-50 p-5">
+          <TriangleAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" aria-hidden="true" />
+          <div>
+            <p className="text-sm font-semibold text-amber-900">
+              {semProvedor} {semProvedor === 1 ? "associado sem provedor" : "associados sem provedor"}
+            </p>
+            <p className="mt-1 text-sm text-amber-800">
+              A migração para o cadastro de provedores não conseguiu casar
+              {semProvedor === 1 ? " este" : " estes"} pelo texto antigo. Use
+              &ldquo;Vincular&rdquo; na linha do associado para escolher o
+              provedor certo — o texto antigo aparece ali como pista.
+            </p>
+          </div>
+        </div>
+      )}
+
       {orphans.length > 0 && (
         <div className="mt-6 rounded-2xl border border-amber-300 bg-amber-50 p-5">
           <div className="flex items-start gap-3">
@@ -66,7 +100,12 @@ export default async function AssociadosAdminPage() {
           </div>
           <ul className="mt-4 space-y-2">
             {orphans.map((o) => (
-              <OrphanAssociadoRow key={o.id} id={o.id} email={o.email} />
+              <OrphanAssociadoRow
+                key={o.id}
+                id={o.id}
+                email={o.email}
+                providers={providers}
+              />
             ))}
           </ul>
         </div>
@@ -99,8 +138,15 @@ export default async function AssociadosAdminPage() {
                   {a.full_name}
                 </span>
                 <span className="block truncate text-sm text-black/60">
-                  {a.company} · {a.email}
+                  {a.email}
                 </span>
+                <AssociadoProviderCell
+                  userId={a.id}
+                  providerId={a.provider_id}
+                  providerName={a.providers?.name ?? null}
+                  legacyCompany={a.company}
+                  providers={providers}
+                />
               </div>
 
               <AssociadoRowActions

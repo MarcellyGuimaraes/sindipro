@@ -57,8 +57,13 @@ export type PostLogRow = {
   created_at: string;
 };
 
-/** Pastas da área logada do associado (CLAUDE.md §15). */
-export type MemberFileFolder = "arquivos" | "atas" | "editais" | "comunicados";
+/**
+ * Pastas de PDF da área logada (CLAUDE.md §16).
+ *
+ * 'comunicados' SAIU daqui: virou feed de posts (tabela `comunicados`),
+ * não é mais pasta de arquivo. Ver migration 0010.
+ */
+export type MemberFileFolder = "arquivos" | "atas" | "editais";
 
 /** Linha da tabela `member_files` — arquivos do bucket privado (CLAUDE.md §15). */
 export type MemberFileRow = {
@@ -73,13 +78,65 @@ export type MemberFileRow = {
   created_at: string;
 };
 
-/** Linha da tabela `profiles` — dados do associado (CLAUDE.md §15). */
+/** Linha da tabela `providers` — provedores associados (CLAUDE.md §16). */
+export type ProviderRow = {
+  id: string;
+  name: string;
+  cnpj: string | null;
+  city: string | null;
+  status: "ativo" | "inativo";
+  created_at: string;
+  updated_at: string;
+};
+
+/**
+ * Linha da tabela `profiles` — dados do associado (CLAUDE.md §15 e §16).
+ *
+ * `company` é o texto livre LEGADO: continua na tabela só para guardar o
+ * valor anterior das linhas que a migration 0009 não conseguiu casar com um
+ * provedor. O vínculo válido é `provider_id`.
+ */
 export type ProfileRow = {
   id: string;
   full_name: string;
-  company: string;
+  company: string | null;
+  provider_id: string | null;
   email: string;
   status: "ativo" | "inativo";
+  created_at: string;
+  updated_at: string;
+};
+
+/** Linha da tabela `comunicados` — post do feed da área restrita (§16). */
+export type ComunicadoRow = {
+  id: string;
+  title: string | null;
+  body: string;
+  image_path: string | null;
+  author_id: string | null;
+  status: "rascunho" | "publicado";
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+/** Linha da tabela `comunicado_likes` (§16). */
+export type ComunicadoLikeRow = {
+  id: string;
+  comunicado_id: string;
+  user_id: string;
+  created_at: string;
+};
+
+/**
+ * Linha da tabela `comunicado_comments` (§16).
+ * `body` é TEXTO PURO — nunca renderizar como HTML nem markdown.
+ */
+export type ComunicadoCommentRow = {
+  id: string;
+  comunicado_id: string;
+  user_id: string;
+  body: string;
   created_at: string;
   updated_at: string;
 };

@@ -466,3 +466,54 @@ Total: 12.
 ### Dados pessoais (LGPD)
 - Coletar o mínimo (nome, e-mail, provedor). Nada de dado sensível desnecessário.
 - Nunca logar dados pessoais nem URLs assinadas em logs.
+
+## 16. Provedores + Comunicados (feed)
+
+### Provedores
+- Tabela `providers`: id, name, cnpj (opcional), city (opcional),
+  status ('ativo' | 'inativo'), created_at, updated_at.
+- `profiles` ganha `provider_id` (FK -> providers.id, pode ser nulo).
+- O campo de texto livre `company` do profile é SUBSTITUÍDO por esse vínculo.
+  Migração: manter company temporariamente, migrar o que der para providers, e
+  relinkar pelo painel o que não casar.
+- Gerência no painel: /painel-diretoria/provedores (CRUD). No formulário de
+  associado, o provedor vira um SELECT vindo de providers (não texto livre).
+- RLS: leitura para autenticado; escrita só 'diretoria'.
+
+### Comunicados = feed (MUDANÇA DE MODELO)
+- Comunicados DEIXA de ser pasta de PDF. As pastas de PDF em member_files passam
+  a ser apenas: 'arquivos', 'atas', 'editais'. Remova 'comunicados' desse enum.
+- Comunicados vira publicações (posts) feitas pela equipe do sindicato.
+
+Tabela `comunicados` (posts):
+- id, title (opcional), body (text), image_path (opcional), author_id,
+  status ('rascunho' | 'publicado'), published_at, created_at, updated_at.
+
+Tabela `comunicado_likes`:
+- id, comunicado_id (FK), user_id (FK), created_at.
+- Restrição UNIQUE (comunicado_id, user_id) — uma curtida por pessoa.
+
+Tabela `comunicado_comments`:
+- id, comunicado_id (FK), user_id (FK), body (text), created_at, updated_at.
+
+Imagens dos comunicados:
+- Bucket PRIVADO `comunicado-images` (conteúdo é da área restrita). Acesso por
+  URL assinada de curta duração gerada no servidor, como em member-files.
+  (Se as imagens não forem sensíveis, um bucket público com caminho por UUID é
+  uma simplificação aceitável — decisão sua.)
+
+### Regras de segurança do feed (CRÍTICO)
+- Curtir/comentar exige sessão + papel 'associado' ou 'diretoria' + perfil ativo.
+- RLS de likes e comments: o usuário só insere/apaga em NOME PRÓPRIO
+  (user_id = auth.uid()). Ninguém curte/comenta como outro.
+- Comentário é renderizado como TEXTO PURO, nunca como HTML. Escapar tudo.
+  Sem markdown/rich text no comentário. Isso previne XSS via comentário.
+- Diretoria pode MODERAR: apagar qualquer comentário e despublicar comunicado.
+- Comentários são visíveis para todos os associados logados (é um mural
+  compartilhado, não privado) — deixar isso claro na interface.
+- Validar tamanho do comentário (ex.: limite razoável) e do corpo do post.
+
+### Design
+- O feed usa a identidade do site (institucional, limpo). Inspiração em rede
+  social é no COMPORTAMENTO (curtir/comentar), não em copiar visual de Instagram.
+  Sem as proibições da seção 12.

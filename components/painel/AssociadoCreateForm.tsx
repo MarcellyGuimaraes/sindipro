@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createAssociado } from "@/app/painel-diretoria/(dashboard)/associados/actions";
+import { ProviderSelect, NoProvidersNotice } from "@/components/painel/ProviderSelect";
+import type { ProviderOption } from "@/lib/providers";
 
 /**
  * Formulário de criação de acesso do associado — visual Lovable, no mesmo
@@ -10,11 +12,15 @@ import { createAssociado } from "@/app/painel-diretoria/(dashboard)/associados/a
  * na Server Action `createAssociado`, nunca no client (precisa da chave
  * secreta).
  */
-export function AssociadoCreateForm() {
+export function AssociadoCreateForm({
+  providers,
+}: {
+  providers: ProviderOption[];
+}) {
   const router = useRouter();
 
   const [fullName, setFullName] = useState("");
-  const [company, setCompany] = useState("");
+  const [providerId, setProviderId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,7 +32,7 @@ export function AssociadoCreateForm() {
     setSaving(true);
     setErrors({});
 
-    const result = await createAssociado({ fullName, company, email, password });
+    const result = await createAssociado({ fullName, providerId, email, password });
 
     if (!result.ok) {
       setErrors(result.fieldErrors ?? { form: result.error });
@@ -51,14 +57,15 @@ export function AssociadoCreateForm() {
           />
         </Field>
 
-        <Field label="Provedor" error={errors.company} htmlFor="company">
-          <input
-            id="company"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
+        <Field label="Provedor" error={errors.providerId} htmlFor="providerId">
+          <ProviderSelect
+            id="providerId"
+            value={providerId}
+            onChange={setProviderId}
+            providers={providers}
             className={inputCls}
-            placeholder="Nome do provedor associado"
           />
+          {providers.length === 0 && <NoProvidersNotice />}
         </Field>
 
         <Field label="E-mail" error={errors.email} htmlFor="email">
@@ -94,7 +101,7 @@ export function AssociadoCreateForm() {
         <div className="flex items-center gap-3 border-t border-black/10 pt-6">
           <button
             type="submit"
-            disabled={saving}
+            disabled={saving || providers.length === 0}
             className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-white transition hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? "Criando…" : "Criar acesso"}

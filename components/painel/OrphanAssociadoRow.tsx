@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createMissingProfile } from "@/app/painel-diretoria/(dashboard)/associados/actions";
+import { ProviderSelect } from "@/components/painel/ProviderSelect";
+import type { ProviderOption } from "@/lib/providers";
 
 /**
  * Linha do aviso "contas sem perfil" (CLAUDE.md §15): mostra a conta órfã do
@@ -12,14 +14,16 @@ import { createMissingProfile } from "@/app/painel-diretoria/(dashboard)/associa
 export function OrphanAssociadoRow({
   id,
   email,
+  providers,
 }: {
   id: string;
   email: string | null;
+  providers: ProviderOption[];
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [fullName, setFullName] = useState("");
-  const [company, setCompany] = useState("");
+  const [providerId, setProviderId] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,7 +35,7 @@ export function OrphanAssociadoRow({
     const result = await createMissingProfile({
       userId: id,
       fullName,
-      company,
+      providerId,
       email: email ?? "",
     });
 
@@ -39,7 +43,7 @@ export function OrphanAssociadoRow({
     if (!result.ok) {
       setError(
         result.fieldErrors?.fullName ??
-          result.fieldErrors?.company ??
+          result.fieldErrors?.providerId ??
           result.fieldErrors?.email ??
           result.error
       );
@@ -81,13 +85,14 @@ export function OrphanAssociadoRow({
             />
           </div>
           <div className="min-w-[12rem] flex-1">
-            <label htmlFor={`company-${id}`} className="mb-1 block text-xs font-medium text-black/60">
+            <label htmlFor={`provider-${id}`} className="mb-1 block text-xs font-medium text-black/60">
               Provedor
             </label>
-            <input
-              id={`company-${id}`}
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
+            <ProviderSelect
+              id={`provider-${id}`}
+              value={providerId}
+              onChange={setProviderId}
+              providers={providers}
               className="w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm text-black outline-none focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/30"
             />
           </div>

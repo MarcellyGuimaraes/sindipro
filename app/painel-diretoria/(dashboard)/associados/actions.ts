@@ -9,6 +9,7 @@ import {
   createMissingProfileSchema,
   updatePasswordSchema,
   setStatusSchema,
+  setAssociadoProviderSchema,
   deleteAssociadoSchema,
 } from "@/lib/validation/associado";
 import { firstFieldErrors, type ActionResult } from "@/lib/validation/action-result";
@@ -28,6 +29,23 @@ const ACCESS_DENIED: ActionResult = {
   error: "Acesso restrito à diretoria.",
 };
 
+/**
+ * O provedor vem de um SELECT, mas o id chega como entrada não confiável
+ * (Server Action é um endpoint próprio). A FK de profiles.provider_id já
+ * barra um id inexistente no banco; aqui só traduzimos o erro do Postgres
+ * em mensagem de campo em vez de um "tente novamente" genérico.
+ */
+function invalidProviderError(message: string): ActionResult | null {
+  if (message.includes("profiles_provider_id_fkey")) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: { providerId: "Provedor não encontrado. Atualize a página." },
+    };
+  }
+  return null;
+}
+
 export async function createAssociado(input: unknown): Promise<ActionResult> {
   if (!(await isDirectorSession())) return ACCESS_DENIED;
 
@@ -39,7 +57,7 @@ export async function createAssociado(input: unknown): Promise<ActionResult> {
       fieldErrors: firstFieldErrors(parsed.error.issues),
     };
   }
-  const { fullName, company, email, password } = parsed.data;
+  const { fullName, providerId, email, password } = parsed.data;
 
   const admin = createAdminClient();
   const { data: created, error: createError } = await admin.auth.admin.createUser({
@@ -65,7 +83,7 @@ export async function createAssociado(input: unknown): Promise<ActionResult> {
   const { error: profileError } = await supabase.from("profiles").insert({
     id: created.user.id,
     full_name: fullName,
-    company,
+    provider_id: providerId,
     email,
     status: "ativo",
   });
@@ -82,7 +100,12 @@ export async function createAssociado(input: unknown): Promise<ActionResult> {
         `[associados] rollback falhou após erro ao criar perfil — usuário órfão no Auth: ${created.user.id}`
       );
     }
-    return { ok: false, error: "Não foi possível salvar o perfil. Tente novamente." };
+    return (
+      invalidProviderError(profileError.message) ?? {
+        ok: false,
+        error: "Não foi possível salvar o perfil. Tente novamente.",
+      }
+    );
   }
 
   revalidatePath("/painel-diretoria/associados");
@@ -105,18 +128,25 @@ export async function createMissingProfile(input: unknown): Promise<ActionResult
       fieldErrors: firstFieldErrors(parsed.error.issues),
     };
   }
-  const { userId, fullName, company, email } = parsed.data;
+  const { userId, fullName, providerId, email } = parsed.data;
 
   const supabase = await createClient();
   const { error } = await supabase.from("profiles").insert({
     id: userId,
     full_name: fullName,
-    company,
+    provider_id: providerId,
     email,
     status: "ativo",
   });
 
-  if (error) return { ok: false, error: "Não foi possível criar o perfil. Tente novamente." };
+  if (error) {
+    return (
+      invalidProviderError(error.message) ?? {
+        ok: false,
+        error: "Não foi possível criar o perfil. Tente novamente.",
+      }
+    );
+  }
 
   revalidatePath("/painel-diretoria/associados");
   return { ok: true };
@@ -175,6 +205,50 @@ export async function setAssociadoStatus(input: unknown): Promise<ActionResult> 
   if (profileError) return { ok: false, error: "Não foi possível atualizar o status. Tente novamente." };
 
   revalidatePath("/painel-diretoria/associados");
+  return { ok: true };
+}
+
+/**
+ * Troca (ou remove) o provedor vinculado a um associado — CLAUDE.md §16.
+ * É por aqui que se relinka o que a migration 0009 não conseguiu casar
+ * automaticamente a partir do antigo campo de texto `company`.
+ *
+ * Ao vincular, o texto legado `company` é limpo: a partir do vínculo ele
+ * não serve mais de pista e manter os dois seria duplicar a informação.
+ */
+export async function setAssociadoProvider(input: unknown): Promise<ActionResult> {
+  if (!(await isDirectorSession())) return ACCESS_DENIED;
+
+  const parsed = setAssociadoProviderSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: firstFieldErrors(parsed.error.issues),
+    };
+  }
+  const { userId, providerId } = parsed.data;
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      provider_id: providerId,
+      ...(providerId ? { company: null } : {}),
+    })
+    .eq("id", userId);
+
+  if (error) {
+    return (
+      invalidProviderError(error.message) ?? {
+        ok: false,
+        error: "Não foi possível atualizar o provedor. Tente novamente.",
+      }
+    );
+  }
+
+  revalidatePath("/painel-diretoria/associados");
+  revalidatePath("/painel-diretoria/provedores");
   return { ok: true };
 }
 

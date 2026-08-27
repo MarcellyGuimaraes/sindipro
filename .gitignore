@@ -50,3 +50,6 @@ desktop.ini
 
 # Sessões locais do Claude Code (não versionar)
 .claude/
+
+# Scratch da CLI do Supabase
+supabase/.temp/
