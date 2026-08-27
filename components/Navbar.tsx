@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { AuthNavButton } from "@/components/AuthNavButton";
+import { AuthNavButton, type NavUser } from "@/components/AuthNavButton";
 import type { AppRole } from "@/lib/auth/role";
 
 /**
@@ -30,7 +30,13 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function Navbar({ authRole }: { authRole: AppRole | null }) {
+export function Navbar({
+  authRole,
+  user = null,
+}: {
+  authRole: AppRole | null;
+  user?: NavUser | null;
+}) {
   const pathname = usePathname();
   const [sobreOpen, setSobreOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -168,7 +174,7 @@ export function Navbar({ authRole }: { authRole: AppRole | null }) {
 
         {/* Ações à direita (desktop) */}
         <div className="hidden lg:block">
-          <AuthNavButton role={authRole} />
+          <AuthNavButton role={authRole} user={user} />
         </div>
 
         {/* Botão hambúrguer (mobile) */}
@@ -253,7 +259,7 @@ export function Navbar({ authRole }: { authRole: AppRole | null }) {
             </li>
 
             <li className="mt-4 border-t border-black/10 pt-4">
-              <AuthNavButton role={authRole} full />
+              <AuthNavButton role={authRole} user={user} full />
             </li>
           </ul>
         </div>

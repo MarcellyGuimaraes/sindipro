@@ -7,10 +7,14 @@ import type { MemberFileFolder } from "@/lib/types";
  * pasta de arquivo e virou feed de posts com curtida e comentário. A tela
  * dele é separada.
  */
-export const MEMBER_FILE_FOLDERS: { value: MemberFileFolder; label: string }[] = [
-  { value: "arquivos", label: "Arquivos" },
-  { value: "atas", label: "Atas" },
-  { value: "editais", label: "Editais" },
+export const MEMBER_FILE_FOLDERS: {
+  value: MemberFileFolder;
+  label: string;
+  description: string;
+}[] = [
+  { value: "arquivos", label: "Arquivos", description: "Documentos gerais" },
+  { value: "atas", label: "Atas", description: "Reuniões e convenções" },
+  { value: "editais", label: "Editais", description: "Convocações e avisos" },
 ];
 
 export function memberFileFolderLabel(folder: MemberFileFolder): string {

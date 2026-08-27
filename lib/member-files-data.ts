@@ -13,6 +13,12 @@ export type MemberFileSummary = Pick<
   "id" | "title" | "description" | "created_at"
 >;
 
+/** Arquivo recente com a pasta, para o bloco "Adicionados recentemente". */
+export type RecentMemberFile = Pick<
+  MemberFileRow,
+  "id" | "title" | "folder" | "created_at"
+>;
+
 /** Quantidade de documentos por pasta, para o índice /area. */
 export async function getMemberFileCounts(): Promise<Record<MemberFileFolder, number>> {
   const counts = Object.fromEntries(
@@ -27,6 +33,18 @@ export async function getMemberFileCounts(): Promise<Record<MemberFileFolder, nu
   });
 
   return counts;
+}
+
+/** Arquivos mais recentes entre todas as pastas, para o /area. */
+export async function getRecentMemberFiles(limit = 5): Promise<RecentMemberFile[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("member_files")
+    .select("id, title, folder, created_at")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  return (data ?? []) as RecentMemberFile[];
 }
 
 /** Documentos de uma pasta (mais recente primeiro), para /area/[pasta]. */
