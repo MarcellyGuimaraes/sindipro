@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { fontDisplay, fontSans, fontInter } from "@/lib/fonts";
+import { ChunkErrorReload } from "@/components/ChunkErrorReload";
 import "./globals.css";
 
 const SITE_NAME = "SindiproSE";
@@ -36,7 +37,10 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${fontDisplay.variable} ${fontSans.variable} ${fontInter.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <ChunkErrorReload />
+        {children}
+      </body>
     </html>
   );
 }

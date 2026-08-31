@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { AuthNavButton, type NavUser } from "@/components/AuthNavButton";
+import type { AppRole } from "@/lib/auth/role";
 
 /**
  * Navbar global — visual Lovable "Pixel Perfect Page" em todo o site.
@@ -12,8 +14,9 @@ import { ChevronDown, Menu, X } from "lucide-react";
  * Fixa (sticky) sobre o fundo cream em todas as páginas, inclusive a home —
  * fica antes da Hero no fluxo normal, nunca flutuando por cima dela.
  *
- * Dropdown "Sobre nós" (hover, foco e toque), botão "Entrar" desabilitado
- * ("em breve"), menu mobile acessível.
+ * Dropdown "Sobre nós" (hover, foco e toque), botão "Entrar"/"Minha área" +
+ * "Sair" conforme a sessão (authRole vem do layout do site), menu mobile
+ * acessível.
  */
 
 const sobreLinks = [
@@ -27,7 +30,13 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function Navbar() {
+export function Navbar({
+  authRole,
+  user = null,
+}: {
+  authRole: AppRole | null;
+  user?: NavUser | null;
+}) {
   const pathname = usePathname();
   const [sobreOpen, setSobreOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -173,7 +182,7 @@ export function Navbar() {
 
         {/* Ações à direita (desktop) */}
         <div className="hidden lg:block">
-          <EntrarButton />
+          <AuthNavButton role={authRole} user={user} />
         </div>
 
         {/* Botão hambúrguer (mobile) */}
@@ -266,7 +275,7 @@ export function Navbar() {
             </li>
 
             <li className="mt-4 border-t border-black/10 pt-4">
-              <EntrarButton full />
+              <AuthNavButton role={authRole} user={user} full />
             </li>
           </ul>
         </div>
@@ -326,31 +335,5 @@ function MobileLink({
     >
       {children}
     </Link>
-  );
-}
-
-/**
- * Botão "Entrar" — visível mas desabilitado ("em breve"). Sem fluxo de login.
- * TODO (futuro, §6): habilitar e ligar à área do associado.
- */
-function EntrarButton({ full = false }: { full?: boolean }) {
-  return (
-    <button
-      type="button"
-      disabled
-      title="Login do associado - em breve"
-      aria-label="Entrar - login do associado, em breve"
-      className={`inline-flex h-10 items-center justify-center gap-2 rounded-full bg-black/5 px-4 font-inter text-sm font-medium text-black/50 ${
-        full ? "w-full" : ""
-      }`}
-    >
-      Entrar
-      <span
-        aria-hidden="true"
-        className="rounded-full bg-white px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.08em] text-black/60"
-      >
-        Em breve
-      </span>
-    </button>
   );
 }

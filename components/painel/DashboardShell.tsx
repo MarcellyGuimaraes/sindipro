@@ -6,13 +6,18 @@ import { usePathname } from "next/navigation";
 import {
   Newspaper,
   FolderClosed,
+  FolderLock,
   Users,
   Handshake,
+  Megaphone,
+  Building2,
+  UserCog,
   Menu,
   X,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { LogoutButton } from "./LogoutButton";
+import { InactivityGuard } from "@/components/auth/InactivityGuard";
 
 /**
  * Shell do painel — visual Lovable (igual ao site público): barra lateral azul
@@ -24,10 +29,18 @@ import { LogoutButton } from "./LogoutButton";
  */
 
 const nav: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/admin/noticias", label: "Notícias", icon: Newspaper },
-  { href: "/admin/arquivos", label: "Arquivos", icon: FolderClosed },
-  { href: "/admin/diretoria", label: "Diretoria", icon: Users },
-  { href: "/admin/parceiros", label: "Parceiros", icon: Handshake },
+  { href: "/painel-diretoria/noticias", label: "Notícias", icon: Newspaper },
+  { href: "/painel-diretoria/arquivos", label: "Arquivos", icon: FolderClosed },
+  { href: "/painel-diretoria/comunicados", label: "Comunicados", icon: Megaphone },
+  { href: "/painel-diretoria/diretoria", label: "Diretoria", icon: Users },
+  { href: "/painel-diretoria/parceiros", label: "Parceiros", icon: Handshake },
+  { href: "/painel-diretoria/provedores", label: "Provedores", icon: Building2 },
+  { href: "/painel-diretoria/associados", label: "Associados", icon: UserCog },
+  {
+    href: "/painel-diretoria/arquivos-associado",
+    label: "Arquivos do associado",
+    icon: FolderLock,
+  },
 ];
 
 export function DashboardShell({
@@ -58,6 +71,8 @@ export function DashboardShell({
 
   return (
     <div className="grid min-h-screen lg:grid-cols-[16rem_1fr]">
+      <InactivityGuard loginPath="/painel-diretoria/login" />
+
       {/* Navegação lateral (desktop) */}
       <aside className="hidden flex-col bg-brand text-white lg:flex">
         <SideNavContent isActive={isActive} />
@@ -135,7 +150,7 @@ function SideNavContent({
     <>
       <div className="px-6 py-6">
         <Link
-          href="/admin"
+          href="/painel-diretoria"
           className="block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           <span className="font-inter text-lg font-bold tracking-tight text-white">

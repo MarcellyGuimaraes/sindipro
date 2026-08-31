@@ -1,0 +1,275 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { isDirectorSession } from "@/lib/auth/role";
+import {
+  createAssociadoSchema,
+  createMissingProfileSchema,
+  updatePasswordSchema,
+  setStatusSchema,
+  setAssociadoProviderSchema,
+  deleteAssociadoSchema,
+} from "@/lib/validation/associado";
+import { firstFieldErrors, type ActionResult } from "@/lib/validation/action-result";
+
+/**
+ * Server Actions da gestão de associados (CLAUDE.md §15).
+ *
+ * REGRA: toda ação aqui mexe em auth.users via Admin API (chave secreta) —
+ * por isso só pode rodar no servidor. E toda ação revalida "papel ==
+ * diretoria" no início, mesmo que o layout do painel já bloqueie a rota:
+ * uma Server Action é um endpoint próprio, chamável independente da página
+ * ter sido renderizada, então a checagem de layout sozinha não a protege.
+ */
+
+const ACCESS_DENIED: ActionResult = {
+  ok: false,
+  error: "Acesso restrito à diretoria.",
+};
+
+/**
+ * O provedor vem de um SELECT, mas o id chega como entrada não confiável
+ * (Server Action é um endpoint próprio). A FK de profiles.provider_id já
+ * barra um id inexistente no banco; aqui só traduzimos o erro do Postgres
+ * em mensagem de campo em vez de um "tente novamente" genérico.
+ */
+function invalidProviderError(message: string): ActionResult | null {
+  if (message.includes("profiles_provider_id_fkey")) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: { providerId: "Provedor não encontrado. Atualize a página." },
+    };
+  }
+  return null;
+}
+
+export async function createAssociado(input: unknown): Promise<ActionResult> {
+  if (!(await isDirectorSession())) return ACCESS_DENIED;
+
+  const parsed = createAssociadoSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: firstFieldErrors(parsed.error.issues),
+    };
+  }
+  const { fullName, providerId, email, password } = parsed.data;
+
+  const admin = createAdminClient();
+  const { data: created, error: createError } = await admin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    app_metadata: { role: "associado" },
+  });
+
+  if (createError || !created.user) {
+    const msg = createError?.message?.toLowerCase() ?? "";
+    if (msg.includes("already") || msg.includes("registered") || msg.includes("exists")) {
+      return {
+        ok: false,
+        error: "Verifique os campos.",
+        fieldErrors: { email: "Já existe uma conta com esse e-mail." },
+      };
+    }
+    return { ok: false, error: "Não foi possível criar o acesso. Tente novamente." };
+  }
+
+  const supabase = await createClient();
+  const { error: profileError } = await supabase.from("profiles").insert({
+    id: created.user.id,
+    full_name: fullName,
+    provider_id: providerId,
+    email,
+    status: "ativo",
+  });
+
+  if (profileError) {
+    // Sem perfil, a conta de auth fica órfã — desfaz para não deixar lixo.
+    const { error: rollbackError } = await admin.auth.admin.deleteUser(created.user.id);
+    if (rollbackError) {
+      // O rollback também falhou: a conta órfã ficou para trás de verdade.
+      // Não há dado pessoal para logar (LGPD) além do id — mas o id sozinho
+      // já é suficiente para o banner de "contas sem perfil" da listagem
+      // encontrá-la e oferecer a criação manual do perfil.
+      console.error(
+        `[associados] rollback falhou após erro ao criar perfil — usuário órfão no Auth: ${created.user.id}`
+      );
+    }
+    return (
+      invalidProviderError(profileError.message) ?? {
+        ok: false,
+        error: "Não foi possível salvar o perfil. Tente novamente.",
+      }
+    );
+  }
+
+  revalidatePath("/painel-diretoria/associados");
+  return { ok: true };
+}
+
+/**
+ * Cria a linha em `profiles` para um usuário que já existe no Auth com papel
+ * 'associado' mas ficou sem perfil (conta órfã — CLAUDE.md §15, ver também a
+ * nota em `createAssociado`). Usada pelo aviso da listagem de associados.
+ */
+export async function createMissingProfile(input: unknown): Promise<ActionResult> {
+  if (!(await isDirectorSession())) return ACCESS_DENIED;
+
+  const parsed = createMissingProfileSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: firstFieldErrors(parsed.error.issues),
+    };
+  }
+  const { userId, fullName, providerId, email } = parsed.data;
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("profiles").insert({
+    id: userId,
+    full_name: fullName,
+    provider_id: providerId,
+    email,
+    status: "ativo",
+  });
+
+  if (error) {
+    return (
+      invalidProviderError(error.message) ?? {
+        ok: false,
+        error: "Não foi possível criar o perfil. Tente novamente.",
+      }
+    );
+  }
+
+  revalidatePath("/painel-diretoria/associados");
+  return { ok: true };
+}
+
+export async function updateAssociadoPassword(input: unknown): Promise<ActionResult> {
+  if (!(await isDirectorSession())) return ACCESS_DENIED;
+
+  const parsed = updatePasswordSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: firstFieldErrors(parsed.error.issues),
+    };
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin.auth.admin.updateUserById(parsed.data.userId, {
+    password: parsed.data.password,
+  });
+
+  if (error) return { ok: false, error: "Não foi possível trocar a senha. Tente novamente." };
+
+  revalidatePath("/painel-diretoria/associados");
+  return { ok: true };
+}
+
+export async function setAssociadoStatus(input: unknown): Promise<ActionResult> {
+  if (!(await isDirectorSession())) return ACCESS_DENIED;
+
+  const parsed = setStatusSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: firstFieldErrors(parsed.error.issues),
+    };
+  }
+  const { userId, status } = parsed.data;
+
+  // Inativo perde acesso de fato: bane a conta no Auth (não só uma flag
+  // para uma tela futura checar). Ativar remove o ban.
+  const admin = createAdminClient();
+  const { error: banError } = await admin.auth.admin.updateUserById(userId, {
+    ban_duration: status === "inativo" ? "876000h" : "none",
+  });
+  if (banError) return { ok: false, error: "Não foi possível atualizar o acesso. Tente novamente." };
+
+  const supabase = await createClient();
+  const { error: profileError } = await supabase
+    .from("profiles")
+    .update({ status })
+    .eq("id", userId);
+
+  if (profileError) return { ok: false, error: "Não foi possível atualizar o status. Tente novamente." };
+
+  revalidatePath("/painel-diretoria/associados");
+  return { ok: true };
+}
+
+/**
+ * Troca (ou remove) o provedor vinculado a um associado — CLAUDE.md §16.
+ * É por aqui que se relinka o que a migration 0009 não conseguiu casar
+ * automaticamente a partir do antigo campo de texto `company`.
+ *
+ * Ao vincular, o texto legado `company` é limpo: a partir do vínculo ele
+ * não serve mais de pista e manter os dois seria duplicar a informação.
+ */
+export async function setAssociadoProvider(input: unknown): Promise<ActionResult> {
+  if (!(await isDirectorSession())) return ACCESS_DENIED;
+
+  const parsed = setAssociadoProviderSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: firstFieldErrors(parsed.error.issues),
+    };
+  }
+  const { userId, providerId } = parsed.data;
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      provider_id: providerId,
+      ...(providerId ? { company: null } : {}),
+    })
+    .eq("id", userId);
+
+  if (error) {
+    return (
+      invalidProviderError(error.message) ?? {
+        ok: false,
+        error: "Não foi possível atualizar o provedor. Tente novamente.",
+      }
+    );
+  }
+
+  revalidatePath("/painel-diretoria/associados");
+  revalidatePath("/painel-diretoria/provedores");
+  return { ok: true };
+}
+
+export async function deleteAssociado(input: unknown): Promise<ActionResult> {
+  if (!(await isDirectorSession())) return ACCESS_DENIED;
+
+  const parsed = deleteAssociadoSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: "Verifique os campos.",
+      fieldErrors: firstFieldErrors(parsed.error.issues),
+    };
+  }
+
+  const admin = createAdminClient();
+  // profiles.id referencia auth.users(id) on delete cascade — a linha do
+  // perfil some junto, sem precisar de um segundo delete.
+  const { error } = await admin.auth.admin.deleteUser(parsed.data.userId);
+  if (error) return { ok: false, error: "Não foi possível excluir. Tente novamente." };
+
+  revalidatePath("/painel-diretoria/associados");
+  return { ok: true };
+}

@@ -91,7 +91,7 @@ export function FileUploadForm() {
       return;
     }
 
-    router.push("/admin/arquivos");
+    router.push("/painel-diretoria/arquivos");
     router.refresh();
   }
 
@@ -189,7 +189,7 @@ export function FileUploadForm() {
           </button>
           <button
             type="button"
-            onClick={() => router.push("/admin/arquivos")}
+            onClick={() => router.push("/painel-diretoria/arquivos")}
             className="text-sm font-medium text-black/60 transition hover:text-black"
           >
             Cancelar

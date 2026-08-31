@@ -124,7 +124,7 @@ export function NewsForm({ initial }: { initial?: NewsRow }) {
       return;
     }
 
-    router.push("/admin/noticias");
+    router.push("/painel-diretoria/noticias");
     router.refresh();
   }
 
@@ -300,7 +300,7 @@ export function NewsForm({ initial }: { initial?: NewsRow }) {
           </button>
           <button
             type="button"
-            onClick={() => router.push("/admin/noticias")}
+            onClick={() => router.push("/painel-diretoria/noticias")}
             className="text-sm font-medium text-black/60 transition hover:text-black"
           >
             Cancelar

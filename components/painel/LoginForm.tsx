@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { loginWithPassword } from "@/lib/auth/login-action";
 
 /**
  * Formulário de login do painel (Client Component) — visual Lovable.
- * signInWithPassword grava a sessão nos cookies que o middleware/server leem.
- * Sem cadastro.
+ * O login roda em lib/auth/login-action.ts (Server Action compartilhada com
+ * /entrar) — é lá que vive o rate limit e a normalização de tempo de
+ * resposta (docs/seguranca-login-rate-limit.md). O cookie de sessão é
+ * gravado pela própria action, no servidor.
  */
 
 const inputCls =
@@ -25,16 +27,15 @@ export function LoginForm() {
     setError(null);
     setLoading(true);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const result = await loginWithPassword({ email, password });
 
-    if (error) {
-      setError("E-mail ou senha inválidos.");
+    if (!result.ok) {
+      setError(result.error);
       setLoading(false);
       return;
     }
 
-    router.replace("/admin");
+    router.replace("/painel-diretoria");
     router.refresh();
   }
 

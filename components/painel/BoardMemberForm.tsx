@@ -120,7 +120,7 @@ export function BoardMemberForm({ initial }: { initial?: BoardMemberRow }) {
       return;
     }
 
-    router.push("/admin/diretoria");
+    router.push("/painel-diretoria/diretoria");
     router.refresh();
   }
 
@@ -254,7 +254,7 @@ export function BoardMemberForm({ initial }: { initial?: BoardMemberRow }) {
           </button>
           <button
             type="button"
-            onClick={() => router.push("/admin/diretoria")}
+            onClick={() => router.push("/painel-diretoria/diretoria")}
             className="text-sm font-medium text-black/60 transition hover:text-black"
           >
             Cancelar

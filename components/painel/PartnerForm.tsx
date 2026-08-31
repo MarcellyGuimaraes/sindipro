@@ -100,7 +100,7 @@ export function PartnerForm({ initial }: { initial?: PartnerRow }) {
       return;
     }
 
-    router.push("/admin/parceiros");
+    router.push("/painel-diretoria/parceiros");
     router.refresh();
   }
 
@@ -205,7 +205,7 @@ export function PartnerForm({ initial }: { initial?: PartnerRow }) {
           </button>
           <button
             type="button"
-            onClick={() => router.push("/admin/parceiros")}
+            onClick={() => router.push("/painel-diretoria/parceiros")}
             className="text-sm font-medium text-black/60 transition hover:text-black"
           >
             Cancelar

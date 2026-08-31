@@ -17,7 +17,7 @@ export function LogoutButton() {
     setLoading(true);
     const supabase = createClient();
     await supabase.auth.signOut();
-    router.replace("/admin/login");
+    router.replace("/painel-diretoria/login");
     router.refresh();
   }
 

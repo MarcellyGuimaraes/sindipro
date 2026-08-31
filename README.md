@@ -2,7 +2,7 @@
 
 Site institucional do **SindiproSE** — Sindicato dos Provedores de Internet e Serviço de Comunicação Multimídia do Estado de Sergipe.
 
-Inclui o site público (notícias, arquivos CCT/ACT, diretoria, parceiros) e um painel da diretoria em `/admin` para gerenciar esse conteúdo, ambos ligados ao mesmo projeto Supabase.
+Inclui o site público (notícias, arquivos CCT/ACT, diretoria, parceiros) e um painel da diretoria em `/painel-diretoria` para gerenciar esse conteúdo, ambos ligados ao mesmo projeto Supabase.
 
 Contrato de design e regras de implementação: [`CLAUDE.md`](./CLAUDE.md).
 
@@ -32,16 +32,16 @@ Contrato de design e regras de implementação: [`CLAUDE.md`](./CLAUDE.md).
 - Página de parceiros (`/parceiros`)
 - Navbar com dropdown “Sobre nós”, footer global e botão **Entrar** visível mas desabilitado (“em breve”)
 
-### Painel da diretoria (`/admin`)
+### Painel da diretoria (`/painel-diretoria`)
 
 Área utilitária, **não linkada** no site público, protegida por login Supabase + RLS.
 
 | Área | Função |
 | --- | --- |
-| `/admin/noticias` | Criar, editar, publicar/despublicar notícias (com capa e markdown) |
-| `/admin/arquivos` | Upload e gestão de PDFs (CCT/ACT) |
-| `/admin/diretoria` | Quadro de diretoria (executiva + conselho fiscal) |
-| `/admin/parceiros` | Logos e links de parceiros |
+| `/painel-diretoria/noticias` | Criar, editar, publicar/despublicar notícias (com capa e markdown) |
+| `/painel-diretoria/arquivos` | Upload e gestão de PDFs (CCT/ACT) |
+| `/painel-diretoria/diretoria` | Quadro de diretoria (executiva + conselho fiscal) |
+| `/painel-diretoria/parceiros` | Logos e links de parceiros |
 
 O painel é `noindex` e só aceita usuários autenticados que estejam na tabela `directors`.
 
@@ -98,7 +98,7 @@ npm run dev
 ```
 
 - Site: [http://localhost:3000](http://localhost:3000)
-- Painel: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
+- Painel: [http://localhost:3000/painel-diretoria/login](http://localhost:3000/painel-diretoria/login)
 
 ```bash
 npm run build   # build de produção
@@ -119,14 +119,14 @@ app/
     parceiros/
     sobre/             # missao-visao-valores, diretoria, imprensa, quem-somos
     styleguide/        # Referência visual interna
-  admin/
+  painel-diretoria/
     login/             # Login da diretoria
     (dashboard)/       # Área autenticada (shell lateral)
   layout.tsx           # Root: fontes, metadata, lang=pt-BR
   globals.css
 components/
   home/                # Seções da home
-  painel/              # Formulários e UI do admin
+  painel/              # Formulários e UI do painel da diretoria
   *.tsx                # Navbar, Footer, cards, botões, etc.
 lib/
   supabase/            # Clients SSR (server, client, middleware)
@@ -135,7 +135,7 @@ lib/
   types.ts             # Tipos das tabelas
 supabase/migrations/   # SQL versionado (rodar no painel Supabase)
 public/img/            # Logo e imagens estáticas
-middleware.ts          # Protege apenas /admin/*
+middleware.ts          # Protege apenas /painel-diretoria/*
 CLAUDE.md              # Contrato de design e produto
 ```
 
@@ -161,12 +161,12 @@ CLAUDE.md              # Contrato de design e produto
 
 | Rota | Conteúdo |
 | --- | --- |
-| `/admin/login` | Login |
-| `/admin` | Início do painel |
-| `/admin/noticias` | CRUD de notícias |
-| `/admin/arquivos` | CRUD de arquivos |
-| `/admin/diretoria` | CRUD de membros |
-| `/admin/parceiros` | CRUD de parceiros |
+| `/painel-diretoria/login` | Login |
+| `/painel-diretoria` | Início do painel |
+| `/painel-diretoria/noticias` | CRUD de notícias |
+| `/painel-diretoria/arquivos` | CRUD de arquivos |
+| `/painel-diretoria/diretoria` | CRUD de membros |
+| `/painel-diretoria/parceiros` | CRUD de parceiros |
 
 ---
 
@@ -189,7 +189,7 @@ CLAUDE.md              # Contrato de design e produto
 
 ## Segurança
 
-- Middleware Next só em `/admin/*`: renova sessão e redireciona sem login
+- Middleware Next só em `/painel-diretoria/*`: renova sessão e redireciona sem login
 - Chave secret nunca no client
 - Uploads vão para o Supabase Storage (não para o filesystem do Next em produção)
 - Markdown sanitizado antes de renderizar
