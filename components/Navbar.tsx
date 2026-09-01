@@ -198,7 +198,6 @@ export function Navbar({
               rel="noopener noreferrer"
               className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-brand px-4 font-inter text-sm font-medium text-white transition hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
             >
-              <MessageCircle className="h-4 w-4" aria-hidden="true" />
               Seja um associado
             </a>
           )}
