@@ -13,7 +13,9 @@ import type { AppRole } from "@/lib/auth/role";
  * SindiproSE" na home (components/home/Associate.tsx). Só aparece para
  * visitantes deslogados (não faz sentido para quem já é associado/diretoria).
  */
-const WHATSAPP_ASSOCIAR = "https://wa.me/5579988576962";
+const WHATSAPP_ASSOCIAR =
+  "https://wa.me/5579988576962?text=" +
+  encodeURIComponent("Olá! Quero ser um associado do SindiproSE.");
 
 /**
  * Navbar global — visual Lovable "Pixel Perfect Page" em todo o site.
