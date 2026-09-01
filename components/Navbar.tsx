@@ -4,9 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, MessageCircle, X } from "lucide-react";
 import { AuthNavButton, type NavUser } from "@/components/AuthNavButton";
 import type { AppRole } from "@/lib/auth/role";
+
+/**
+ * CTA "Seja um associado" → o mesmo WhatsApp da seção "Faça parte do
+ * SindiproSE" na home (components/home/Associate.tsx). Só aparece para
+ * visitantes deslogados (não faz sentido para quem já é associado/diretoria).
+ */
+const WHATSAPP_ASSOCIAR = "https://wa.me/5579988576962";
 
 /**
  * Navbar global — visual Lovable "Pixel Perfect Page" em todo o site.
@@ -181,7 +188,18 @@ export function Navbar({
         </ul>
 
         {/* Ações à direita (desktop) */}
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-2 lg:flex">
+          {!authRole && (
+            <a
+              href={WHATSAPP_ASSOCIAR}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-brand px-4 font-inter text-sm font-medium text-white transition hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            >
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              Seja um associado
+            </a>
+          )}
           <AuthNavButton role={authRole} user={user} />
         </div>
 
@@ -274,7 +292,18 @@ export function Navbar({
               </MobileLink>
             </li>
 
-            <li className="mt-4 border-t border-black/10 pt-4">
+            <li className="mt-4 space-y-2 border-t border-black/10 pt-4">
+              {!authRole && (
+                <a
+                  href={WHATSAPP_ASSOCIAR}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full bg-brand px-4 font-inter text-sm font-medium text-white transition hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                >
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                  Seja um associado
+                </a>
+              )}
               <AuthNavButton role={authRole} user={user} full />
             </li>
           </ul>
