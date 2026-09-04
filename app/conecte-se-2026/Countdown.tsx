@@ -42,19 +42,19 @@ export function Countdown() {
   ];
 
   return (
-    <div className="flex items-center gap-2 sm:gap-3">
+    <div className="flex w-full max-w-sm items-center gap-1.5 md:w-auto md:max-w-none md:gap-3">
       {units.map(([label, value]) => (
         <div
           key={label}
-          className={`${styles.bgPrimaryFg10} ${styles.roundedXl} flex w-[3.6rem] flex-col items-center px-2 py-2.5 sm:w-[4.5rem] sm:py-3`}
+          className={`${styles.bgPrimaryFg10} ${styles.roundedXl} flex min-w-0 flex-1 flex-col items-center px-1.5 py-2 md:w-[4.5rem] md:flex-none md:px-2 md:py-3`}
         >
           <span
-            className={`${styles.display} ${styles.textPrimaryFg} text-2xl font-extrabold leading-none sm:text-3xl`}
+            className={`${styles.display} ${styles.textPrimaryFg} text-xl font-extrabold leading-none md:text-3xl`}
           >
             {String(value).padStart(2, "0")}
           </span>
           <span
-            className={`${styles.textPrimaryFg70} mt-1.5 text-[0.6rem] font-bold uppercase tracking-[0.18em]`}
+            className={`${styles.textPrimaryFg70} mt-1 text-[0.55rem] font-bold uppercase tracking-[0.14em] md:mt-1.5 md:text-[0.6rem] md:tracking-[0.18em]`}
           >
             {label}
           </span>

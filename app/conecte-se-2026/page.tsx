@@ -216,21 +216,28 @@ export default function ConecteSe2026Page() {
     >
       <TopMarquee href={SYMPLA} />
 
-      {/* BANNER — sangra na largura toda, sem moldura. */}
+      {/* BANNER — vertical no celular (arte do feed), horizontal no desktop. */}
       <section className="w-full">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/img/conecte-se-2026/banner.png"
-          alt="2º SINDIPROSE CONECTE-SE 2026 — O Provedor de Internet Pós-Reforma Tributária, 24 de setembro, Quality Hotel"
-          className="block w-full"
-        />
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcSet="/img/conecte-se-2026/banner-mobile.jpg"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/img/conecte-se-2026/banner.png"
+            alt="2º SINDIPROSE CONECTE-SE 2026 — O Provedor de Internet Pós-Reforma Tributária, 24 de setembro, Quality Hotel"
+            className="block w-full"
+          />
+        </picture>
       </section>
 
-      {/* BARRA — título, contagem regressiva e inscrição. */}
+      {/* BARRA — no celular a arte vertical já traz título e data; aqui só
+          a contagem e o CTA, compactos. No desktop a barra continua completa. */}
       <section className={`${styles.bgPrimary} w-full`}>
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-6 px-4 py-6 text-center sm:px-6 lg:flex-row lg:justify-between lg:gap-10 lg:text-left">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-4 px-4 py-4 text-center sm:px-6 md:gap-6 md:py-6 lg:flex-row lg:justify-between lg:text-left">
           <h1
-            className={`${styles.textPrimaryFg} max-w-md text-2xl uppercase leading-tight sm:text-3xl`}
+            className={`${styles.textPrimaryFg} max-w-md text-2xl uppercase leading-tight max-md:sr-only sm:text-3xl`}
           >
             CONECTE-SE 2026
             <span
@@ -247,17 +254,17 @@ export default function ConecteSe2026Page() {
 
           <Countdown />
 
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex w-full flex-col items-center gap-1.5 md:w-auto md:gap-2">
             <a
               href={SYMPLA}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${styles.bgBackground} ${styles.textPrimary} ${styles.display} ${styles.hoverScale} inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-extrabold uppercase tracking-wide`}
+              className={`${styles.bgBackground} ${styles.textPrimary} ${styles.display} ${styles.hoverScale} inline-flex w-full max-w-xs items-center justify-center rounded-full px-6 py-3 text-sm font-extrabold uppercase tracking-wide md:w-auto md:px-8 md:py-4 md:text-base`}
             >
               Inscreva-se agora
             </a>
             <span
-              className={`${styles.textPrimaryFg80} text-[0.7rem] font-semibold uppercase tracking-[0.15em]`}
+              className={`${styles.textPrimaryFg80} text-[0.65rem] font-semibold uppercase tracking-[0.15em] md:text-[0.7rem]`}
             >
               Últimas vagas
             </span>
