@@ -156,6 +156,59 @@ const venueFacts = [
   { label: "Estacionamento", value: "Gratuito no local" },
 ];
 
+type SponsorTier = "diamante" | "ouro" | "prata" | "bronze" | "extra";
+
+type Sponsor = {
+  name: string;
+  src: string;
+  tier: SponsorTier;
+};
+
+/**
+ * Ordem e cotas fechadas pela diretoria (02/09/2026). Gleebem e RG Soluções
+ * ainda não enviaram arte — não entram até chegar o arquivo.
+ *
+ * A cota define só a ORDEM na grade: todos os cards têm o mesmo tamanho.
+ * Cards menores para as cotas menores deixavam aquelas logos ilegíveis.
+ */
+const sponsors: Sponsor[] = [
+  { name: "Del Finance", src: "/img/conecte-se-2026/patrocinadores/del-finance.png", tier: "diamante" },
+  { name: "Point", src: "/img/conecte-se-2026/patrocinadores/point.png", tier: "diamante" },
+  { name: "Exatas Contabilidade", src: "/img/conecte-se-2026/patrocinadores/exatas.png", tier: "diamante" },
+  { name: "Revisa Consultoria Tributária", src: "/img/conecte-se-2026/patrocinadores/revisa-tributaria.png", tier: "diamante" },
+  { name: "Revisa Consultoria Jurídica", src: "/img/conecte-se-2026/patrocinadores/revisa-juridica.png", tier: "diamante" },
+  { name: "AX Code Tecnologia", src: "/img/conecte-se-2026/patrocinadores/ax-code.png", tier: "diamante" },
+  { name: "Smart Datacenter", src: "/img/conecte-se-2026/patrocinadores/smart-datacenter.png", tier: "ouro" },
+  { name: "Cariap", src: "/img/conecte-se-2026/patrocinadores/cariap.png", tier: "prata" },
+  { name: "Lummus Energy", src: "/img/conecte-se-2026/patrocinadores/lummus-energy.png", tier: "prata" },
+  { name: "Caju Service", src: "/img/conecte-se-2026/patrocinadores/caju-service.png", tier: "prata" },
+  { name: "Eletronet", src: "/img/conecte-se-2026/patrocinadores/eletronet.png", tier: "bronze" },
+  { name: "Ítalo Encoseg SST", src: "/img/conecte-se-2026/patrocinadores/encoseg.png", tier: "extra" },
+  { name: "José Igor Engenharia de Telecomunicações", src: "/img/conecte-se-2026/patrocinadores/jose-igor.png", tier: "extra" },
+];
+
+/**
+ * Card estático da grade de patrocinadores. A cota só define a ordem
+ * na lista `sponsors` — não aparece na tela.
+ */
+function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
+  return (
+    <li>
+      <div className={styles.sponsorCard}>
+        <div className={styles.sponsorLogoBox}>
+          <Image
+            src={sponsor.src}
+            alt={sponsor.name}
+            width={480}
+            height={240}
+            className={styles.sponsorLogo}
+          />
+        </div>
+      </div>
+    </li>
+  );
+}
+
 export default function ConecteSe2026Page() {
   return (
     <div
@@ -297,7 +350,7 @@ export default function ConecteSe2026Page() {
           </section>
         </div>
 
-        {/* CHAMADA — patrocínio / inscrição */}
+        {/* CHAMADA — inscrição */}
         <section className={`${styles.bgPrimary} mt-24 w-full`}>
           <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
             <div className="max-w-3xl">
@@ -406,6 +459,30 @@ export default function ConecteSe2026Page() {
                 </a>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* PATROCINADORES — faixa clara depois do local, cards iguais por cota. */}
+        <section className={`${styles.surfaceLight} w-full`}>
+          <div
+            className={`${styles.borderBorder} mx-auto w-full max-w-6xl border-t px-4 py-12 sm:px-6 sm:py-14`}
+          >
+            <div className="max-w-2xl">
+              <p
+                className={`${styles.goldGradient} text-xs font-semibold uppercase tracking-[0.35em]`}
+              >
+                Patrocinadores
+              </p>
+              <h2 className="mt-3 text-2xl font-extrabold uppercase sm:text-4xl">
+                Quem torna o encontro possível
+              </h2>
+            </div>
+
+            <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {sponsors.map((sponsor) => (
+                <SponsorCard key={sponsor.src} sponsor={sponsor} />
+              ))}
+            </ul>
           </div>
         </section>
       </main>

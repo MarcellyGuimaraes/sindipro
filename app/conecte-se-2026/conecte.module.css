@@ -237,6 +237,37 @@
   filter: brightness(0) invert(1);
 }
 
+/* Faixa compacta de patrocínio: cards baixos, logo no mesmo slot,
+   sem ocupar a metade da tela.
+   Todos os cards têm a MESMA altura — a diferença de tamanho por cota deixava
+   as logos das cotas menores ilegíveis. O equilíbrio entre logos largas e
+   compactas está normalizado nos próprios PNGs
+   (scripts/normalizar-logos-patrocinadores.mjs). */
+.sponsorCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 5.25rem;
+  padding: 0.65rem 0.75rem;
+  background: oklch(100% 0 0);
+  border: 1px solid oklch(86% 0.018 250 / 0.7);
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.sponsorLogoBox {
+  width: 78%;
+  height: 78%;
+}
+
+.sponsorLogo {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  object-position: center;
+}
+
 /* hover:scale-[1.03] do protótipo, em classe própria para poder desligar
    sob prefers-reduced-motion. */
 .hoverScale {
